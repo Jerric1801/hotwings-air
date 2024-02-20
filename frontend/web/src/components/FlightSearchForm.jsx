@@ -28,6 +28,8 @@ function FlightSearchForm() {
             PASSENGERS
             <input type = "text" name = "passengers"></input>
         </label>
+
+        <input type = "submit">Submit</input>
     </form>
   );
 }
