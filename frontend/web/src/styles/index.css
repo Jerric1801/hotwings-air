@@ -1,0 +1,237 @@
+/* ==========================================================================
+    Root Variables
+   ========================================================================== */
+
+:root {
+    --white: #FFFFFF;
+    --owhite: rgba(255, 255, 255, 0.5);
+    --black: #232323;
+    --red: #92020C;
+    --yellow: #FDAA03;
+    --grey: #EBEBEB;
+    --beige: #FAF6ED;
+}
+
+/* ==========================================================================
+    Fonts
+   ========================================================================== */
+
+@font-face {
+    font-family: antique;
+    src: url(../assets/fonts/antiquestories.otf);
+}
+
+
+@font-face {
+    font-family: avenir-next;
+    src: url(../assets/fonts/Metropolis-Regular.otf);
+}
+
+/* ==========================================================================
+    Tags
+   ========================================================================== */
+
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: avenir-next;
+}
+
+h1 {
+    font-family: antique;
+}
+
+h2 {
+    font-family: avenir-next;
+}
+
+p {
+    font-family: avenir-next;
+}
+
+li {
+    font-family: avenir-next;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:visited {
+    color: var(--black);
+    text-decoration: none;
+}
+
+form {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#root {
+    margin: 0;
+    padding:0;
+    overflow-x:hidden;
+}
+
+/* ==========================================================================
+    Components
+   ========================================================================== */
+
+/* Flight Search Form */
+.flight-search-container {
+    width: 45vw;
+    height: 60vh;
+    background-color: var(--owhite);
+}
+
+.flight-search-container img{
+    width: 5%;
+    margin:0;
+    padding:0;
+}
+
+.flight-search-container input[type = "text"] {
+    margin:0;
+    padding:0;
+    width: 35%;
+    height: 55%;
+    border: 0.5px solid var(--black);
+    background-color: var(--owhite);
+}
+
+.flight-search-container input[type = "radio"] {
+    color: var(--red);
+}
+
+.flight-search-container input[type = "submit"] {
+    background-color: var(--red);
+    color: var(--white);
+    width: 40%;
+    height: 35%;
+    border: none;
+    font-size:1.1em ;
+}
+
+.flight-search-container h2{
+    margin-left: 15px;
+}
+
+.flight-search-header {
+    width: 100%;
+    height: 10%;
+    background-color: var(--red);
+    color: var(--white);
+    display:flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.flight-search-inputs {
+    width: 95%;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 5vh;
+}
+
+.flight-search-input {
+    width: 100%;
+    height: 33%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 15%;
+}
+
+.flight-search-input:first-child{
+    gap: 5%;
+}
+
+.flight-search-submit {
+    width: 80%;
+    height: 30%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.flight-search-radio {
+    width: 40%;
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 20%;
+}
+
+
+/* ==========================================================================
+   Navigation
+   ========================================================================== */
+
+nav {
+    width: 100vw;
+    height: 10vh;
+    position: absolute;
+    margin:0;
+    padding: 0;
+    display: flex;
+    flex-direction: center;
+    align-items: center;
+    overflow:hidden;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 5vw;
+}
+
+nav ul li {
+    text-decoration: none;
+}
+
+img {
+    width: 12.5%;
+    margin-left: 5vw;
+}
+
+nav ul:first-child {
+    margin-left: 15vw;;
+}
+
+nav ul:last-child {
+    margin-left: 30vw;;
+}
+
+/* ==========================================================================
+    Homepage
+   ========================================================================== */
+
+.home-page {
+    width: 100vw;
+    height: 100vh;
+    margin:0;
+    padding: 0;
+    overflow: hidden;
+    background-image: url('../assets/images/home/home_background.webp');
+    background-size: cover; 
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 10vw;
+}

@@ -1,13 +1,29 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import logo from '../assets/images/brand/logo.svg'
 
 function Navbar() {
 
   return (
     <nav>
+        <img src = {logo} alt = ""></img>
         <ul>
             <li>
-                <Link to="/">Home</Link>
+                <Link to="/">Flights</Link>
+            </li>
+            <li>
+                <Link to="/">Bookings</Link>
+            </li>
+            <li>
+                <Link to="/">Destinations</Link>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <Link to="/">Sign Up</Link>
+            </li>
+            <li>
+                <Link to="/">Login</Link>
             </li>
         </ul>
     </nav>
