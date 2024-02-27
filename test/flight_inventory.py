@@ -7,7 +7,7 @@ payment_url = "http://localhost:5001/payment"
 @app.route('/flight_inventory', methods = ['POST']) 
 def get_payment():
     data = request.get_json()
-    print(data)
+
     return 'Inventory updated', 200
 
 
