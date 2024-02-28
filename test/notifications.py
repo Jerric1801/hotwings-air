@@ -7,5 +7,5 @@ def callback(channel, method, property, body):
 
 connection = ampq.create_connection()
 channel = connection.channel()
-channel.basic_consume(queue="error_queue", on_message_callback=callback, auto_ack=True) 
+channel.basic_consume(queue="notification_queue", on_message_callback=callback, auto_ack=True) 
 channel.start_consuming()

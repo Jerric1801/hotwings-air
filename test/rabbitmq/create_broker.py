@@ -3,13 +3,14 @@ import pika
 
 hostname = "localhost" # default hostname
 port = 5672            # default port
+
 def create_connection(max_retries=12, retry_interval=5):
     print('amqp_setup:create_connection')
     
     retries = 0
     connection = None
     
-    # loop to retry connection upto 12 times with a retry interval of 5 seconds
+    # loop to retry connection up to 12 times with a retry interval of 5 seconds
     while retries < max_retries:
         try:
             print('amqp_setup: Trying connection')
@@ -55,10 +56,10 @@ if __name__ == "__main__":  # execute this program only if it is run as a script
     connection = create_connection()
     channel = create_channel(connection, exchange_name= "payment_topic", exchange_type="topic")
     build_details = {
-        "notification_queue": ["payment_topic", "#"],
-        "transactions_queue": ["payment_topic", ".trans"],
-        "error_queue": ["payment_topic", "*.error"],
-        "user": ["payment_topic", "*.user"],
+        "notification_queue": ["payment_topic", "payment.notification.*"],
+        "transactions_queue": ["payment_topic", "payment.transaction.*"],
+        "error_queue": ["payment_topic", "payment.error.*"],
+        "user": ["payment_topic", "payment.user.created"],
         }
     construct_queues(channel, build_details)
 
