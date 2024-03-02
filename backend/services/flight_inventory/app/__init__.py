@@ -1,15 +1,12 @@
 import os
 from flask import Flask
+from pymongo import MongoClient
 
+app = Flask(__name__)
+app.config.from_object('config')
 
-def create_app():
-    app = Flask(__name__)
-#     app.config.from_object(f"app.config.{config_name.capitalize()}Config")
+client = MongoClient('localhost', 27017)
+db = client['flight_inventory'] 
 
-#     db.init_app(app)
-    # ... other initializations (blueprints, extensions)
-
-    from .routes import routes_bp  # Example import of routes
-    app.register_blueprint(routes_bp)
-
-    return app
+from . import models 
+from . import routes 
