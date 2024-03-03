@@ -1,22 +1,23 @@
 from flask import jsonify, request
 from app import app, db
-# from .models import Flight
+from .models import Flight
+import json
 
-available_seats = {
-    "flight_123": ["A1", "A2", "B3"],
-    "flight_456": ["C4", "D5"]
-}
-
-# @app.route('/flights/<flight_id>/seats', methods=['GET'])
-# def get_available_seats(flight_id):
-#     seats = available_seats.get(flight_id)
-#     if seats:
-#         return jsonify(seats)
-#     else:
-#         return jsonify({"message": "Flight not found"}), 404
-
-@app.route('/flights')
+@app.route('/flights', methods = ["GET"])
 def get_all_flights():
-    flight = db.flights.find()
-    for document in flight:  # Each 'document' is a flight 
-        return document['flight_no']
+    if request.method == "GET":
+        flights = db.flight.find()  
+        flights_list = [flight["_id"] for flight in flights]  
+        return jsonify(flights_list) 
+
+    
+@app.route('/flights/new', methods = ["POST"])
+def create_flight():
+    if request.method == "POST":
+        data = request.get_json()
+        try:
+            new_flight = Flight(**data)
+            new_flight.save()
+            return jsonify(new_flight.to_json()), 201
+        except Exception as e: 
+            return jsonify({'error': str(e)}), 500
