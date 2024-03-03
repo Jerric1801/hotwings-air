@@ -1,25 +1,8 @@
 import random 
 from datetime import datetime, timedelta
-
-data = {
-    "flight_id": "",
-    "flight_number": "AB123",
-    "departure": "2024-03-05T10:00:00",
-    "arrival": "2024-03-05T13:30:00",
-    "origin": "Singapore",
-    "destination": "London",
-    "aircraft": {
-        "model": "Boeing 777",
-        "capacity": 300,
-        "seating_plan": {
-            "seats": [
-                {"seat_number": "1A", "class_type": "Business"},
-                {"seat_number": "2A", "class_type": "Business"},
-                # ... more seats ...
-            ]
-        }
-    }
-}
+import requests
+import json
+import asyncio
 
 flight_type = "HWA"
 origins = [
@@ -76,15 +59,16 @@ def generate_seating_plan(aircraft_model, capacity):
         "large": {"First": 0.05, "Business": 0.15, "Premium Economy": 0.15, "Economy": 0.65}
     }
 
-    
-
     # Select proportions based on aircraft size (you'll need to map this yourself)
     if aircraft_model in ["Boeing 737", "Airbus A320"]:
         size_category = "small"
+        seats_per_row = 6
     elif aircraft_model in ["Boeing 777", "Airbus A350"]:
         size_category = "medium"
+        seats_per_row = 9
     else:
         size_category = "large"  # Or a default if you don't recognize the model
+        seats_per_row = 9
 
     proportions = typical_proportions[size_category]
 
@@ -102,12 +86,11 @@ def generate_seating_plan(aircraft_model, capacity):
     seating_config = {class_type: (num_rows, seats_per_row)
                       for class_type, num_rows in rows_per_class.items()}
 
-
     seating_plan = []
     seat_number_row = 1  # Variable to track current row number
 
     for class_type, (num_rows, seats_per_row) in seating_config.items():
-        seat_letters = "ABCDEF"[:seats_per_row]  # Adjust if more letters are needed
+        seat_letters = "ABCDEFGHIJK"[:seats_per_row]  # Adjust if more letters are needed
 
         for row in range(1, num_rows + 1):
             for letter in seat_letters:
@@ -151,13 +134,36 @@ def seed_flight(no_flights):
             "aircraft": {
                 "model": model,
                 "capacity": capacity,  # Get capacity from data
-                "seating_plan": generate_seating_plan(seats=seating_plan) 
+                "seating_plan": {
+                    "seats": seating_plan
+                }
             }
         }
 
         new_flights.append(flight_data)
 
-
     return new_flights
 
-print(seed_flight(10))
+
+flights = seed_flight(10)
+
+async def add_flight(flight_data):
+    try:
+        response = requests.post("http://localhost:5000/flight/new",
+                                 headers={"Content-Type": "application/json"}, 
+                                 json = flight_data)
+        return response  # Return the response object
+    except requests.exceptions.RequestException as e:
+        print(f"Error adding flight: {e}")
+        return None  # Or handle the error differently
+
+async def main():  # Example of how to use it
+    for flight in flights:
+        result = await add_flight(flight)
+        if result and result.status_code == 201:
+            print("Flight added successfully!")
+        else:
+            print("Failed to add flight")
+
+if __name__ == "__main__":
+     asyncio.run(main())
