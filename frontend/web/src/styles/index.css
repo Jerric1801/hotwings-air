@@ -123,6 +123,10 @@ form {
     font-size:1.1em ;
 }
 
+.flight-search-container input[type = "submit"]:hover {
+    cursor: pointer;
+}
+
 .flight-search-container h2{
     margin-left: 15px;
 }
@@ -169,6 +173,7 @@ form {
     justify-content: space-between;
     align-items: flex-start;
 }
+
 
 .flight-search-radio {
     width: 40%;
@@ -233,11 +238,12 @@ nav ul:last-child {
     margin:0;
     padding: 0;
     overflow: hidden;
-    background-image: url('../assets/images/home/home_background.webp');
+    /* background-image: url('../assets/images/home/home_background.webp'); */
     background-size: cover; 
     background-position: center;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     padding-left: 10vw;
+    background-color: #232323;
 }
