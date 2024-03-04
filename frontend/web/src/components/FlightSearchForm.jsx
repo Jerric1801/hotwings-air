@@ -1,7 +1,26 @@
-import React from 'react';
+import { React, useState } from 'react';
 import arrow from '../assets/images/brand/arrow.svg'
+import Select from 'react-select'
+import DatePicker from 'react-date-picker';
+
+import 'react-date-picker/dist/DatePicker.css';
+import 'react-calendar/dist/Calendar.css';
 
 function FlightSearchForm() {
+
+    const options = [
+        { value: 'chocolate', label: 'Chocolate' },
+        { value: 'strawberry', label: 'Strawberry' },
+        { value: 'vanilla', label: 'Vanilla' }
+    ]
+    const [isClearable, setIsClearable] = useState(true);
+    const [isSearchable, setIsSearchable] = useState(true);
+    const [isDisabled, setIsDisabled] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isRtl, setIsRtl] = useState(false);
+
+    const [departureDate, setDepartureDate] = useState(new Date());
+    const [returnDate, setReturnDate] = useState(new Date());
 
     return (
         <div className="flight-search-container">
@@ -11,17 +30,49 @@ function FlightSearchForm() {
             <form>
                 <div class="flight-search-inputs">
                     <div class="flight-search-input">
-                        <input type="text" name="origin" placeholder="FROM"></input>
+                        <Select options={options}
+                            className="origin custom-input"
+                            isDisabled={isDisabled}
+                            isLoading={isLoading}
+                            isClearable={isClearable}
+                            isRtl={isRtl}
+                            isSearchable={isSearchable}
+                            name="color"
+                            placeholder="From..." />
                         <img src={arrow}></img>
-                        <input type="text" name="destination" placeholder='TO'></input>
+                        <Select options={options}
+                            className="destination custom-input"
+                            isDisabled={isDisabled}
+                            isLoading={isLoading}
+                            isClearable={isClearable}
+                            isRtl={isRtl}
+                            isSearchable={isSearchable}
+                            name="color"
+                            placeholder="To..." />
                     </div>
                     <div class="flight-search-input">
-                        <input type="text" name="departure_date"></input>
-                        <input type="text" name="return_date"></input>
+                        <DatePicker className = "custom-input" value={departureDate} onChange={(date) => setDepartureDate(date)} />
+                        <DatePicker className = "custom-input" value={returnDate} onChange={(date) => setReturnDate(date)} />
                     </div>
                     <div class="flight-search-input">
-                        <input type="text" name="class"></input>
-                        <input type="text" name="passengers"></input>
+                        <Select options={options}
+                            className="class custom-input"
+                            isDisabled={isDisabled}
+                            isLoading={isLoading}
+                            isClearable={isClearable}
+                            isRtl={isRtl}
+                            isSearchable={isSearchable}
+                            name="color"
+                            placeholder="From..." />
+                        <Select options={options}
+                            className="passengers custom-input"
+                            isDisabled={isDisabled}
+                            isLoading={isLoading}
+                            isClearable={isClearable}
+                            isRtl={isRtl}
+                            isSearchable={isSearchable}
+                            name="color"
+                            placeholder="From..." />
                     </div>
                 </div>
 
