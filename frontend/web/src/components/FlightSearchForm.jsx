@@ -1,4 +1,5 @@
 import { React, useState } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import arrow from '../assets/images/brand/arrow.svg'
 import Select from 'react-select'
 //datepicker
@@ -69,6 +70,9 @@ function FlightSearchForm() {
     };
     const [tripway, setTripway] = useState("roundtrip");
 
+    const [searchParams, setSearchParams] = useSearchParams();
+    const navigate = useNavigate();
+
     const fetchFlights = (event) => {
         console.log(departureDate)
         event.preventDefault()
@@ -82,12 +86,12 @@ function FlightSearchForm() {
             "seatClass": seatClass.value,
             "tripType": tripway 
         }
-        console.log(payload)
         const data = fetchData(`flight_search`, 5001,  {
             method: 'POST',
             body: payload
         })
-        console.log(data)
+        setSearchParams({ name: 'Alice', age: 30 });
+        navigate('/selection'); 
     }
 
 
