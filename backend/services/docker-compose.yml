@@ -1,0 +1,24 @@
+version: '3'  # Specify the Docker Compose version
+
+services:
+  flight_inventory:
+    build: ./flight_inventory  # Path to your Flask app's Dockerfile
+    ports:
+      - '5000:5000'    # Expose Flask's default port 5000
+    depends_on:
+      - mongodb        # Ensure MongoDB starts before Flask
+    links:             # Optional, but good for legacy setups
+      - mongodb
+  flight_search:
+    build: ./flight_search  # Path to your Flask app's Dockerfile
+    ports:
+      - '5001:5001'    # Expose Flask's default port 5000
+  mongodb:
+    image: mongo       # Use the official MongoDB image
+    ports:
+      - '27017:27017'  # Expose MongoDB's default port 27017
+    volumes:          # Optional for data persistence 
+      - mongodb_data:/data/db 
+
+volumes:
+  mongodb_data:  # Named volume for MongoDB data 

@@ -86,12 +86,19 @@ function FlightSearchForm() {
             "seatClass": seatClass.value,
             "tripType": tripway 
         }
+        console.log(payload)
+        try{
         const data = fetchData(`flight_search`, 5001,  {
             method: 'POST',
             body: payload
         })
-        setSearchParams({ name: 'Alice', age: 30 });
-        navigate('/selection'); 
+        console.log(data)
+        }catch (error) {
+            console.error("An error occurred while fetching data:", error);
+            // Handle the error appropriately (e.g., display error message, retry)
+        }
+        // setSearchParams({ name: 'Alice', age: 30 });
+        // navigate('/selection'); 
     }
 
 

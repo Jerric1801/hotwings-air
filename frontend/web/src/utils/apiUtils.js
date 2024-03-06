@@ -1,7 +1,9 @@
 const BASE_URL = 'http://localhost';  
 
 const fetchData = async (endpoint, port, options = {}) => {
-  const url = `${BASE_URL}:${port}/${endpoint}`;
+  // const url = `${BASE_URL}:${port}/${endpoint}`;
+
+  const url = "http://localhost:5001/flight_search"
 
   // Specify default headers, and allow them to be overridden
   const defaultHeaders = {

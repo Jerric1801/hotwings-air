@@ -3,6 +3,11 @@ from app import app
 from .services import call_flight_inventory
 from .models import FlightSearch
 
+@app.route('/flight_search/test', methods = ["GET"])
+def test_flights():
+     if request.method == "GET":
+        return jsonify("success")
+
 @app.route('/flight_search', methods = ["POST"])
 def search_flights():
     try:
@@ -17,7 +22,6 @@ def search_flights():
             trip_type = data.get("tripType")
 
             searchInstance = FlightSearch(origin, destination, startdate, enddate, pax, flight_class, trip_type)
-
             if searchInstance.trip_type == "oneway":
                 payload = searchInstance.get_search_params()
                 depart_option = call_flight_inventory(payload)

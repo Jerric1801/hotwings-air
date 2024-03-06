@@ -8,9 +8,13 @@ app = Flask(__name__)
 CORS(app)
 app.config.from_object('config')
 
-client = MongoClient('localhost', 27017)
-db = client['flight_inventory'] 
-connect(db='flight_inventory', host='localhost', port=27017)  
+try: 
+    client = MongoClient('mongodb', port=27017)
+    db = client['flight_inventory'] 
+    connect(db='flight_inventory', host='mongodb', port=27017) 
+
+except:
+    print("Failed to connect to mongodb") 
 
 from . import models 
 from . import routes 

@@ -55,6 +55,7 @@ def search_flights():
 @app.route('/flight/<flight_number>', methods = ["GET"])
 def get_flight(flight_number):
     if request.method == "GET":
+        print("called")
         try:
             flight = db.flight.find_one({"_id":flight_number})
             if flight:
@@ -73,7 +74,7 @@ def get_origin(origin):
             if flight:
                 return json.loads(json_util.dumps(flight))
             else:
-                return jsonify({"message": "Flight not found."}), 404 
+                return jsonify({"message": "Origin not found."}), 404 
         except ValueError:
             return jsonify({"message": "Invalid flight number."}), 400  
 

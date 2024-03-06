@@ -2,9 +2,10 @@ import requests  # Or the library you use for API calls
 from datetime import datetime, timedelta
 
 def call_flight_inventory(payload):
-    url = "http://localhost:5000"
-    endpoint = f"/flight/search"
-    response = requests.post(url + endpoint, json = payload)
+    url = "http://flight_inventory:5000/flight/search"
+    response = requests.post(url, json = payload)
+
+    print(response)
 
     if response.status_code == 200:
         return response.json()
