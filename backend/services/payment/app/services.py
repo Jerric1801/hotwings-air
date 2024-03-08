@@ -12,4 +12,14 @@ from datetime import datetime, timedelta
 #     else:
 #         raise Exception("Failed to retrieve flight details")  # Handle error appropriately
 
-# Other service functions for querying the inventory service 
+# function 1 to stripe
+def processing_data():
+    return True 
+
+# function 2 to flight inventory
+            
+# function 3 to transactions
+            
+# function 4 to users
+            
+# function 5 to notifications

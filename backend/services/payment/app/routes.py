@@ -1,42 +1,47 @@
 from flask import jsonify, request
 from app import app
-from .services import call_flight_inventory
-from .models import FlightSearch
+from .services import processing_data
+from .models import Payment
 
 @app.route('/payment/test', methods = ["GET"])
 def test_payment():
      if request.method == "GET":
         return jsonify("success")
 
+
 @app.route('/payment', methods = ["POST"])
-def send_payment():
-    try:
-        if request.method == "POST":
-            data = request.get_json() 
-            origin = data.get("origin")
-            destination = data.get("destination")
-            startdate = data.get("departureDate")
-            enddate = data.get("returnDate")
-            pax = data.get("pax")
-            flight_class = data.get("seatClass")
-            trip_type = data.get("tripType")
+def send_data_to_stripe():
+    # Simple check of input format and data of the request are JSON
+    if request.is_json:
+        try:
+            order = request.get_json()
+            print("\nReceived an order in JSON:", order)
 
-            searchInstance = FlightSearch(origin, destination, startdate, enddate, pax, flight_class, trip_type)
-            if searchInstance.trip_type == "oneway":
-                payload = searchInstance.get_search_params()
-                depart_option = call_flight_inventory(payload)
+            # do the actual work
+            # 1. Send order info {cart items}
+            result = processing_data(order)
+            return jsonify(result), result["code"]
 
-                return jsonify(depart_option)
-            else:
-                payload_depart = searchInstance.get_search_params()
-                payload_return = searchInstance.get_search_params(return_flight=True)
-                depart_option = call_flight_inventory(payload_depart)
-                return_option = call_flight_inventory(payload_return)
+        except Exception as e:
+            # Unexpected error in code
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            ex_str = str(e) + " at " + str(exc_type) + ": " + fname + ": line " + str(exc_tb.tb_lineno)
+            print(ex_str)
 
-                return jsonify([depart_option, return_option])
+            return jsonify({
+                "code": 500,
+                "message": "place_order.py internal error: " + ex_str
+            }), 500
+        
+        except Exception as e:  # Catch potential errors from call_flight_inventory
+            return jsonify({"error": "Flight inventory service error"}), 500 
 
 
-    except KeyError as e:
-            return jsonify({"error": f"Missing required parameter: {e}"}), 400
-    except Exception as e:  # Catch potential errors from call_flight_inventory
-        return jsonify({"error": "Flight inventory service error"}), 500 
+    # if reached here, not a JSON request.
+    return jsonify({
+        "code": 400,
+        "message": "Invalid JSON input: " + str(request.get_data())
+    }), 400
+            
+    
