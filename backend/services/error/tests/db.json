@@ -1,0 +1,25 @@
+{
+    "logs": [
+      {
+        "logId": "log001",
+        "dateTime": "2023-03-07T12:00:00Z",
+        "flightId": "flightA123",
+        "email": "user1@example.com",
+        "errorDescription": "400."
+      },
+      {
+        "logId": "log002",
+        "dateTime": "2023-03-08T15:30:00Z",
+        "flightId": "flightB456",
+        "email": "user2@example.com",
+        "errorDescription": "400."
+      },
+      {
+        "logId": "log003",
+        "dateTime": "2023-03-09T18:45:00Z",
+        "flightId": "flightC789",
+        "email": "user3@example.com",
+        "errorDescription": "404."
+      }
+    ]
+  }
