@@ -238,12 +238,17 @@ nav ul:last-child {
     margin:0;
     padding: 0;
     overflow: hidden;
-    /* background-image: url('../assets/images/home/home_background.webp'); */
+    background-image: url('../assets/images/home/hotwings-bg.png');
     background-size: cover; 
     background-position: center;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     padding-left: 10vw;
-    background-color: #232323;
+}
+
+/* Sign Up Page */
+.sign-up-page {
+    width: 100vw;
+    height: 100vh;
 }

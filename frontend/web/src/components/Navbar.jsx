@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/images/brand/logo.svg'
+import Button from './Button';
 
 function Navbar() {
 
@@ -20,7 +21,9 @@ function Navbar() {
         </ul>
         <ul>
             <li>
-                <Link to="/">Sign Up</Link>
+                <Link to="/signup">
+                    <Button>Sign up yo</Button>
+                </Link>
             </li>
             <li>
                 <Link to="/">Login</Link>
