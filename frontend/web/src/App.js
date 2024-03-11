@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
 import FlightSelection from './pages/FlightSelection';
 import SignUp from './pages/SignUp';
+import Login from './pages/Login';
 
 function App() {
   // Global state variables are handled here
@@ -15,6 +16,7 @@ function App() {
         <Route path="/" element={<HomePage/>} />
         <Route path="/selection" element={<FlightSelection/>} />
         <Route path="/signup" element={<SignUp/>} />
+        <Route path="/login" element={<Login/>} />
       </Routes>   
     </BrowserRouter>
   );

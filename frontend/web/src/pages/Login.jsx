@@ -1,16 +1,15 @@
 import { useState } from "react";
 
-const CREATE_USER_API = 'http://localhost:8080/user/signup';
+const CREATE_USER_API = 'http://localhost:8080/user/login';
 
-function SignUp() {
-    
-    const [name, setName] = useState('');
+function Login() {
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const user = {name, email, password};
+        const user = {email, password};
         fetch(CREATE_USER_API, {
             method: 'POST',
             headers: {'Content-Type':'application/json'},
@@ -21,16 +20,11 @@ function SignUp() {
             console.log(data);
         })
     }
-
+    
     return (
         <>
-            <div className="sign-up-page">
+            <div className="login-page">
                 <form action="post">
-                    <div>
-                        <label htmlFor="name">Name:</label>
-                        <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} />
-                    </div>
-
                     <div>
                         <label htmlFor="email">Email:</label>
                         <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -42,11 +36,11 @@ function SignUp() {
                     </div>
 
                     <div>
-                        <button type="submit" onClick={handleSubmit}>Sign up</button>
+                        <button type="submit" onClick={handleSubmit}>Login</button>
                     </div>
                 </form>
             </div>
         </>
     )
 }
-export default SignUp;
+export default Login;

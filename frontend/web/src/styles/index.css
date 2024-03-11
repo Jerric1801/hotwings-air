@@ -252,3 +252,9 @@ nav ul:last-child {
     width: 100vw;
     height: 100vh;
 }
+
+/* Login Page */
+.login-page {
+    width: 100vw;
+    height: 100vh;
+}
