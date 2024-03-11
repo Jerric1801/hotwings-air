@@ -8,6 +8,7 @@ app = Flask(__name__)
 CORS(app)
 app.config.from_object('config')
 
+
 try: 
     client = MongoClient('mongodb', port=27017)
     db = client['flight_inventory'] 

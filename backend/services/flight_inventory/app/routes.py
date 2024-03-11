@@ -8,9 +8,8 @@ from datetime import datetime, timedelta
 @app.route('/flight', methods = ["GET"])
 def get_all_flights():
     if request.method == "GET":
-        flights = db.flight.find()  
-        flights_list = [flight["_id"] for flight in flights]  
-        return jsonify(flights_list) 
+        flights = db.test.find_one({"field1":"value1"})
+        return json.loads(json_util.dumps(flights))
     
 @app.route('/flight/search', methods = ["POST"])
 def search_flights():
