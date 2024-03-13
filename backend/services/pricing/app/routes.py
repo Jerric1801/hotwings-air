@@ -33,12 +33,29 @@ def get_price(route_str, class_str):
         # Log the error 
         return jsonify(error="Internal server error"), 500 
 
-@app.route('/pricing/new', methods = ["POST"])
-def add_route_pricing():
+# @app.route('/pricing/new', methods = ["POST"])
+# def add_route_pricing():
+#     try:
+#         pass
+#     except:
+#         pass
+
+@app.route('/flights/new', methods=['POST'])
+def add_flight_price():
     try:
-        pass
-    except:
-        pass
+        data = request.get_json()
+
+        flight_price = Pricing(
+            flight_id=data['flight_id'],
+            seat_class=data['seat_class'],
+            customer_id=data['customer_id'],
+        )
+        db.session.add(flight_price)
+        db.session.commit()
+
+        return jsonify({'message': 'Flight price added successfully'}), 201
+    except Exception as e:  
+        return jsonify({'error': str(e)}), 400
 
 
 @app.route('/pricing/all', methods=["GET"])  # Create a route for this

@@ -2,7 +2,7 @@ from app import db
 from datetime import datetime
 
 class Pricing(db.Model):
-    __tablename__ = 'pricing'
+    __tablename__ = 'flight_pricing'
 
     flight_id = db.Column(db.String(10), primary_key=True)
     seat_class = db.Column(db.String(15), nullable=False)
