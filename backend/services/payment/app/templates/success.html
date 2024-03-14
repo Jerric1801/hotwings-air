@@ -4,6 +4,12 @@
   <section class="section">
     <div class="container">
       <p>Your payment succeeded.</p>
+      <div class="payment-details">
+        <p><strong>Payment ID:</strong> {{ payment_intent_id }}</p>
+        <p><strong>Amount Paid:</strong> {{ amount_paid}}{{currency}}</p>
+        <p><strong>Points Gained:</strong> {{points}}</p>
+        <p><strong>Deets:{{deets}}</p>
+    </div>
     </div>
   </section>
 {% endblock %}
