@@ -1,47 +1,53 @@
-from flask import jsonify, request
+from flask import Flask, render_template, request, jsonify
 from app import app
-from .services import processing_data
-from .models import Payment
+from .utils import stripe_keys
+import stripe
 
-@app.route('/payment/test', methods = ["GET"])
-def test_payment():
-     if request.method == "GET":
-        return jsonify("success")
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+@app.route("/config", methods = ["GET"])
+def get_publishable_key():
+    if request.method == "GET":
+        stripe_config = {"publicKey": stripe_keys["publishable_key"]}
+        return jsonify(stripe_config)
+
+@app.route("/create-checkout-session")
+def create_checkout_session():
+    domain_url = "http://127.0.0.1:5000/"
+    stripe.api_key = stripe_keys["secret_key"]
+    try:
+        product = stripe.Product.create(
+            name='ticket',
+            description='SIN-NZ',
+        )
+
+        price = stripe.Price.create(
+            product=product.id,
+            unit_amount= 900,
+            currency='sgd',
+        )
+        checkout_session = stripe.checkout.Session.create(
+            success_url=domain_url + "success?session_id={CHECKOUT_SESSION_ID}",
+            cancel_url=domain_url + "cancelled",
+            mode="payment",
+            line_items=[
+                {
+                    'price': price.id,
+                    'quantity': 1,
+                }
+            ]
+        )
+        return jsonify({"sessionId": checkout_session["id"]})
+    except Exception as e:
+        return jsonify(error=str(e)), 403   
+
+@app.route("/success")
+def success():
+    return render_template("success.html")
 
 
-@app.route('/payment', methods = ["POST"])
-def send_data_to_stripe():
-    # Simple check of input format and data of the request are JSON
-    if request.is_json:
-        try:
-            order = request.get_json()
-            print("\nReceived an order in JSON:", order)
-
-            # do the actual work
-            # 1. Send order info {cart items}
-            result = processing_data(order)
-            return jsonify(result), result["code"]
-
-        except Exception as e:
-            # Unexpected error in code
-            exc_type, exc_obj, exc_tb = sys.exc_info()
-            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            ex_str = str(e) + " at " + str(exc_type) + ": " + fname + ": line " + str(exc_tb.tb_lineno)
-            print(ex_str)
-
-            return jsonify({
-                "code": 500,
-                "message": "place_order.py internal error: " + ex_str
-            }), 500
-        
-        except Exception as e:  # Catch potential errors from call_flight_inventory
-            return jsonify({"error": "Flight inventory service error"}), 500 
-
-
-    # if reached here, not a JSON request.
-    return jsonify({
-        "code": 400,
-        "message": "Invalid JSON input: " + str(request.get_data())
-    }), 400
-            
-    
+@app.route("/cancelled")
+def cancelled():
+    return render_template("cancelled.html")

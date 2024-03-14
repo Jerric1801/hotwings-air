@@ -1,5 +1,0 @@
-Flask==3.0.2
-Flask_Cors==3.0.10
-mongoengine==0.28.0
-pymongo==4.2.0
-requests==2.21.0
