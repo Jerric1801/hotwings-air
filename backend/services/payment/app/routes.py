@@ -15,7 +15,7 @@ def get_publishable_key():
 
 @app.route("/create-checkout-session")
 def create_checkout_session():
-    domain_url = "http://127.0.0.1:5000/"
+    domain_url = "http://127.0.0.1:5001/"
     stripe.api_key = stripe_keys["secret_key"]
     try:
         product = stripe.Product.create(
