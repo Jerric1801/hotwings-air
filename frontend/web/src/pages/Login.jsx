@@ -1,8 +1,13 @@
-import { useState } from "react";
+import { React, useState } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import { login } from '../redux/navbarSlice';
 
 const CREATE_USER_API = 'http://localhost:8080/user/login';
 
 function Login() {
+
+    const user = useSelector((state) => state.navbar.value);
+    const dispatch = useDispatch();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -17,7 +22,9 @@ function Login() {
         }).then((res) => {
             return res.json();
         }).then((data) => {
-            console.log(data);
+            if (data.status) {
+                dispatch(login(email));
+            };
         })
     }
  

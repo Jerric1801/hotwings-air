@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import FlightSearchForm from '../components/FlightSearchForm';
 // import FeaturedDestinations from '../components/FeaturedDestinations';
 // import PromotionsBanner from '../components/PromotionsBanner'; // If you have any
@@ -17,6 +17,10 @@ function HomePage() {
 
 //     fetchPromotions();
 //   }, []); 
+
+  const [user, setUser] = useState(null);
+
+  
 
   return (
     <div className="home-page">
