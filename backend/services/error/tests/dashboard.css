@@ -12,7 +12,7 @@ body {
 }
 
 h1 {
-    color: #005288; /* Airline Brand Color */
+    color: #005288;
     text-align: center;
     margin-bottom: 40px;
 }
@@ -26,7 +26,7 @@ section {
 }
 
 h2 {
-    color: #003354; /* Darker Shade for Headings */
+    color: #003354;
     margin-top: 0;
 }
 
