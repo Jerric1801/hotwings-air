@@ -11,9 +11,8 @@ channel.queue_declare(queue='error_logs')
 
 # Send a message
 test_message = {
-    'flight_id': 'test123',
-    'user_email': 'test@example.com',
-    'error_description': 'This is a test error message.'
+    'error_source': 'user',
+    'error_description': 'unsuccessful update of loyalty points.'
 }
 channel.basic_publish(exchange='',
                       routing_key='error_logs',

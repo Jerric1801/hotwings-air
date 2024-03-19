@@ -6,7 +6,7 @@ from datetime import datetime
 
 db_path = 'tests/db.json'  # REPLACE WITH DB!!**
 
-def add_error_log(flight_id, user_email, error_description):
+def add_error_log(error_source, error_description):
     log_id = str(uuid.uuid4())
     date_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -14,8 +14,7 @@ def add_error_log(flight_id, user_email, error_description):
     log_entry = {
         "log_id": log_id,
         "date_time": date_time,
-        "flight_id": flight_id,
-        "user_email": user_email,
+        "error_source": error_source,
         "error_description": error_description
     }
 
@@ -42,8 +41,7 @@ def callback(ch, method, properties, body):
         message = json.loads(body)
         print(" [x] Received %r" % message)
         add_error_log(
-            flight_id=message.get('flight_id'),
-            user_email=message.get('user_email'),
+            error_source=message.get('error_source'),
             error_description=message.get('error_description')
         )
     except json.JSONDecodeError as e:

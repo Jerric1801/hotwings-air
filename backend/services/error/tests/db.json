@@ -111,6 +111,26 @@
             "flight_id": "test123",
             "user_email": "test@example.com",
             "error_description": "This is a test error message."
+        },
+        {
+            "log_id": "45938d4a-a15e-4a73-a938-a4999d253f4e",
+            "date_time": "2024-03-19 16:00:54",
+            "flight_id": "test123",
+            "user_email": "test@example.com",
+            "error_description": "This is a test error message."
+        },
+        {
+            "log_id": "d5054f4e-c7cd-4087-a686-f140051045fb",
+            "date_time": "2024-03-19 16:01:03",
+            "flight_id": "test123",
+            "user_email": "test@example.com",
+            "error_description": "This is a test error message."
+        },
+        {
+            "log_id": "1ede570a-aaad-40bf-bd87-56b4f5df7b7d",
+            "date_time": "2024-03-19 16:16:53",
+            "error_source": "user",
+            "error_description": "unsuccessful update of loyalty points."
         }
     ]
 }
