@@ -8,6 +8,8 @@
         <p><strong>Payment ID:</strong> {{ payment_intent_id }}</p>
         <p><strong>Amount Paid:</strong> {{ amount_paid}}{{currency}}</p>
         <p><strong>Points Gained:</strong> {{points}}</p>
+        <p><strong>Points Used:</strong> {{points_used}}</p>
+        <p><strong>Points Nett:</strong> {{points|int - points_used|int}}</p>
         <p><strong>Deets:{{deets}}</p>
     </div>
     </div>
