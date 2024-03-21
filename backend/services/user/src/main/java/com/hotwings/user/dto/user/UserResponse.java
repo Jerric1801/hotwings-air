@@ -1,4 +1,4 @@
-package com.hotwings.user.dto;
+package com.hotwings.user.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +17,4 @@ public class UserResponse {
     private int loyalty_points;
     private Object past_bookings;
     private Object upcoming_bookings;
-
-    private String message;
-    private boolean status;
 }

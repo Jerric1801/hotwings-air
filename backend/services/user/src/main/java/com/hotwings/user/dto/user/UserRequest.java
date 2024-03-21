@@ -1,4 +1,4 @@
-package com.hotwings.user.dto;
+package com.hotwings.user.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

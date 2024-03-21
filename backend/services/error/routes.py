@@ -16,8 +16,7 @@ def create_log():
         
         # Call the add_error_log service function to create and save the new ErrorLog entry
         new_log = add_error_log(
-            flight_id=data['flightId'],
-            user_email=data['email'],
+            error_source=data['error_source'],
             error_description=data['errorDescription']
         )
         

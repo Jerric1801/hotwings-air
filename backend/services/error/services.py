@@ -1,26 +1,40 @@
-from .models import ErrorLog
-from datetime import datetime
-import uuid
+# Add error log function has been moved to rabbitmq_consumer.py (THIS FILE MIGHT NOT BE NEEDED)
 
-# Service to add a new error log
-def add_error_log(flight_id, user_email, error_description):
-    log_id = str(uuid.uuid4())  # Generate a unique log ID
-    date_time = datetime.now()  # Get the current date and time
+# import os
+# import json
+# import uuid
+# from datetime import datetime
 
-    # Create a new ErrorLog instance
-    error_log = ErrorLog(
-        log_id=log_id,
-        date_time=date_time,
-        flight_id=flight_id,
-        user_email=user_email,
-        error_description=error_description
-    )
-    # Save the error log to the database
-    error_log.save()
-    return error_log
+# # Service to add a new error log
+# # Assuming this script is located in the 'services/error' directory
+# # Adjust the path as necessary if running from a different location
+# db_path = os.path.join(os.getcwd(), 'tests', 'db.json')
 
-# Service to retrieve all error logs
-def get_all_error_logs():
-    # Retrieve all error logs from the database
-    error_logs = ErrorLog.objects.all()
-    return error_logs
+# def add_error_log(flight_id, user_email, error_description):
+#     log_id = str(uuid.uuid4())
+#     date_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+#     # Construct the new log entry
+#     log_entry = {
+#         "log_id": log_id,
+#         "date_time": date_time,
+#         "flight_id": flight_id,
+#         "user_email": user_email,
+#         "error_description": error_description
+#     }
+
+#     # Read the existing data from db.json
+#     try:
+#         with open(db_path, 'r') as file:
+#             data = json.load(file)
+#     except FileNotFoundError:
+#         data = {"logs": []}
+
+#     # Append the new log entry
+#     data["logs"].append(log_entry)
+
+#     # Write the updated data back to db.json
+#     with open(db_path, 'w') as file:
+#         json.dump(data, file, indent=4)
+
+#     print("Log entry added to db.json:", log_entry)

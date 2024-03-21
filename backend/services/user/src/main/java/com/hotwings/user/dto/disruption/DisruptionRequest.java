@@ -1,4 +1,4 @@
-package com.hotwings.user.dto;
+package com.hotwings.user.dto.disruption;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginRequest {
-    private String email;
-    private String password;
+public class DisruptionRequest {
+    private String date;
+    private String flight_id;
 }

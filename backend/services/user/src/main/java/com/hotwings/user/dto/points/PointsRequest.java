@@ -1,4 +1,4 @@
-package com.hotwings.user.dto;
+package com.hotwings.user.dto.points;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthResponse {
-    private String message;
-    private boolean status;
+public class PointsRequest {
+    private int loyalty_points;
 }
