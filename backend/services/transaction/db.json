@@ -1,0 +1,29 @@
+{
+    "logs": [
+        {
+            "log_id": "3350c1fa-afc7-4fb6-95fd-54c929443bfe",
+            "date_time": "2024-03-21 13:02:44",
+            "total_price": "69.90",
+            "user_id": "1123465."
+        },
+        {
+            "log_id": "f01e1c18-2ecc-4c4e-b3aa-c73d7424bac8",
+            "date_time": "2024-03-21 13:02:53",
+            "total_price": "69.90",
+            "user_id": "1123465."
+        },
+        {
+            "log_id": "c5dcc782-bdb3-4286-b1a5-5b569aa6729d",
+            "date_time": "2024-03-21 13:12:08",
+            "user_id": "1123465.",
+            "total_price": "69.90"
+        },
+        {
+            "log_id": "84e67d09-0c0d-44cb-9c65-57d882735e74",
+            "date_time": "2024-03-21 13:13:06",
+            "user_id": "1123465.",
+            "loyalty_points": "1005",
+            "price_difference": "100.50."
+        }
+    ]
+}
