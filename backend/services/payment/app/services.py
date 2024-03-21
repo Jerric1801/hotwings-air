@@ -6,7 +6,7 @@ import amqp_connection
 
 # function 1 to stripe
 def send_payment_details_to_stripe(payload):
-    url="http://localhost:5000/stripe"
+    url="http://localhost:5000/payment/stripe"
     response = requests.post(url, json = payload)
     print(response) 
 
@@ -17,7 +17,7 @@ def send_payment_details_to_stripe(payload):
 
 # function 2 to flight inventory
 def send_payment_details_to_flight_inventory(payload):
-    flight_id = payload.flight_id
+    flight_id = payload["flight_id"]
     url=f"http://localhost:5000/flight/{flight_id}"
     response = requests.post(url, json = payload)
     print(response) 
@@ -40,7 +40,8 @@ def send_payment_details_to_transactions(payload):
        
 # function 4 to users
 def send_payment_details_to_users(payload):
-    url="http://localhost:5000/users"
+    user_id = payload["user_id"]
+    url=f"http://localhost:5000/users/{user_id}"
     response = requests.post(url, json = payload)
     print(response) 
 

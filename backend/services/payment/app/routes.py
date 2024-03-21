@@ -12,40 +12,199 @@ def send_payment_data():
     # Simple check of input format and data of the request are JSON
     if request.is_json:
         try:
+            # 1. Receive payment info from UI 
             data = request.get_json()
             print("\nReceived a record of payment details in JSON:", data)
-            total_price = data.get('total_price')
+            orig_price = data.get('orig_price')
+            final_price = data.get('final_price')
             seat_number = data.get('seat_number')
             flight_id = data.get('flight_id')
             origin = data.get('origin')
             destination = data.get('destination')
-            loyalty_points = data.get('loyalty_points')
+            redemption_loyalty_points = data.get('loyalty_points')
             user_id = data.get('user_id')
             user_email = data.get('user_email')
 
-            paymentDetails = Payment(total_price, seat_number, flight_id, origin, destination, loyalty_points, user_id, user_email)
+            paymentDetails = Payment(orig_price, final_price, seat_number, flight_id, origin, destination, redemption_loyalty_points, user_id, user_email)
 
-            # do the actual work
-            # 1. Send payment info to Stripe
+            # 2. Send payment info to Stripe
             stripe_data = {
                 "description": paymentDetails.flight_id , 
                 "price": paymentDetails.total_price,
             }
             print('\n-----Invoking Stripe API-----')
+
+            # 3. Returns success or failure for payment via Stripe API
             stripe_result = send_payment_details_to_stripe(stripe_data)
         
             print('\n------------------------')
             print('stripe_result:', stripe_result)
 
-            code = stripe_result["code"]
+            stripe_code = stripe_result["code"]
 
-            if code not in range(200, 300):
+            # 4. Activate error handler if there payment fails
+            if stripe_code not in range(200, 300):
                 # Inform the error microservice
                 print('\n\n-----Publishing the Stripe error message with routing_key=stripe.error-----')
-                stripe_result = send_errors("stripe.topic", "topic", "stripe", stripe_result)
+                send_errors("stripe.topic", "topic", "stripe", stripe_result)
                 
+                return jsonify(stripe_result), stripe_code
             
-            return jsonify(stripe_result), code
+            else:
+
+                try:
+                    # 4. Update flight inventory
+                    flight_data = {
+                        "user_id": paymentDetails.user_id,
+                        "flight_id": paymentDetails.flight_id,
+                        "seat_number": paymentDetails.seat_number
+                    }   
+                    print('\n-----Invoking Flight Inventory -----')
+
+                    flight_result = send_payment_details_to_flight_inventory(flight_data)
+
+                    print('\n------------------------')
+                    print('flight_result:', flight_result)
+
+                    flight_code = flight_result["code"]
+
+                    if flight_code not in range(200, 300):
+                        # Inform the error microservice
+                        print('\n\n-----Publishing the Flight Inventory error message with routing_key=flight.error-----')
+                        send_errors("flight.topic", "topic", "flight", flight_result)
+                
+                        return jsonify(flight_result), flight_code
+                    
+                    else:
+
+                        try:
+                            # 5. Record payment details in transaction
+                            transaction_data = {
+                                "user_id": paymentDetails.user_id,
+                                "type": "P",
+                                "payment_amt": stripe_result["price"]
+                            }   
+                            print('\n-----Invoking Transactions -----')
+
+                            transaction_result = send_payment_details_to_transactions(transaction_data)
+
+                            print('\n------------------------')
+                            print('transaction_result:', transaction_result)
+
+                            transaction_code = transaction_result["code"]
+
+                            if transaction_code not in range(200, 300):
+                                # Inform the error microservice
+                                print('\n\n-----Publishing the Transaction error message with routing_key=trans.error-----')
+                                send_errors("trans.topic", "topic", "trans", transaction_result)
+                        
+                                return jsonify(transaction_result), transaction_code
+                            
+                        except Exception as e:
+                            # Unexpected error in code
+                            exc_type, exc_obj, exc_tb = sys.exc_info()
+                            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                            ex_str = str(e) + " at " + str(exc_type) + ": " + fname + ": line " + str(exc_tb.tb_lineno)
+                            print(ex_str)
+
+                            return jsonify({"error": "Transaction microservice has an internal error: " + ex_str}), 500
+
+                        try:
+                            # 5. Sends confirmation email to user 
+                            confirmation_data = {
+                                "user_email": paymentDetails.user_email,
+                                "msg_type": "P",
+                                "payment_data": stripe_result
+                            }   
+                            print('\n-----Invoking Notifications -----')
+
+                            noti_payment_result = send_payment_details_to_notifications(confirmation_data)
+
+                            print('\n------------------------')
+                            print('noti_payment_result:', noti_payment_result)
+
+                            noti_payment_code = noti_payment_result["code"]
+
+                            if noti_payment_code not in range(200, 300):
+                                # Inform the error microservice
+                                print('\n\n-----Publishing the Notification error message with routing_key=noti.error-----')
+                                send_errors("noti.topic", "topic", "noti", noti_payment_result)
+                        
+                                return jsonify(noti_payment_result), noti_payment_code
+                            
+                        except Exception as e:
+                            # Unexpected error in code
+                            exc_type, exc_obj, exc_tb = sys.exc_info()
+                            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                            ex_str = str(e) + " at " + str(exc_type) + ": " + fname + ": line " + str(exc_tb.tb_lineno)
+                            print(ex_str)
+
+                            return jsonify({"error": "Notifications mciroservice has an internal error: " + ex_str}), 500
+                        
+                        try:
+                            # 5. Calculate loyalty points and send to Users
+                            loyalty_points_data = {
+                                "user_id": paymentDetails.user_id,
+                                "flight_id": paymentDetails.flight_id,
+                                "loyalty_points": paymentDetails.orig_price
+                            }   
+                            print('\n-----Invoking User -----')
+
+                            user_result = send_payment_details_to_users(loyalty_points_data)
+
+                            print('\n------------------------')
+                            print('user_result:', user_result)
+
+                            user_code = user_result["code"]
+                            accumulated_loyalty_points = user_result["accumulated_loyalty_points"]
+
+                            if user_code not in range(200, 300):
+                                # Inform the error microservice
+                                print('\n\n-----Publishing the User error message with routing_key=user.error-----')
+                                send_errors("user.topic", "topic", "user", user_result)
+                        
+                                return jsonify(user_result), user_code
+                            
+                            else:
+
+                                # 6. Sends accumulated loyalty points email to user
+                                noti_points_data = {
+                                    "user_email": paymentDetails.user_email,
+                                    "msg_type": "L",
+                                    "loyalty_points": accumulated_loyalty_points
+                                }   
+                                print('\n-----Invoking Notifications -----')
+
+                                noti_points_result = send_payment_details_to_notifications(noti_points_data)
+
+                                print('\n------------------------')
+                                print('noti_points_result:', noti_points_result)
+
+                                noti_points_code = noti_points_result["code"]
+
+                                if noti_points_code not in range(200, 300):
+                                    # Inform the error microservice
+                                    print('\n\n-----Publishing the Notifications error message with routing_key=noti.error-----')
+                                    send_errors("noti.topic", "topic", "noti", noti_points_result)
+                            
+                                    return jsonify(noti_points_result), user_code
+                            
+                        except Exception as e:
+                            # Unexpected error in code
+                            exc_type, exc_obj, exc_tb = sys.exc_info()
+                            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                            ex_str = str(e) + " at " + str(exc_type) + ": " + fname + ": line " + str(exc_tb.tb_lineno)
+                            print(ex_str)
+
+                            return jsonify({"error": "User microservice has an internal error: " + ex_str}), 500
+                except Exception as e:
+                    # Unexpected error in code
+                    exc_type, exc_obj, exc_tb = sys.exc_info()
+                    fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                    ex_str = str(e) + " at " + str(exc_type) + ": " + fname + ": line " + str(exc_tb.tb_lineno)
+                    print(ex_str)
+
+                    return jsonify({"error": "Flight Inventory microservice has an internal error: " + ex_str}), 500
 
         except Exception as e:
             # Unexpected error in code
@@ -56,11 +215,7 @@ def send_payment_data():
 
             return jsonify({"error": "Stripe Payment has an internal error: " + ex_str}), 500
         
-        try:
-            pass 
-        except: 
-            pass
-
+       
     # if reached here, not a JSON request.
     return jsonify({
         "code": 400,
@@ -69,61 +224,6 @@ def send_payment_data():
 
 
 
-    # Notice that we are publishing to "Activity Log" only when there is no error in order creation.
-    # In http version, we first invoked "Activity Log" and then checked for error.
-    # Since the "Activity Log" binds to the queue using '#' => any routing_key would be matched 
-    # and a message sent to “Error” queue can be received by “Activity Log” too.
 
-    # else:
-    #     # 4. Record successful stripe payment
-    #     # record the transaction anyway
-    #     print('\n\n-----Invoking transaction microservice-----')
-    #     # print('\n\n-----Publishing the stripe info message with routing_key=stripe.info-----')        
-
-    #     send_payment_details_to_transactions(stripe_result)            
-    #     # channel.basic_publish(exchange=exchangename, routing_key="stripe.info", body=message)
-    
-    # print("\nStripe Payment published to RabbitMQ Exchange.\n")
-    
-    # # 5. Send payment details to flight_inventory
-    # print('\n\n-----Invoking flight_inventory microservice-----')    
-    # flight_inventory_data = {
-       
-    # }
-    # flight_inventory_result = send_payment_details_to_flight_inventory(flight_inventory_data)
-    # print("flight_inventory_result:", flight_inventory_result, '\n')
-
-    # # Check the flight_inventory_result;
-    # # if a failure, send it to the error microservice.
-    # code = flight_inventory_result["code"]
-    # if code not in range(200, 300):
-    #     # Inform the error microservice
-    #     print('\n\n-----Invoking error microservice as updating flight inventory fails-----')
-    #     # print('\n\n-----Publishing the flight_inventory message with routing_key=flight_inventory.error-----')
-
-    #     send_errors(flight_inventory_result)
-    #     # message = json.dumps(flight_inventory_result)
-    #     # channel.basic_publish(exchange=exchangename, routing_key="flight_inventory.error", 
-    #     #     body=message, properties=pika.BasicProperties(delivery_mode = 2))
-
-    #     print("\nFlight inventory update status ({:d}) published to the RabbitMQ Exchange:".format(code), flight_inventory_result)
-
-    #     # 7. Return error
-    #     return {
-    #         "code": 400,
-    #         "data": {
-    #             "stripe_result": stripe_result,
-    #             "flight_inventory_result": flight_inventory_result
-    #         },
-    #         "message": "Simulated flight_inventory error sent for error handling."
-    #     }
-
-    # 7. Return created stripe payment, flight_inventory record
-    return {
-        "code": 201,
-        "data": {
-            "stripe_result": stripe_result,
-            "flight_inventory_result": flight_inventory_result
-        }
-    }    
+      
     
