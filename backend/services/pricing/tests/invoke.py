@@ -1,5 +1,12 @@
 import requests
 import json
 
-response = requests.get("http://127.0.0.1:5003/pricing/HWA552")
+entry = {
+    "flight_id": "HWA550", 
+    "seat_class": "Economy",
+    "customer_id": "CUST12345" 
+}
+# response = requests.post("http://localhost:5002/flights/new", json = entry)
+
+response = requests.get("http://localhost:5002/pricing/HWA550")
 print(response.content)
