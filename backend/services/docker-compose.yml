@@ -54,6 +54,15 @@ services:
     build: ./database/mongo
     depends_on:
       - mongodb
+    # volumes:
+    #   - ./main.py:/main.py 
+    #   - .flight_inventory/flight_inventory.json:/app/flight_inventory/flight_inventory.json
+    # command: wait-for-it.sh mongodb:27017 --strict --timeout=30 -- python /main.py 
+
+  # mongo-seed:
+  #   build: ./database/mongo
+  #   depends_on:
+  #     - mongodb
 
   sql_db:  
     container_name: sql_db
