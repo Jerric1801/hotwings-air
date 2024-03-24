@@ -19,20 +19,20 @@ def seed_flight_inventory():
     except:
         print("Failed to connect to mongodb") 
 
+    if Flight.objects.count() == 0:  
+        with open('app/data/flight_inventory.json') as f:
+            flights_data = json.load(f)
 
-    with open('app/data/flight_inventory.json') as f:
-        flights_data = json.load(f)
+        for data in flights_data:
+            data['departure'] = datetime.datetime.strptime(data['departure'],  '%Y-%m-%dT%H:%M:%S.%f')
+            data['arrival'] = datetime.datetime.strptime(data['arrival'], '%Y-%m-%dT%H:%M:%S.%f')
+            # 1. Create and Save Seating Plan
+            seating_plan_data = data['aircraft'].pop('seating_plan', None)  # Extract and remove 
+            if seating_plan_data:
+                seating_plan = Seating_Plan(**seating_plan_data)
+                seating_plan.save()
+                data['aircraft']['seating_plan_id'] = seating_plan.id
 
-    for data in flights_data:
-        data['departure'] = datetime.datetime.strptime(data['departure'],  '%Y-%m-%dT%H:%M:%S.%f')
-        data['arrival'] = datetime.datetime.strptime(data['arrival'], '%Y-%m-%dT%H:%M:%S.%f')
-        # 1. Create and Save Seating Plan
-        seating_plan_data = data['aircraft'].pop('seating_plan', None)  # Extract and remove 
-        if seating_plan_data:
-            seating_plan = Seating_Plan(**seating_plan_data)
-            seating_plan.save()
-            data['aircraft']['seating_plan_id'] = seating_plan.id
-
-        # 2. Create and Save Flight
-        new_flight = Flight(**data)
-        new_flight.save()
+            # 2. Create and Save Flight
+            new_flight = Flight(**data)
+            new_flight.save()
