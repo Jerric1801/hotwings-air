@@ -10,9 +10,10 @@ app.config.from_object('config')
 
 
 try: 
-    client = MongoClient('mongodb', port=27017)
+    client = MongoClient('mongodb://root:example@host.docker.internal:27017/flight_inventory')
+    # client = MongoClient('mongodb', port=27017)
     db = client['flight_inventory'] 
-    connect(db='flight_inventory', host='mongodb', port=27017) 
+    # connect(db='flight_inventory', host='mongodb', port=27017, username='root', password='example', authentication_source='admin')  
 
 except:
     print("Failed to connect to mongodb") 

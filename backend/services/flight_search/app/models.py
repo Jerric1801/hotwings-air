@@ -1,12 +1,12 @@
 class FlightSearch:
-    def __init__(self, origin, destination, startdate, enddate, pax, flight_class, trip_type):
-        self.origin = origin
-        self.destination = destination
-        self.startdate = startdate
-        self.enddate = enddate
-        self.pax = pax
-        self.flight_class = flight_class
-        self.trip_type = trip_type
+    def __init__(self, **kwargs):
+        self.origin = kwargs.get("origin")
+        self.destination = kwargs.get("destination")
+        self.startdate = kwargs.get("departureDate")
+        self.enddate = kwargs.get("returnDate")
+        self.pax = kwargs.get("pax")
+        self.flight_class = kwargs.get("seatClass")
+        self.trip_type = kwargs.get("tripType")
 
     def get_search_params(self, return_flight = False):
         if return_flight:

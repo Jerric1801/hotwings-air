@@ -12,14 +12,31 @@ def seed_flight_inventory():
     CORS(app)
 
     try: 
-        client = MongoClient('mongodb', port=27017)
+
+        client = MongoClient('mongodb://root:example@host.docker.internal:27017/admin')
+
+        # db = client['flight_inventory'] 
+    
+        try:
+            client.flight_inventory.command(
+                'createUser', 'root', 
+                pwd='example',
+                roles=[{'role': 'readWrite', 'db': 'flight_inventory'}]
+            )
+        except Exception as e:
+            print("User Already Exists") 
+
+
+        client = MongoClient('mongodb://root:example@host.docker.internal:27017/flight_inventory')
+
         db = client['flight_inventory'] 
+
         connect(db='flight_inventory', host='mongodb', port=27017, username='root', password='example', authentication_source='admin') 
+        
+    except Exception as e:
+        print("Failed to connect to mongodb", e) 
 
-    except:
-        print("Failed to connect to mongodb") 
-
-    if Flight.objects.count() == 0:  
+    if db.flight.count_documents({}) == 0: 
         with open('app/data/flight_inventory.json') as f:
             flights_data = json.load(f)
 

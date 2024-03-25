@@ -1,0 +1,940 @@
+{
+    "flights": [
+        {
+            "flight_number": "HW916",
+            "origin": "Singapore",
+            "destination": "Tokyo",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW390",
+            "origin": "Singapore",
+            "destination": "Bangkok",
+            "model": "Airbus A350"
+        },
+        {
+            "flight_number": "HW122",
+            "origin": "Singapore",
+            "destination": "Sydney",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW946",
+            "origin": "Singapore",
+            "destination": "Hong Kong",
+            "model": "Boeing 777"
+        },
+        {
+            "flight_number": "HW841",
+            "origin": "Singapore",
+            "destination": "London",
+            "model": "Airbus A380"
+        },
+        {
+            "flight_number": "HW713",
+            "origin": "Singapore",
+            "destination": "New York",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW878",
+            "origin": "Singapore",
+            "destination": "Kuala Lumpur",
+            "model": "Airbus A350"
+        },
+        {
+            "flight_number": "HW674",
+            "origin": "Singapore",
+            "destination": "Jakarta",
+            "model": "Airbus A350"
+        },
+        {
+            "flight_number": "HW611",
+            "origin": "Singapore",
+            "destination": "Manila",
+            "model": "Airbus A380"
+        },
+        {
+            "flight_number": "HW865",
+            "origin": "Singapore",
+            "destination": "Dubai",
+            "model": "Airbus A350"
+        },
+        {
+            "flight_number": "HW833",
+            "origin": "Singapore",
+            "destination": "Paris",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW888",
+            "origin": "Singapore",
+            "destination": "Los Angeles",
+            "model": "Boeing 737"
+        },
+        {
+            "flight_number": "HW733",
+            "origin": "Tokyo",
+            "destination": "Singapore",
+            "model": "Airbus A350"
+        },
+        {
+            "flight_number": "HW729",
+            "origin": "Tokyo",
+            "destination": "Bangkok",
+            "model": "Boeing 737"
+        },
+        {
+            "flight_number": "HW595",
+            "origin": "Tokyo",
+            "destination": "Sydney",
+            "model": "Airbus A320"
+        },
+        {
+            "flight_number": "HW574",
+            "origin": "Tokyo",
+            "destination": "Hong Kong",
+            "model": "Boeing 777"
+        },
+        {
+            "flight_number": "HW242",
+            "origin": "Tokyo",
+            "destination": "London",
+            "model": "Airbus A350"
+        },
+        {
+            "flight_number": "HW589",
+            "origin": "Tokyo",
+            "destination": "New York",
+            "model": "Airbus A350"
+        },
+        {
+            "flight_number": "HW420",
+            "origin": "Tokyo",
+            "destination": "Kuala Lumpur",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW454",
+            "origin": "Tokyo",
+            "destination": "Jakarta",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW181",
+            "origin": "Tokyo",
+            "destination": "Manila",
+            "model": "Airbus A320"
+        },
+        {
+            "flight_number": "HW842",
+            "origin": "Tokyo",
+            "destination": "Dubai",
+            "model": "Boeing 737"
+        },
+        {
+            "flight_number": "HW210",
+            "origin": "Tokyo",
+            "destination": "Paris",
+            "model": "Boeing 777"
+        },
+        {
+            "flight_number": "HW631",
+            "origin": "Tokyo",
+            "destination": "Los Angeles",
+            "model": "Airbus A320"
+        },
+        {
+            "flight_number": "HW669",
+            "origin": "Bangkok",
+            "destination": "Singapore",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW601",
+            "origin": "Bangkok",
+            "destination": "Tokyo",
+            "model": "Boeing 777"
+        },
+        {
+            "flight_number": "HW358",
+            "origin": "Bangkok",
+            "destination": "Sydney",
+            "model": "Airbus A380"
+        },
+        {
+            "flight_number": "HW197",
+            "origin": "Bangkok",
+            "destination": "Hong Kong",
+            "model": "Airbus A320"
+        },
+        {
+            "flight_number": "HW983",
+            "origin": "Bangkok",
+            "destination": "London",
+            "model": "Airbus A350"
+        },
+        {
+            "flight_number": "HW763",
+            "origin": "Bangkok",
+            "destination": "New York",
+            "model": "Boeing 777"
+        },
+        {
+            "flight_number": "HW745",
+            "origin": "Bangkok",
+            "destination": "Kuala Lumpur",
+            "model": "Boeing 737"
+        },
+        {
+            "flight_number": "HW850",
+            "origin": "Bangkok",
+            "destination": "Jakarta",
+            "model": "Boeing 737"
+        },
+        {
+            "flight_number": "HW516",
+            "origin": "Bangkok",
+            "destination": "Manila",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW515",
+            "origin": "Bangkok",
+            "destination": "Dubai",
+            "model": "Airbus A350"
+        },
+        {
+            "flight_number": "HW922",
+            "origin": "Bangkok",
+            "destination": "Paris",
+            "model": "Boeing 777"
+        },
+        {
+            "flight_number": "HW327",
+            "origin": "Bangkok",
+            "destination": "Los Angeles",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW768",
+            "origin": "Sydney",
+            "destination": "Singapore",
+            "model": "Boeing 737"
+        },
+        {
+            "flight_number": "HW292",
+            "origin": "Sydney",
+            "destination": "Tokyo",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW598",
+            "origin": "Sydney",
+            "destination": "Bangkok",
+            "model": "Airbus A320"
+        },
+        {
+            "flight_number": "HW446",
+            "origin": "Sydney",
+            "destination": "Hong Kong",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW592",
+            "origin": "Sydney",
+            "destination": "London",
+            "model": "Airbus A320"
+        },
+        {
+            "flight_number": "HW560",
+            "origin": "Sydney",
+            "destination": "New York",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW401",
+            "origin": "Sydney",
+            "destination": "Kuala Lumpur",
+            "model": "Boeing 737"
+        },
+        {
+            "flight_number": "HW409",
+            "origin": "Sydney",
+            "destination": "Jakarta",
+            "model": "Boeing 777"
+        },
+        {
+            "flight_number": "HW996",
+            "origin": "Sydney",
+            "destination": "Manila",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW948",
+            "origin": "Sydney",
+            "destination": "Dubai",
+            "model": "Boeing 777"
+        },
+        {
+            "flight_number": "HW369",
+            "origin": "Sydney",
+            "destination": "Paris",
+            "model": "Airbus A320"
+        },
+        {
+            "flight_number": "HW615",
+            "origin": "Sydney",
+            "destination": "Los Angeles",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW257",
+            "origin": "Hong Kong",
+            "destination": "Singapore",
+            "model": "Airbus A320"
+        },
+        {
+            "flight_number": "HW872",
+            "origin": "Hong Kong",
+            "destination": "Tokyo",
+            "model": "Airbus A380"
+        },
+        {
+            "flight_number": "HW749",
+            "origin": "Hong Kong",
+            "destination": "Bangkok",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW800",
+            "origin": "Hong Kong",
+            "destination": "Sydney",
+            "model": "Airbus A380"
+        },
+        {
+            "flight_number": "HW352",
+            "origin": "Hong Kong",
+            "destination": "London",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW742",
+            "origin": "Hong Kong",
+            "destination": "New York",
+            "model": "Airbus A350"
+        },
+        {
+            "flight_number": "HW829",
+            "origin": "Hong Kong",
+            "destination": "Kuala Lumpur",
+            "model": "Boeing 777"
+        },
+        {
+            "flight_number": "HW356",
+            "origin": "Hong Kong",
+            "destination": "Jakarta",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW254",
+            "origin": "Hong Kong",
+            "destination": "Manila",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW303",
+            "origin": "Hong Kong",
+            "destination": "Dubai",
+            "model": "Boeing 777"
+        },
+        {
+            "flight_number": "HW721",
+            "origin": "Hong Kong",
+            "destination": "Paris",
+            "model": "Airbus A320"
+        },
+        {
+            "flight_number": "HW679",
+            "origin": "Hong Kong",
+            "destination": "Los Angeles",
+            "model": "Boeing 777"
+        },
+        {
+            "flight_number": "HW279",
+            "origin": "London",
+            "destination": "Singapore",
+            "model": "Airbus A320"
+        },
+        {
+            "flight_number": "HW740",
+            "origin": "London",
+            "destination": "Tokyo",
+            "model": "Airbus A380"
+        },
+        {
+            "flight_number": "HW398",
+            "origin": "London",
+            "destination": "Bangkok",
+            "model": "Airbus A380"
+        },
+        {
+            "flight_number": "HW314",
+            "origin": "London",
+            "destination": "Sydney",
+            "model": "Airbus A350"
+        },
+        {
+            "flight_number": "HW331",
+            "origin": "London",
+            "destination": "Hong Kong",
+            "model": "Airbus A320"
+        },
+        {
+            "flight_number": "HW994",
+            "origin": "London",
+            "destination": "New York",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW337",
+            "origin": "London",
+            "destination": "Kuala Lumpur",
+            "model": "Airbus A320"
+        },
+        {
+            "flight_number": "HW377",
+            "origin": "London",
+            "destination": "Jakarta",
+            "model": "Boeing 737"
+        },
+        {
+            "flight_number": "HW306",
+            "origin": "London",
+            "destination": "Manila",
+            "model": "Airbus A350"
+        },
+        {
+            "flight_number": "HW250",
+            "origin": "London",
+            "destination": "Dubai",
+            "model": "Airbus A350"
+        },
+        {
+            "flight_number": "HW779",
+            "origin": "London",
+            "destination": "Paris",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW542",
+            "origin": "London",
+            "destination": "Los Angeles",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW391",
+            "origin": "New York",
+            "destination": "Singapore",
+            "model": "Boeing 737"
+        },
+        {
+            "flight_number": "HW495",
+            "origin": "New York",
+            "destination": "Tokyo",
+            "model": "Airbus A320"
+        },
+        {
+            "flight_number": "HW422",
+            "origin": "New York",
+            "destination": "Bangkok",
+            "model": "Airbus A320"
+        },
+        {
+            "flight_number": "HW774",
+            "origin": "New York",
+            "destination": "Sydney",
+            "model": "Airbus A380"
+        },
+        {
+            "flight_number": "HW384",
+            "origin": "New York",
+            "destination": "Hong Kong",
+            "model": "Airbus A350"
+        },
+        {
+            "flight_number": "HW147",
+            "origin": "New York",
+            "destination": "London",
+            "model": "Boeing 777"
+        },
+        {
+            "flight_number": "HW546",
+            "origin": "New York",
+            "destination": "Kuala Lumpur",
+            "model": "Boeing 777"
+        },
+        {
+            "flight_number": "HW474",
+            "origin": "New York",
+            "destination": "Jakarta",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW232",
+            "origin": "New York",
+            "destination": "Manila",
+            "model": "Airbus A350"
+        },
+        {
+            "flight_number": "HW693",
+            "origin": "New York",
+            "destination": "Dubai",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW642",
+            "origin": "New York",
+            "destination": "Paris",
+            "model": "Boeing 777"
+        },
+        {
+            "flight_number": "HW830",
+            "origin": "New York",
+            "destination": "Los Angeles",
+            "model": "Airbus A320"
+        },
+        {
+            "flight_number": "HW626",
+            "origin": "Kuala Lumpur",
+            "destination": "Singapore",
+            "model": "Airbus A380"
+        },
+        {
+            "flight_number": "HW346",
+            "origin": "Kuala Lumpur",
+            "destination": "Tokyo",
+            "model": "Airbus A320"
+        },
+        {
+            "flight_number": "HW646",
+            "origin": "Kuala Lumpur",
+            "destination": "Bangkok",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW362",
+            "origin": "Kuala Lumpur",
+            "destination": "Sydney",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW614",
+            "origin": "Kuala Lumpur",
+            "destination": "Hong Kong",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW997",
+            "origin": "Kuala Lumpur",
+            "destination": "London",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW470",
+            "origin": "Kuala Lumpur",
+            "destination": "New York",
+            "model": "Airbus A320"
+        },
+        {
+            "flight_number": "HW955",
+            "origin": "Kuala Lumpur",
+            "destination": "Jakarta",
+            "model": "Boeing 777"
+        },
+        {
+            "flight_number": "HW773",
+            "origin": "Kuala Lumpur",
+            "destination": "Manila",
+            "model": "Airbus A350"
+        },
+        {
+            "flight_number": "HW436",
+            "origin": "Kuala Lumpur",
+            "destination": "Dubai",
+            "model": "Boeing 737"
+        },
+        {
+            "flight_number": "HW123",
+            "origin": "Kuala Lumpur",
+            "destination": "Paris",
+            "model": "Boeing 777"
+        },
+        {
+            "flight_number": "HW239",
+            "origin": "Kuala Lumpur",
+            "destination": "Los Angeles",
+            "model": "Airbus A380"
+        },
+        {
+            "flight_number": "HW222",
+            "origin": "Jakarta",
+            "destination": "Singapore",
+            "model": "Boeing 777"
+        },
+        {
+            "flight_number": "HW330",
+            "origin": "Jakarta",
+            "destination": "Tokyo",
+            "model": "Airbus A320"
+        },
+        {
+            "flight_number": "HW698",
+            "origin": "Jakarta",
+            "destination": "Bangkok",
+            "model": "Airbus A380"
+        },
+        {
+            "flight_number": "HW672",
+            "origin": "Jakarta",
+            "destination": "Sydney",
+            "model": "Airbus A320"
+        },
+        {
+            "flight_number": "HW790",
+            "origin": "Jakarta",
+            "destination": "Hong Kong",
+            "model": "Airbus A380"
+        },
+        {
+            "flight_number": "HW610",
+            "origin": "Jakarta",
+            "destination": "London",
+            "model": "Airbus A350"
+        },
+        {
+            "flight_number": "HW968",
+            "origin": "Jakarta",
+            "destination": "New York",
+            "model": "Boeing 777"
+        },
+        {
+            "flight_number": "HW429",
+            "origin": "Jakarta",
+            "destination": "Kuala Lumpur",
+            "model": "Airbus A320"
+        },
+        {
+            "flight_number": "HW333",
+            "origin": "Jakarta",
+            "destination": "Manila",
+            "model": "Airbus A320"
+        },
+        {
+            "flight_number": "HW797",
+            "origin": "Jakarta",
+            "destination": "Dubai",
+            "model": "Airbus A380"
+        },
+        {
+            "flight_number": "HW896",
+            "origin": "Jakarta",
+            "destination": "Paris",
+            "model": "Boeing 777"
+        },
+        {
+            "flight_number": "HW838",
+            "origin": "Jakarta",
+            "destination": "Los Angeles",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW537",
+            "origin": "Manila",
+            "destination": "Singapore",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW359",
+            "origin": "Manila",
+            "destination": "Tokyo",
+            "model": "Boeing 777"
+        },
+        {
+            "flight_number": "HW478",
+            "origin": "Manila",
+            "destination": "Bangkok",
+            "model": "Airbus A350"
+        },
+        {
+            "flight_number": "HW295",
+            "origin": "Manila",
+            "destination": "Sydney",
+            "model": "Airbus A320"
+        },
+        {
+            "flight_number": "HW607",
+            "origin": "Manila",
+            "destination": "Hong Kong",
+            "model": "Boeing 737"
+        },
+        {
+            "flight_number": "HW266",
+            "origin": "Manila",
+            "destination": "London",
+            "model": "Airbus A350"
+        },
+        {
+            "flight_number": "HW259",
+            "origin": "Manila",
+            "destination": "New York",
+            "model": "Airbus A380"
+        },
+        {
+            "flight_number": "HW588",
+            "origin": "Manila",
+            "destination": "Kuala Lumpur",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW244",
+            "origin": "Manila",
+            "destination": "Jakarta",
+            "model": "Airbus A350"
+        },
+        {
+            "flight_number": "HW756",
+            "origin": "Manila",
+            "destination": "Dubai",
+            "model": "Airbus A380"
+        },
+        {
+            "flight_number": "HW203",
+            "origin": "Manila",
+            "destination": "Paris",
+            "model": "Airbus A380"
+        },
+        {
+            "flight_number": "HW754",
+            "origin": "Manila",
+            "destination": "Los Angeles",
+            "model": "Boeing 737"
+        },
+        {
+            "flight_number": "HW184",
+            "origin": "Dubai",
+            "destination": "Singapore",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW937",
+            "origin": "Dubai",
+            "destination": "Tokyo",
+            "model": "Airbus A380"
+        },
+        {
+            "flight_number": "HW904",
+            "origin": "Dubai",
+            "destination": "Bangkok",
+            "model": "Airbus A320"
+        },
+        {
+            "flight_number": "HW929",
+            "origin": "Dubai",
+            "destination": "Sydney",
+            "model": "Airbus A320"
+        },
+        {
+            "flight_number": "HW117",
+            "origin": "Dubai",
+            "destination": "Hong Kong",
+            "model": "Airbus A380"
+        },
+        {
+            "flight_number": "HW682",
+            "origin": "Dubai",
+            "destination": "London",
+            "model": "Airbus A320"
+        },
+        {
+            "flight_number": "HW858",
+            "origin": "Dubai",
+            "destination": "New York",
+            "model": "Airbus A320"
+        },
+        {
+            "flight_number": "HW452",
+            "origin": "Dubai",
+            "destination": "Kuala Lumpur",
+            "model": "Boeing 777"
+        },
+        {
+            "flight_number": "HW624",
+            "origin": "Dubai",
+            "destination": "Jakarta",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW293",
+            "origin": "Dubai",
+            "destination": "Manila",
+            "model": "Airbus A320"
+        },
+        {
+            "flight_number": "HW225",
+            "origin": "Dubai",
+            "destination": "Paris",
+            "model": "Airbus A380"
+        },
+        {
+            "flight_number": "HW144",
+            "origin": "Dubai",
+            "destination": "Los Angeles",
+            "model": "Boeing 737"
+        },
+        {
+            "flight_number": "HW373",
+            "origin": "Paris",
+            "destination": "Singapore",
+            "model": "Airbus A380"
+        },
+        {
+            "flight_number": "HW664",
+            "origin": "Paris",
+            "destination": "Tokyo",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW481",
+            "origin": "Paris",
+            "destination": "Bangkok",
+            "model": "Airbus A350"
+        },
+        {
+            "flight_number": "HW726",
+            "origin": "Paris",
+            "destination": "Sydney",
+            "model": "Boeing 777"
+        },
+        {
+            "flight_number": "HW758",
+            "origin": "Paris",
+            "destination": "Hong Kong",
+            "model": "Boeing 737"
+        },
+        {
+            "flight_number": "HW518",
+            "origin": "Paris",
+            "destination": "London",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW402",
+            "origin": "Paris",
+            "destination": "New York",
+            "model": "Airbus A350"
+        },
+        {
+            "flight_number": "HW597",
+            "origin": "Paris",
+            "destination": "Kuala Lumpur",
+            "model": "Boeing 777"
+        },
+        {
+            "flight_number": "HW441",
+            "origin": "Paris",
+            "destination": "Jakarta",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW284",
+            "origin": "Paris",
+            "destination": "Manila",
+            "model": "Airbus A380"
+        },
+        {
+            "flight_number": "HW317",
+            "origin": "Paris",
+            "destination": "Dubai",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW707",
+            "origin": "Paris",
+            "destination": "Los Angeles",
+            "model": "Boeing 737"
+        },
+        {
+            "flight_number": "HW473",
+            "origin": "Los Angeles",
+            "destination": "Singapore",
+            "model": "Airbus A380"
+        },
+        {
+            "flight_number": "HW348",
+            "origin": "Los Angeles",
+            "destination": "Tokyo",
+            "model": "Boeing 777"
+        },
+        {
+            "flight_number": "HW979",
+            "origin": "Los Angeles",
+            "destination": "Bangkok",
+            "model": "Boeing 737"
+        },
+        {
+            "flight_number": "HW688",
+            "origin": "Los Angeles",
+            "destination": "Sydney",
+            "model": "Airbus A380"
+        },
+        {
+            "flight_number": "HW313",
+            "origin": "Los Angeles",
+            "destination": "Hong Kong",
+            "model": "Airbus A350"
+        },
+        {
+            "flight_number": "HW146",
+            "origin": "Los Angeles",
+            "destination": "London",
+            "model": "Airbus A380"
+        },
+        {
+            "flight_number": "HW455",
+            "origin": "Los Angeles",
+            "destination": "New York",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW462",
+            "origin": "Los Angeles",
+            "destination": "Kuala Lumpur",
+            "model": "Boeing 787"
+        },
+        {
+            "flight_number": "HW288",
+            "origin": "Los Angeles",
+            "destination": "Jakarta",
+            "model": "Airbus A380"
+        },
+        {
+            "flight_number": "HW992",
+            "origin": "Los Angeles",
+            "destination": "Manila",
+            "model": "Airbus A350"
+        },
+        {
+            "flight_number": "HW999",
+            "origin": "Los Angeles",
+            "destination": "Dubai",
+            "model": "Airbus A380"
+        },
+        {
+            "flight_number": "HW586",
+            "origin": "Los Angeles",
+            "destination": "Paris",
+            "model": "Airbus A320"
+        }
+    ]
+}

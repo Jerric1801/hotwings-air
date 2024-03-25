@@ -13,15 +13,8 @@ def search_flights():
     try:
         if request.method == "POST":
             data = request.get_json() 
-            origin = data.get("origin")
-            destination = data.get("destination")
-            startdate = data.get("departureDate")
-            enddate = data.get("returnDate")
-            pax = data.get("pax")
-            flight_class = data.get("seatClass")
-            trip_type = data.get("tripType")
-
-            searchInstance = FlightSearch(origin, destination, startdate, enddate, pax, flight_class, trip_type)
+            searchInstance = FlightSearch(**data)
+            
             if searchInstance.trip_type == "oneway":
                 payload = searchInstance.get_search_params()
                 depart_option = call_flight_inventory(payload)

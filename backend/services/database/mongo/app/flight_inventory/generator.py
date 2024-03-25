@@ -37,17 +37,24 @@ aircraft_data = {
 
 
 def create_flights():
-
+    taken = []
     flights = {}
     flights_list = []
     for location in locations:
         for location2 in locations:
             flight = {}
             if location != location2:
-                flight["flight_number"] = str(flight_type + str(random.randint(100, 999)))
+                flight_num = ""
+
+                while flight_num in taken or flight_num == "":
+                    flight_num = str(flight_type + str(random.randint(100, 999)))
+
+                flight["flight_number"] = flight_num
+
                 flight["origin"] = location
                 flight["destination"] = location2
                 flight["model"] = random.choice(list(aircraft_data.keys()))
+                taken.append(flight_num)
                 flights_list.append(flight)
 
     flights["flights"] = flights_list
@@ -119,7 +126,7 @@ def seed_flight(no_flights):
         model = flight["model"]
 
         # Generate departure and arrival times
-        departure_time = datetime.now() + timedelta(days=random.randint(1, 28))  # Within the next 2 weeks
+        departure_time = datetime.now() + timedelta(days=random.randint(1, 40))  # Within the next 40 days
         duration = timedelta(hours=random.randint(1, 12)) # 1-12 hour range 
         arrival_time = departure_time + duration
 
@@ -157,8 +164,8 @@ async def add_flight(flight_data):
         print(f"Error adding flight: {e}")
         return None  # Or handle the error differently
 
-async def main():  # Example of how to use it
-    flights = seed_flight(200)
+async def main(reps = 1000):  # Example of how to use it
+    flights = seed_flight(reps)
     # for flight in flights:
     #     result = await add_flight(flight)
     #     if result and result.status_code == 201:
@@ -169,8 +176,8 @@ async def main():  # Example of how to use it
     return flights
 
 if __name__ == "__main__":
-     
-    flight_data =asyncio.run(main())
+    reps = 1000
+    flight_data =asyncio.run(main(reps))
     with open('../data/flight_inventory.json', 'w') as outfile:
         json.dump(flight_data, outfile, indent=4)  # Indent for readability
 

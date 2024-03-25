@@ -11,16 +11,7 @@ import fetchData from '../utils/apiUtils';
 function FlightSearchForm() {
 
     const flightDataOptions = {
-        origins: [
-            { value: "Singapore", label: "Singapore (SIN)" },
-            { value: "Tokyo", label: "Tokyo (TYO)" },
-            { value: "Bangkok", label: "Bangkok (BKK)" },
-            { value: "Sydney", label: "Sydney (SYD)" },
-            { value: "Hong Kong", label: "Hong Kong (HKG)" },
-            { value: "London", label: "London (LHR)" },
-            { value: "New York", label: "New York (JFK)" },
-        ],
-        destinations: [
+        locations: [
             { value: "Singapore", label: "Singapore (SIN)" },
             { value: "Kuala Lumpur", label: "Kuala Lumpur (KUL)" },
             { value: "Jakarta", label: "Jakarta (JKT)" },
@@ -28,6 +19,12 @@ function FlightSearchForm() {
             { value: "Dubai", label: "Dubai (DXB)" },
             { value: "Paris", label: "Paris (CDG)" },
             { value: "Los Angeles", label: "Los Angeles (LAX)" },
+            { value: "Tokyo", label: "Tokyo (TYO)" },
+            { value: "Bangkok", label: "Bangkok (BKK)" },
+            { value: "Sydney", label: "Sydney (SYD)" },
+            { value: "Hong Kong", label: "Hong Kong (HKG)" },
+            { value: "London", label: "London (LHR)" },
+            { value: "New York", label: "New York (JFK)" },
         ],
         pax: [
             { value: 1, label: "1" },
@@ -110,7 +107,7 @@ function FlightSearchForm() {
             <form onSubmit={fetchFlights}>
                 <div className="flight-search-inputs">
                     <div className="flight-search-input">
-                        <Select options={flightDataOptions.origins}
+                        <Select options={flightDataOptions.locations}
                             className="origin custom-input"
                             isDisabled={isDisabled}
                             isLoading={isLoading}
@@ -122,7 +119,7 @@ function FlightSearchForm() {
                             value = {origin}
                             onChange = {setOrigin} />
                         <img src={arrow}></img>
-                        <Select options={flightDataOptions.destinations}
+                        <Select options={flightDataOptions.locations}
                             className="destination custom-input"
                             isDisabled={isDisabled}
                             isLoading={isLoading}

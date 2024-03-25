@@ -36,7 +36,9 @@ def search_flights():
                 }
             }
 
-            flight_results = db.flight.find(query).limit(5)
+            print(db['flight'])
+            print(db['flight'].find())
+            flight_results = db['flight'].find(query).limit(5)
 
             possible_flights = []
 
