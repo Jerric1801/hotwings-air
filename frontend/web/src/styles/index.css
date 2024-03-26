@@ -3,13 +3,13 @@
    ========================================================================== */
 
 :root {
-    --white: #FFFFFF;
-    --owhite: rgba(255, 255, 255, 0.5);
-    --black: #232323;
-    --red: #92020C;
-    --yellow: #FDAA03;
-    --grey: #EBEBEB;
-    --beige: #FAF6ED;
+  --white: #FFFFFF;
+  --owhite: rgba(255, 255, 255, 0.5);
+  --black: #232323;
+  --red: #92020C;
+  --yellow: #FDAA03;
+  --grey: #EBEBEB;
+  --beige: #FAF6ED;
 }
 
 /* ==========================================================================
@@ -17,14 +17,14 @@
    ========================================================================== */
 
 @font-face {
-    font-family: antique;
-    src: url(../assets/fonts/antiquestories.otf);
+  font-family: antique;
+  src: url(../assets/fonts/antiquestories.otf);
 }
 
 
 @font-face {
-    font-family: avenir-next;
-    src: url(../assets/fonts/Metropolis-Regular.otf);
+  font-family: avenir-next;
+  src: url(../assets/fonts/Metropolis-Regular.otf);
 }
 
 /* ==========================================================================
@@ -32,50 +32,63 @@
    ========================================================================== */
 
 
-html, body {
-    margin: 0;
-    padding: 0;
-    font-family: avenir-next;
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: avenir-next;
 }
 
 h1 {
-    font-family: antique;
+  margin: 0;
+  padding: 0;
+  font-family: antique;
 }
 
 h2 {
-    font-family: avenir-next;
+  margin: 0;
+  padding: 0;
+  font-family: avenir-next;
 }
 
 p {
-    font-family: avenir-next;
+  margin: 0;
+  padding: 0;
+  font-family: avenir-next;
 }
 
 li {
-    font-family: avenir-next;
+  font-family: avenir-next;
 }
 
 a {
-    text-decoration: none;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
 }
 
 a:visited {
-    color: var(--black);
-    text-decoration: none;
+  color: var(--black);
+  text-decoration: none;
+}
+
+button {
+  font-family: avenir-next;
 }
 
 form {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 #root {
-    margin: 0;
-    padding:0;
-    overflow-x:hidden;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
 /* ==========================================================================
@@ -84,105 +97,105 @@ form {
 
 /* Flight Search Form */
 .flight-search-container {
-    width: 45vw;
-    height: 60vh;
-    background-color: var(--owhite);
+  width: 45vw;
+  height: 60vh;
+  background-color: var(--owhite);
 }
 
-.flight-search-container img{
-    width: 5%;
-    margin:0;
-    padding:0;
+.flight-search-container img {
+  width: 5%;
+  margin: 0;
+  padding: 0;
 }
 
 .flight-search-container .custom-input {
-    margin:0;
-    padding:0;
-    width: 35%;
-    height: 55%;
-    /* border: 0.5px solid var(--black); */
-    background-color: var(--owhite);
+  margin: 0;
+  padding: 0;
+  width: 35%;
+  height: 55%;
+  /* border: 0.5px solid var(--black); */
+  background-color: var(--owhite);
 }
 
-.flight-search-container .custom-input > div:nth-child(3) {
-    width:100%;
-    height:100%;
+.flight-search-container .custom-input>div:nth-child(3) {
+  width: 100%;
+  height: 100%;
 }
 
 
-.flight-search-container input[type = "radio"] {
-    color: var(--red);
+.flight-search-container input[type="radio"] {
+  color: var(--red);
 }
 
-.flight-search-container input[type = "submit"] {
-    background-color: var(--red);
-    color: var(--white);
-    width: 40%;
-    height: 35%;
-    border: none;
-    font-size:1.1em ;
+.flight-search-container input[type="submit"] {
+  background-color: var(--red);
+  color: var(--white);
+  width: 40%;
+  height: 35%;
+  border: none;
+  font-size: 1.1em;
 }
 
-.flight-search-container input[type = "submit"]:hover {
-    cursor: pointer;
+.flight-search-container input[type="submit"]:hover {
+  cursor: pointer;
 }
 
-.flight-search-container h2{
-    margin-left: 15px;
+.flight-search-container h2 {
+  margin-left: 15px;
 }
 
 .flight-search-header {
-    width: 100%;
-    height: 10%;
-    background-color: var(--red);
-    color: var(--white);
-    display:flex;
-    align-items: center;
-    justify-content: flex-start;
+  width: 100%;
+  height: 10%;
+  background-color: var(--red);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .flight-search-inputs {
-    width: 95%;
-    height: 60%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    margin-bottom: 5vh;
+  width: 95%;
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 5vh;
 }
 
 .flight-search-input {
-    width: 100%;
-    height: 33%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 15%;
+  width: 100%;
+  height: 33%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 15%;
 }
 
-.flight-search-input:first-child{
-    gap: 5%;
+.flight-search-input:first-child {
+  gap: 5%;
 }
 
 .flight-search-submit {
-    width: 80%;
-    height: 30%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
+  width: 80%;
+  height: 30%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
 
 .flight-search-radio {
-    width: 40%;
-    height: 30%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 20%;
+  width: 40%;
+  height: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 20%;
 }
 
 
@@ -191,41 +204,43 @@ form {
    ========================================================================== */
 
 nav {
-    width: 100vw;
-    height: 10vh;
-    position: absolute;
-    margin:0;
-    padding: 0;
-    display: flex;
-    flex-direction: center;
-    align-items: center;
-    overflow:hidden;
+  width: 100vw;
+  height: 10vh;
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: center;
+  align-items: center;
+  overflow: hidden;
 }
 
 nav ul {
-    list-style: none;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 5vw;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5vw;
 }
 
 nav ul li {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 img {
-    width: 12.5%;
-    margin-left: 5vw;
+  width: 12.5%;
+  margin-left: 5vw;
 }
 
 nav ul:first-child {
-    margin-left: 15vw;;
+  margin-left: 15vw;
+  ;
 }
 
 nav ul:last-child {
-    margin-left: 30vw;;
+  margin-left: 30vw;
+  ;
 }
 
 /* ==========================================================================
@@ -233,28 +248,484 @@ nav ul:last-child {
    ========================================================================== */
 
 .home-page {
-    width: 100vw;
-    height: 100vh;
-    margin:0;
-    padding: 0;
-    overflow: hidden;
-    background-image: url('../assets/images/home/hotwings-bg.png');
-    background-size: cover; 
-    background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding-left: 10vw;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-image: url('../assets/images/home/temp.webp');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 10vw;
+  background-color: #FFFFFF;
 }
 
-/* Sign Up Page */
-.sign-up-page {
-    width: 100vw;
-    height: 100vh;
+/* ==========================================================================
+    Selection page
+   ========================================================================== */
+
+.selection-page {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  /* background-image: url('../assets/images/home/home_background.webp'); */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background-color: var(--beige);
 }
 
-/* Login Page */
-.login-page {
-    width: 100vw;
-    height: 100vh;
+.selection-flight-options {
+  height: 90vh;
+  width: 100vw;
+  background-color: white;
+  display: block;
+  overflow: scroll;
+  text-align: left;
+  background-color: var(--beige);
+}
+
+.selection-flight-options > h2 {
+  margin-top: 10vh;
+  margin-left: 10vw;
+}
+
+
+.flight-option {
+  width: 80%;
+  height: 30vh;
+  background-color: var(--owhite);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 20px;
+  margin-left: 10vw;
+  margin-top: 5vh;
+  margin-bottom: 5vh;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+
+.flight-option-details {
+  width: 20%;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.flight-option-timeline {
+  width: 35%;
+  height: 80%;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+
+}
+
+.timeline {
+  width: 90%;
+  height: 20%;
+  background-color: transparent;
+  border-bottom: 2px solid black;
+  text-align: center;
+}
+
+.timeline h2 {
+  margin: 0px;
+}
+
+.flight-option-book {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.flight-option-class {
+  width: 100%;
+  height: 35%;
+}
+
+.flight-option-class button {
+  width: 100%;
+  height: 100%;
+  background-color: var(--red);
+  color: var(--white);
+  border: 1px solid;
+  border-top-right-radius: 20px;
+  font-size: 1.1em;
+}
+
+.flight-option-class button:hover {
+  cursor: pointer;
+}
+
+.flight-option-price {
+  height: 65%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ==========================================================================
+    Passenger Details
+   ========================================================================== */
+.Passenger_details .title {
+  width: 90vw;
+  height: 70vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  /* background-image: url('../assets/images/home/home_background.webp'); */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 10vw;
+  background-color: #FFFFFF;
+}
+
+.firstname {
+  opacity: 0.5;
+  height: 10vh;
+  width: 30vw;
+  margin-top: -380px;
+}
+
+.firstname input[type="text"] {
+  width: 30vw;
+  height: 50%;
+  margin-left: 400px;
+}
+
+.lastname input[type='text'] {
+  width: 30vw;
+  height: 5vh;
+  margin-left: 400px;
+  opacity: 0.5;
+  margin-top: -40px;
+}
+
+.Contact_details {
+
+  margin-left: 120px;
+  margin-top: 30px;
+  width: 90vw;
+
+
+}
+
+.Contact_details input[type='text'] {
+  width: 30vw;
+  height: 3vh;
+  opacity: 0.5;
+  margin-bottom: 20px;
+}
+
+.Submit {
+  width: 30vw;
+  height: -10vh;
+}
+
+
+/* ==========================================================================
+    Seat Selection
+   ========================================================================== */
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+.plane {
+  margin: 20px auto;
+  max-width: 300px;
+}
+
+.cockpit {
+  height: 250px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  border-bottom: 5px solid #d8d8d8;
+
+  &:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 500px;
+    width: 100%;
+    border-radius: 50%;
+    border-right: 5px solid #d8d8d8;
+    border-left: 5px solid #d8d8d8;
+  }
+
+  h1 {
+    width: 60%;
+    margin: 100px auto 35px auto;
+  }
+}
+
+.exit {
+  position: relative;
+  height: 50px;
+
+  &:before,
+  &:after {
+    content: "EXIT";
+    font-size: 14px;
+    line-height: 18px;
+    padding: 0px 2px;
+    font-family: "Arial Narrow", Arial, sans-serif;
+    display: block;
+    position: absolute;
+    background: green;
+    color: white;
+    top: 50%;
+    transform: translate(0, -50%);
+  }
+
+  &:before {
+    left: 0;
+  }
+
+  &:after {
+    right: 0;
+  }
+}
+
+.fuselage {
+  border-right: 5px solid #d8d8d8;
+  border-left: 5px solid #d8d8d8;
+}
+
+ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+
+.seats {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+
+.seat {
+  display: flex;
+  flex: 0 0 14.28571428571429%;
+  padding: 5px;
+  position: relative;
+
+  &:nth-child(3) {
+    margin-right: 14.28571428571429%;
+  }
+
+  input[type=checkbox] {
+    position: absolute;
+    opacity: 0;
+  }
+
+  input[type=checkbox]:checked {
+    +label {
+      background: #bada55;
+      -webkit-animation-name: rubberBand;
+      animation-name: rubberBand;
+      animation-duration: 300ms;
+      animation-fill-mode: both;
+    }
+  }
+
+  input[type=checkbox]:disabled {
+    +label {
+      background: #dddddd;
+      text-indent: -9999px;
+      overflow: hidden;
+
+      &:after {
+        content: "X";
+        text-indent: 0;
+        position: absolute;
+        top: 4px;
+        left: 50%;
+        transform: translate(-50%, 0%);
+      }
+
+      &:hover {
+        box-shadow: none;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  label {
+    display: block;
+    position: relative;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1.5rem;
+    padding: 4px 0;
+    background: #F42536;
+    border-radius: 5px;
+    animation-duration: 300ms;
+    animation-fill-mode: both;
+
+    &:before {
+      content: "";
+      position: absolute;
+      width: 75%;
+      height: 75%;
+      top: 1px;
+      left: 50%;
+      transform: translate(-50%, 0%);
+      background: rgba(255, 255, 255, .4);
+      border-radius: 3px;
+    }
+
+    &:hover {
+      cursor: pointer;
+      box-shadow: 0 0 0px 2px #5C6AFF;
+    }
+
+  }
+}
+
+@-webkit-keyframes rubberBand {
+  0% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+
+  30% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+    transform: scale3d(1.25, 0.75, 1);
+  }
+
+  40% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+    transform: scale3d(0.75, 1.25, 1);
+  }
+
+  50% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+    transform: scale3d(1.15, 0.85, 1);
+  }
+
+  65% {
+    -webkit-transform: scale3d(.95, 1.05, 1);
+    transform: scale3d(.95, 1.05, 1);
+  }
+
+  75% {
+    -webkit-transform: scale3d(1.05, .95, 1);
+    transform: scale3d(1.05, .95, 1);
+  }
+
+  100% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes rubberBand {
+  0% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+
+  30% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+    transform: scale3d(1.25, 0.75, 1);
+  }
+
+  40% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+    transform: scale3d(0.75, 1.25, 1);
+  }
+
+  50% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+    transform: scale3d(1.15, 0.85, 1);
+  }
+
+  65% {
+    -webkit-transform: scale3d(.95, 1.05, 1);
+    transform: scale3d(.95, 1.05, 1);
+  }
+
+  75% {
+    -webkit-transform: scale3d(1.05, .95, 1);
+    transform: scale3d(1.05, .95, 1);
+  }
+
+  100% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+.rubberBand {
+  -webkit-animation-name: rubberBand;
+  animation-name: rubberBand;
+}
+
+.plane {
+  margin-top: 100px;
+}
+
+.plane .seat-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.Submit_button {
+  background-color: red;
+}
+
+
+/* ==========================================================================
+   Payment Page
+   ========================================================================== */
+.Booking_Title {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10vh;
+  margin-left: 1vw;
+}
+
+.Itinerary h2 {
+  display: flex;
+  flex-direction: row;
+  margin-left: 1vw;
+  width: 50%;
+  background-color: red;
 }

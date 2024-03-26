@@ -45,11 +45,14 @@ def seed_flight_inventory():
             data['arrival'] = datetime.datetime.strptime(data['arrival'], '%Y-%m-%dT%H:%M:%S.%f')
             # 1. Create and Save Seating Plan
             seating_plan_data = data['aircraft'].pop('seating_plan', None)  # Extract and remove 
-            if seating_plan_data:
+            try:
                 seating_plan = Seating_Plan(**seating_plan_data)
                 seating_plan.save()
+
                 data['aircraft']['seating_plan_id'] = seating_plan.id
 
-            # 2. Create and Save Flight
-            new_flight = Flight(**data)
-            new_flight.save()
+                # 2. Create and Save Flight
+                new_flight = Flight(**data)
+                new_flight.save()
+            except:
+                print("error detected")

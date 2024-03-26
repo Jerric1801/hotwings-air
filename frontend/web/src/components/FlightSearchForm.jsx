@@ -65,13 +65,14 @@ function FlightSearchForm() {
     const handleTripwayChange = (event) => {
         setTripway(event.target.value);
     };
+
     const [tripway, setTripway] = useState("roundtrip");
+
 
     const [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate();
 
-    const fetchFlights = (event) => {
-        console.log(departureDate)
+    const fetchFlights = async (event) => {
         event.preventDefault()
         //calls Util API, pass (route, port, body)
         const payload = {
@@ -83,19 +84,21 @@ function FlightSearchForm() {
             "seatClass": seatClass.value,
             "tripType": tripway 
         }
-        console.log(payload)
         try{
-        const data = fetchData(`flight_search`, 5001,  {
+        const data = await fetchData(`flight_search`, 5001,  {
             method: 'POST',
             body: payload
         })
         console.log(data)
+
+        // const stringifiedData = JSON.stringify(data);
+        localStorage.setItem('flightData', JSON.stringify(data));
+        navigate('/selection');
+
         }catch (error) {
             console.error("An error occurred while fetching data:", error);
             // Handle the error appropriately (e.g., display error message, retry)
         }
-        // setSearchParams({ name: 'Alice', age: 30 });
-        // navigate('/selection'); 
     }
 
 

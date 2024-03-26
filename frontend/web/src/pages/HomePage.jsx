@@ -1,23 +1,6 @@
 import React from 'react';
 import FlightSearchForm from '../components/FlightSearchForm';
-// import FeaturedDestinations from '../components/FeaturedDestinations';
-// import PromotionsBanner from '../components/PromotionsBanner'; // If you have any
-
 function HomePage() {
-  // Potentially a state variable for promotional offerings 
-//   const [promotions, setPromotions] = useState([]);
-
-//   // Example: Fetching promotions upon mount 
-//   useEffect(() => {
-//     // Simulates an asynchronous call to get promotions
-//     const fetchPromotions = async () => {
-//       const samplePromotions = [ /* ...data */ ]; 
-//       setPromotions(samplePromotions);
-//     };
-
-//     fetchPromotions();
-//   }, []); 
-
   return (
     <div className="home-page">
         <FlightSearchForm/>

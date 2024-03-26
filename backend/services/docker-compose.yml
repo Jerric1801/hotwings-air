@@ -1,29 +1,29 @@
-version: '3'  # Specify the Docker Compose version
+version: '3'  
 
 services:
   flight_inventory:
     container_name: flight_inventory
-    build: ./flight_inventory  # Path to your Flask app's Dockerfile
+    build: ./flight_inventory  
     ports:
-      - '5000:5000'    # Expose Flask's default port 5000
+      - '5000:5000'   
     depends_on:
-      - mongodb        # Ensure MongoDB starts before Flask
-    links:             # Optional, but good for legacy setups
+      - mongodb        
+    links:             
       - mongodb
 
   flight_search:
     container_name: flight_search
-    build: ./flight_search  # Path to your Flask app's Dockerfile
+    build: ./flight_search 
     ports:
       - '5001:5001'  
 
   pricing:
     container_name: flight_pricing
-    build: ./pricing  # Path to your Flask app's Dockerfile
+    build: ./pricing 
     ports:
       - '5002:5002'  
     depends_on:
-      - sql_db  
+      - sql_db 
 
   mongodb:
     container_name: mongodb
@@ -34,7 +34,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
-    volumes:          # Optional for data persistence 
+    volumes:         
       - mongodb_data:/data/db 
 
   mongo-express:
@@ -42,7 +42,7 @@ services:
     image: mongo-express
     restart: always
     ports:
-      - 8081:8081 # Or your preferred port mapping
+      - 8081:8081
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
@@ -61,12 +61,12 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: prices
-      MYSQL_ROOT_PASSWORD: strong_password  # Set your desired password here               # Set your desired username here
+      MYSQL_ROOT_PASSWORD: strong_password
       MYSQL_PASSWORD: password 
     ports:
       - 3306:3306
     volumes:
-      - ./database/my_sql/pricing:/docker-entrypoint-initdb.d 
+      - ./database/my_sql:/docker-entrypoint-initdb.d 
       - db_data:/var/lib/mysql
 
   phpmyadmin:
@@ -84,4 +84,4 @@ services:
 
 volumes:
   mongodb_data:
-  db_data:  # Named volume for MongoDB data 
+  db_data:  

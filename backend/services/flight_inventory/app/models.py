@@ -14,7 +14,7 @@ class Aircraft(EmbeddedDocument):
     seating_plan_id = fields.ObjectIdField() 
 
 class Flight(Document):
-    flight_number = fields.StringField(required=True, primary_key=True)  
+    flight_number = fields.StringField(required=True)  
     departure = fields.DateTimeField(required=True)
     arrival = fields.DateTimeField(required=True)
     origin = fields.StringField()

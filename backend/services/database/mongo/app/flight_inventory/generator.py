@@ -34,6 +34,61 @@ aircraft_data = {
     }
 }
 
+regions = {
+    "Southeast Asia": ["Singapore", "Bangkok", "Kuala Lumpur", "Jakarta", "Manila"],
+    "East Asia": ["Tokyo", "Hong Kong"],
+    "Oceania": ["Sydney"],
+    "Middle East": ["Dubai"],
+    "Europe": ["London", "Paris"],
+    "North America": ["New York", "Los Angeles"]
+}
+adjacent_regions = {
+    "Southeast Asia": ["East Asia", "Oceania", "Middle East"],
+    "East Asia": ["Southeast Asia", "Oceania"],
+    "Oceania": ["Southeast Asia", "East Asia", "North America"],
+    "Middle East": ["Southeast Asia", "Europe"],
+    "Europe": ["Middle East", "North America"],
+    "North America": ["Oceania", "Europe"] 
+}
+distance_tiers = {
+    "intraregional": (500,  2000),  # Within the same region
+    "interregional_close": (2000, 5000),  # Between neighboring regions
+    "interregional_far":  (5000, 9000),  # Between distant regions 
+}
+seat_classes = {"First":2.5, "Business":1.75, "Premium Economy":1.23, "Economy": 1}
+locations = ["Singapore", "Tokyo", "Bangkok", "Sydney", "Hong Kong", "London", "New York", "Kuala Lumpur", "Jakarta", "Manila", "Dubai", "Paris", "Los Angeles"]
+tiers = {
+    "short": (500, 2000), 
+    "medium": (2000, 5000),
+    "long": (5000, 10000)
+}
+
+def are_regions_adjacent(region1, region2):
+    return region2 in adjacent_regions[region1] 
+
+def estimate_distance(origin, destination):
+    origin_region = None
+    destination_region = None
+
+    # Find the regions of the origin and destination
+    for region_name, cities in regions.items():
+        if origin in cities:
+            origin_region = region_name
+        if destination in cities:
+            destination_region = region_name
+
+    # Distance estimation
+    if origin_region == destination_region:
+        distance_tier = "intraregional"
+    elif are_regions_adjacent(origin_region, destination_region):  # You'll need to define this
+        distance_tier = "interregional_close"
+    else:
+        distance_tier = "interregional_far"
+
+    # Pick a random distance within the chosen tier (adjust ranges as needed)
+    distance = random.randint(*distance_tiers[distance_tier])
+    return distance
+
 
 
 def create_flights():
@@ -113,11 +168,12 @@ def generate_seating_plan(aircraft_model, capacity):
 
 def seed_flight(no_flights):
     new_flights = []
-    for i in range(no_flights):
-        with open('flights.json', 'r') as infile:
-            flight_dict = json.load(infile)
+    with open('flights.json', 'r') as infile:
+        flight_dict = json.load(infile)
 
-        flights = flight_dict["flights"]
+    flights = flight_dict["flights"]
+
+    for i in range(no_flights):
         flight = flights[random.randint(0, len(flights)-1)]
 
         flight_number = flight["flight_number"]
@@ -127,7 +183,13 @@ def seed_flight(no_flights):
 
         # Generate departure and arrival times
         departure_time = datetime.now() + timedelta(days=random.randint(1, 40))  # Within the next 40 days
-        duration = timedelta(hours=random.randint(1, 12)) # 1-12 hour range 
+        distance = estimate_distance(origin, destination)
+        if tiers["short"][0] <= distance <= tiers["short"][1]:
+            duration = timedelta(hours=random.randint(1, 3)) + timedelta(minutes=random.randint(1, 60)) 
+        elif tiers["medium"][0] <= distance <= tiers["medium"][1]:
+            duration = timedelta(hours=random.randint(3, 7)) + timedelta(minutes=random.randint(1, 60)) 
+        else:  # long
+            duration = timedelta(hours=random.randint(7, 13)) + timedelta(minutes=random.randint(1, 60)) 
         arrival_time = departure_time + duration
 
         # Select an aircraft model
@@ -177,7 +239,7 @@ async def main(reps = 1000):  # Example of how to use it
 
 if __name__ == "__main__":
     reps = 1000
-    flight_data =asyncio.run(main(reps))
+    flight_data = asyncio.run(main(reps))
     with open('../data/flight_inventory.json', 'w') as outfile:
         json.dump(flight_data, outfile, indent=4)  # Indent for readability
 

@@ -36,16 +36,13 @@ def search_flights():
                 }
             }
 
-            print(db['flight'])
-            print(db['flight'].find())
             flight_results = db['flight'].find(query).limit(5)
 
             possible_flights = []
 
             for flight in flight_results:
-                print(flight)
                 possible_flights.append(flight)
-            
+
             if flight_results:
                 return json.loads(json_util.dumps(possible_flights))
             else:
