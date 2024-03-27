@@ -1,5 +1,6 @@
 
-function FlightOption(options) {
+function FlightOption(props) {
+  const options = props.options
   const countryCode = {
     "Singapore": "SIN",
     "Kuala Lumpur": "KUL",
@@ -66,6 +67,24 @@ function FlightOption(options) {
     return`${formattedDate} (${dayOfWeek})`
   }
 
+  const handleClick = () => { 
+    const selectedData = {
+      "flightSummary": departureDate.split(",")[0] + ", "+ originCode + " - " + destinationCode,
+      "flightDetails": {
+        "id": options["_id"]["$oid"],
+        "seating_id":options["aircraft"]["seating_plan_id"]["$oid"],
+        "origin": origin,
+        "destination": destination,
+        "price": price,
+        "seatClass": seat_class,
+        "departure": options["departure"]["$date"],
+        "arrival": options["arrival"]["$date"],
+        "pax": options["pax"]
+      }
+                          };  
+    props.onSelect(selectedData); 
+  }
+
   const departureDate =  convertDate(options["departure"]["$date"]);
   const arrivalDate = convertDate(options["arrival"]["$date"]);
   const origin = options["origin"]
@@ -79,11 +98,8 @@ function FlightOption(options) {
   const minutesDifference = Math.floor((timeDifferenceMs % (1000 * 60 * 60)) / (1000 * 60));
 
   const timeDifference = `${hoursDifference}h ${minutesDifference}min`;
-  const seat_class = options["seat_class"]
-
-  const handleClick = () => { 
-    console.log("Submitted");
-  }
+  const seat_class = options["seatClass"]
+  
   return (
     <div className="flight-option">
       <div className="flight-option-details">
@@ -106,7 +122,7 @@ function FlightOption(options) {
 
       <div className="flight-option-book">
         <div className="flight-option-class"> 
-          <button onClick={handleClick}>Economy</button>
+          <button onClick={handleClick}>{seat_class}</button>
         </div>
         <div className="flight-option-price">
           <p>From SGD</p>

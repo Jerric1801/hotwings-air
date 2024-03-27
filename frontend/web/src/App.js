@@ -5,6 +5,8 @@ import HomePage from './pages/HomePage';
 import FlightSelection from './pages/FlightSelection';
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
+import PassengerDetails from './pages/PassengerDetails';
+import SeatSelection from './pages/SeatSelection';
 
 function App() {
   // Global state variables are handled here
@@ -17,6 +19,8 @@ function App() {
         <Route path="/selection" element={<FlightSelection/>} />
         <Route path="/signup" element={<SignUp/>} />
         <Route path="/login" element={<Login/>} />
+        <Route path="/passenger" element={<PassengerDetails/>} />
+        <Route path="/seats" element={<SeatSelection/>} />
       </Routes>   
     </BrowserRouter>
   );

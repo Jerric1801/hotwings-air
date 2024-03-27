@@ -89,6 +89,7 @@ function FlightSearchForm() {
             method: 'POST',
             body: payload
         })
+
         console.log(data)
 
         // const stringifiedData = JSON.stringify(data);

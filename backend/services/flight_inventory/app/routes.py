@@ -4,6 +4,7 @@ from .models import Flight, Seating_Plan
 from bson import json_util
 import json
 from datetime import datetime, timedelta
+from bson.objectid import ObjectId
 
 @app.route('/flight', methods = ["GET"])
 def get_all_flights():
@@ -41,10 +42,48 @@ def search_flights():
             possible_flights = []
 
             for flight in flight_results:
+                flight["pax"] = pax
+                flight["seatClass"] = seatClass
                 possible_flights.append(flight)
 
             if flight_results:
                 return json.loads(json_util.dumps(possible_flights))
+            else:
+                return jsonify({"message": "Flight not found."}), 404 
+        except ValueError:
+            return jsonify({"message": "Invalid flight number."}), 400 
+        
+
+@app.route('/flight/seating', methods = ["POST"])
+def search_seating():
+    if request.method == "POST":
+        try:
+            seating_plans = {}
+            data = request.get_json() 
+            depart_id = data.get("depart_id")
+            return_id = data.get("return_id")
+
+            if depart_id:
+
+                depart_query = {
+                    "_id":ObjectId(depart_id),
+                }
+
+                depart_results = db['seating__plan'].find_one(depart_query)
+                seating_plans["depart_plan"] = depart_results["seats"]
+
+            if return_id:
+
+                return_query = {
+                    "_id":ObjectId(return_id),
+                }
+
+                return_results = db['seating__plan'].find_one(return_query)
+                seating_plans["return_plan"] = return_results["seats"]
+
+            if seating_plans:
+                return json.loads(json_util.dumps(seating_plans))
+            
             else:
                 return jsonify({"message": "Flight not found."}), 404 
         except ValueError:

@@ -85,6 +85,13 @@ form {
   justify-content: center;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+    -webkit-box-shadow: white inset !important; /* Or your desired color */
+}
+
 #root {
   margin: 0;
   padding: 0;
@@ -277,9 +284,94 @@ nav ul:last-child {
   background-size: cover;
   background-position: center;
   display: flex;
+  flex-direction: column;
   align-items: flex-end;
   justify-content: center;
   background-color: var(--beige);
+}
+
+.selection-flight-selected {
+  width: 100vw;
+  height: 7.5vh;
+  display: flex;
+  flex-direction: row;
+  background-color: var(--beige);
+  margin-top: 12vh;
+  opacity: 0.95;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  align-items: center;
+  justify-content: center;
+  gap:2vw
+}
+
+.selection-flight-expand {
+  width: 10vh;
+  text-align: center;
+}
+
+.selection-flight-expand img {
+  width: 20%;
+  margin: 0;
+}
+
+.selection-flight-depart {
+  width: 30vw;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2.5vw;
+}
+
+.selection-flight-depart > p {
+  font-weight: 800;
+}
+
+.selection-flight-return {
+  width: 30vw;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2.5vw;
+}
+
+.selection-flight-return > p {
+  font-weight: 800;
+}
+
+.selection-flight-submit {
+  width: 10vw;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.selection-flight-submit button{
+  width: 90%;
+  height: 60%;
+  border: none;
+  background-color: var(--red);
+  border-radius: 5px;
+  color: var(--white);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+}
+
+.selection-flight-submit button:hover {
+  cursor: pointer;
+}
+
+.selection-option {
+  width: 70%;
+  height: 60%;
+  border-radius: 10px;
+  background-color: var(--white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.8;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
 }
 
 .selection-flight-options {
@@ -292,7 +384,7 @@ nav ul:last-child {
   background-color: var(--beige);
 }
 
-.selection-flight-options > h2 {
+.selection-flight-options>h2 {
   margin-top: 10vh;
   margin-left: 10vw;
 }
@@ -385,9 +477,9 @@ nav ul:last-child {
 /* ==========================================================================
     Passenger Details
    ========================================================================== */
-.Passenger_details .title {
-  width: 90vw;
-  height: 70vh;
+.passenger-details {
+  width: 100vw;
+  height: 100vh;
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -395,53 +487,109 @@ nav ul:last-child {
   background-size: cover;
   background-position: center;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  background-color: var(--beige);
+}
+
+.passenger-details-wrapper {
+  width: 100%;
+  height: 80vh;
+  display: block;
+  overflow: scroll;
+}
+
+.passenger-details h1{
+  margin-top: 1vh;
+  margin-left: 2.5vw;
+}
+
+.passenger-form-wrapper {
+  width: 80%;
+  height: 40vh;
+  margin-left: 10%;
+  margin-top: 5vh;
+  margin-bottom: 5vh;
+  background-color: var(--white);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  opacity: 0.9;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+}
+
+.passenger-form {
+  width: 100%;
+  height: 80%;
+  background-color: var(--white);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10vh;
+}
+
+.passenger-form-details {
+  width: 30%;
+  height:100%;
+  display: flex;
+  flex-direction: column;
   justify-content: flex-start;
-  padding-left: 10vw;
-  background-color: #FFFFFF;
+  gap: 3.5vh;
+  padding-top: 2vh;
 }
 
-.firstname {
-  opacity: 0.5;
-  height: 10vh;
-  width: 30vw;
-  margin-top: -380px;
+.passenger-form-select {
+  width: 50%;
 }
 
-.firstname input[type="text"] {
-  width: 30vw;
-  height: 50%;
-  margin-left: 400px;
+.passenger-form-field {
+  width: 100%;
+  height: 20%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2vh;
 }
 
-.lastname input[type='text'] {
-  width: 30vw;
-  height: 5vh;
-  margin-left: 400px;
-  opacity: 0.5;
-  margin-top: -40px;
+.passenger-form-field input{
+  height: 90%;
+  width: 60%;
+  font-family: avenir-next;
+  border: 0.5px grey solid;
+  border-radius: 5px;
+  padding-left: 5px;
 }
 
-.Contact_details {
+.passenger-form-field input:focus{
+  border: var(--red) 0.5px solid;
+}
 
-  margin-left: 120px;
-  margin-top: 30px;
-  width: 90vw;
-
+.passenger-details-submit {
+  width: 100%;
+  height: 7.5vh;
+  margin-top: 12.5vh;
 
 }
 
-.Contact_details input[type='text'] {
-  width: 30vw;
-  height: 3vh;
-  opacity: 0.5;
-  margin-bottom: 20px;
+.passenger-details-submit button{
+  width: 10%;
+  height: 60%;
+  float: right;
+  border: none;
+  background-color: var(--red);
+  border-radius: 5px;
+  color: var(--white);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  margin-right: 10vw;
 }
 
-.Submit {
-  width: 30vw;
-  height: -10vh;
+.passenger-details-submit button:hover {
+  cursor: pointer;
 }
+
 
 
 /* ==========================================================================
@@ -451,10 +599,6 @@ nav ul:last-child {
 *:before,
 *:after {
   box-sizing: border-box;
-}
-
-html {
-  font-size: 16px;
 }
 
 .plane {

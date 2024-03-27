@@ -2,8 +2,8 @@ import requests  # Or the library you use for API calls
 from datetime import datetime, timedelta
 import json
 
-def call_flight_inventory(payload):
-    url = "http://flight_inventory:5000/flight/search"
+def call_flight_inventory(payload, endpoint):
+    url = f"http://flight_inventory:5000/{endpoint}"
     response = requests.post(url, json = payload)
 
     if response.status_code == 200:
@@ -11,6 +11,7 @@ def call_flight_inventory(payload):
         return response.json()
     else:
         raise Exception("Failed to retrieve flight details")  
+    
 
 # Other service functions for querying the inventory service 
 def add_pricing(options, seat_class):
