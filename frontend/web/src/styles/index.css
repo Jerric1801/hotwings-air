@@ -601,13 +601,65 @@ nav ul:last-child {
   box-sizing: border-box;
 }
 
+.plane-seat-selection {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--beige);
+}
+
+.plane-seat-header {
+  margin-top: 10vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 10vh;
+}
+
+.plane-seat-header button{
+  width: 10%;
+  height: 60%;
+  float: right;
+  border: none;
+  background-color: var(--red);
+  border-radius: 5px;
+  color: var(--white);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  margin-right: 10vw;
+}
+
+.plane-seat-header button:hover {
+  cursor: pointer;
+}
+
+.plane-container {
+  height: 85vh;
+  width: 100%;
+  overflow: scroll;
+}
+
 .plane {
   margin: 20px auto;
-  max-width: 300px;
+  width: 40%;
+  max-width: 100%;
+}
+
+.plane-large {
+  width:45%;
 }
 
 .cockpit {
-  height: 250px;
+  height: 40vh;
   position: relative;
   overflow: hidden;
   text-align: center;
@@ -619,7 +671,7 @@ nav ul:last-child {
     position: absolute;
     top: 0;
     left: 0;
-    height: 500px;
+    height: 80vh;
     width: 100%;
     border-radius: 50%;
     border-right: 5px solid #d8d8d8;
@@ -634,7 +686,7 @@ nav ul:last-child {
 
 .exit {
   position: relative;
-  height: 50px;
+  height: 10vh;
 
   &:before,
   &:after {
@@ -676,18 +728,18 @@ ol {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  justify-content: flex-start;
+  justify-content: center;
 }
 
 .seat {
   display: flex;
-  flex: 0 0 14.28571428571429%;
+  flex: 0 0 10%;
   padding: 5px;
   position: relative;
 
   &:nth-child(3) {
-    margin-right: 14.28571428571429%;
-  }
+    margin-right: 25%;
+  }  
 
   input[type=checkbox] {
     position: absolute;
@@ -723,8 +775,9 @@ ol {
         box-shadow: none;
         cursor: not-allowed;
       }
-    }
   }
+}
+
 
   label {
     display: block;
@@ -735,6 +788,48 @@ ol {
     font-weight: bold;
     line-height: 1.5rem;
     padding: 4px 0;
+    background: #F42536;
+    border-radius: 5px;
+    animation-duration: 300ms;
+    animation-fill-mode: both;
+
+    &:before {
+      content: "";
+      position: absolute;
+      width: 75%;
+      height: 75%;
+      top: 1px;
+      left: 50%;
+      transform: translate(-50%, 0%);
+      background: rgba(255, 255, 255, .4);
+      border-radius: 3px;
+    }
+
+    &:hover {
+      cursor: pointer;
+      box-shadow: 0 0 0px 2px #5C6AFF;
+    }
+
+  }
+}
+
+.seat-large {
+  &:nth-child(3) {
+    margin-right: 5% !important;
+  }
+  &:nth-child(6) {
+    margin-right: 5%;
+  }
+
+  label {
+    display: block;
+    position: relative;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1.8rem;
+    padding: 5px 0;
     background: #F42536;
     border-radius: 5px;
     animation-duration: 300ms;
@@ -838,18 +933,6 @@ ol {
   -webkit-animation-name: rubberBand;
   animation-name: rubberBand;
 }
-
-.plane {
-  margin-top: 100px;
-}
-
-.plane .seat-title {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-
 
 .Submit_button {
   background-color: red;

@@ -26,7 +26,6 @@ function FlightSelection() {
 
   const handleContinue = async() => {
     const selections = [departSelection, returnSelection]
-    console.log(selections)
     localStorage.setItem('flightSelection', JSON.stringify(selections));
     const departFlightId = selections[0]['seating_id']
     const returnFlightId = selections[1]['seating_id']
@@ -35,12 +34,12 @@ function FlightSelection() {
       "returnId": returnFlightId 
     }
     // fetch seating plan and store in local storage
-    const data = await fetchData(`flight_search/seating`, 5001,  {
+    const seating_plan = await fetchData(`flight_search/seating`, 5001,  {
       method: 'POST',
       body: payload
     })
 
-    console.log(data)
+    localStorage.setItem('flightSelectionSeats', JSON.stringify(seating_plan))
 
     navigate("/passenger")
 

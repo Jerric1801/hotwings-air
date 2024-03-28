@@ -1,35 +1,32 @@
-import React, { useState } from 'react';
-import Row from '../components/seating/row'
+import { React, useState } from 'react';
+import Plane from '../components/Plane';
 
 function SeatSelection() {
+  //fetch seats from local
+  const seat_plan = JSON.parse(localStorage.getItem("flightSelectionSeats"))
+  const planes = []
+  const [planeIndex, setPlaneIndex] = useState(0)
+
+  for (let key in seat_plan) {
+    const plan = seat_plan[key]
+    planes.push(<Plane content={plan}/>)
+  }
+
+  console.log(planes)
+  const handleSubmit = () => {
+    setPlaneIndex(1)
+  }
+
   return (
-    <div class="plane">
-      <div className='seat-title'>
-        <h1>Seat Selection</h1>
-      </div>
-      <div class="cockpit">
-      </div>
-      <div class="exit exit--front fuselage">
-
-      </div>
-      <ol class="cabin fuselage">
-        <Row />
-        <Row />
-        <Row />
-        <Row />
-        <Row />
-        <Row />
-        <Row />
-        <Row />
-      </ol>
-      <div class="exit exit--back fuselage">
-      </div>
-
-      <div className='Submit_button'>
-
-      </div>
+    <div className = "plane-seat-selection">
+        <div className='plane-seat-header'>
+            <h2>Seat Selection</h2>
+            <button type="submit" onClick={handleSubmit}>Next Flight</button>
+        </div>
+        <div className= "plane-container">
+          {planes[planeIndex]}
+        </div>
     </div>
-
   )
 }
 
