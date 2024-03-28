@@ -1,12 +1,59 @@
-from flask import jsonify, request
+from flask import jsonify, request, render_template
 
 from app import app
-from .services import send_payment_details_to_stripe, send_payment_details_to_flight_inventory,send_payment_details_to_transactions,send_payment_details_to_users,send_payment_details_to_notifications, send_errors
+from .services import create_stripe_checkout_session, send_payment_details_to_flight_inventory,send_payment_details_to_transactions,send_payment_details_to_users,send_payment_details_to_notifications, send_errors
 from .models import Payment
+from .utils import stripe_keys
 
 import os, sys
 import json 
+import stripe 
 
+@app.route("/config", methods = ["GET"])
+def get_publishable_key():
+    if request.method == "GET":
+        stripe_config = {"publicKey": stripe_keys["publishable_key"]}
+        return jsonify(stripe_config)
+    
+@app.route("/payment/cancelled")
+def cancelled():
+    return render_template("cancelled.html")
+
+@app.route('/payment/success')
+def payment_success():
+    # Retrieve the session ID from the query string
+    session_id = request.args.get('session_id')
+
+    if not session_id:
+        return "Session ID is missing", 400
+
+    try:
+        stripe.api_key = stripe_keys["secret_key"]
+
+        # Retrieve the checkout session to get the payment_intent
+        checkout_session = stripe.checkout.Session.retrieve(session_id)
+        payment_intent_id = checkout_session.payment_intent
+
+        # Retrieve the payment intent to get details like amount and currency
+        payment_intent = stripe.PaymentIntent.retrieve(payment_intent_id)
+        amount_paid = payment_intent.amount_received
+        points = round(amount_paid*1.2/100)
+        # currency = payment_intent.currency
+
+        # Convert amount to a more readable format (e.g., from cents to dollars)
+        amount_paid = amount_paid/100  # Adjust based on the smallest currency unit
+        currency = payment_intent.currency
+        points_used = checkout_session.metadata.get('points_used', '0')
+
+        # Render success.html with dynamic payment details
+        return render_template("success.html", payment_intent_id=payment_intent_id, amount_paid=amount_paid, currency=currency.upper(), deets=payment_intent, points=points, points_used=points_used)
+    except stripe.error.StripeError as e:
+        # Handle Stripe errors (e.g., session not found)
+        return jsonify(error=str(e)), 403
+    except Exception as e:
+        # Handle other exceptions
+        return jsonify(error=str(e)), 500
+    
 @app.route('/payment', methods = ["POST"])
 def send_payment_data():
     # Simple check of input format and data of the request are JSON
@@ -28,14 +75,13 @@ def send_payment_data():
             paymentDetails = Payment(orig_price, final_price, seat_number, flight_id, origin, destination, redemption_loyalty_points, user_id, user_email)
 
             # 2. Send payment info to Stripe
-            stripe_data = {
-                "description": paymentDetails.flight_id , 
-                "price": paymentDetails.total_price,
-            }
+            product_description = paymentDetails.flight_id
+            unit_amount = paymentDetails.final_price
+            points_used = paymentDetails.redemption_loyalty_points
             print('\n-----Invoking Stripe API-----')
 
             # 3. Returns success or failure for payment via Stripe API
-            stripe_result = send_payment_details_to_stripe(stripe_data)
+            stripe_result = create_stripe_checkout_session(product_description, unit_amount, points_used, currency='sgd')
         
             print('\n------------------------')
             print('stripe_result:', stripe_result)

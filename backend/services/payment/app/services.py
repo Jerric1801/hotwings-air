@@ -3,17 +3,31 @@ import os, sys
 import pika
 import json 
 from .amqp_connection import create_connection, check_exchange
+import stripe 
+from .utils import stripe_keys
 
-# function 1 to stripe
-def send_payment_details_to_stripe(payload):
-    url="http://localhost:5000/payment/stripe"
-    response = requests.post(url, json = payload)
-    print(response) 
+# function 1 for creating checkout session to stripe
+def create_stripe_checkout_session(product_description, unit_amount, points_used, currency='sgd'):
+    stripe.api_key = stripe_keys["secret_key"]
+    try:
+        product = stripe.Product.create(name='ticket', description=product_description)
+        price = stripe.Price.create(product=product.id, unit_amount=unit_amount, currency=currency)
+        domain_url = "http://127.0.0.1:5001"
 
-    if response.status_code == 200:
-        return response.json()
-    else:
-        raise Exception("Failed to send payment details over to stripe")
+        checkout_session = stripe.checkout.Session.create(
+            success_url=f"{domain_url}/payment/success?session_id={{CHECKOUT_SESSION_ID}}",
+            cancel_url=f"{domain_url}/payment/cancelled",
+            mode="payment",
+            custom_text={
+                "submit": {"message":"Points used: " + str(points_used)}
+            },
+            line_items=[{'price': price.id, 'quantity': 1}],
+            metadata={"points_used": str(points_used)},  # Store points used here
+        )
+        return {"sessionId": checkout_session["id"],"code":200}
+    except Exception as e:
+        raise Exception(f"Stripe Checkout Session creation failed: {str(e)}")
+#return stripe.redirectToCheckout({sessionId: data.sessionId}) --> redirects to stripe checkout page, shld be implemented on front end
 
 # function 2 to flight inventory
 def send_payment_details_to_flight_inventory(payload):
