@@ -6,7 +6,7 @@ from datetime import datetime
 
 db_path = 'tests/db.json'  # REPLACE WITH DB!!**
 
-def add_error_log(error_source, error_description):
+def add_error_log(code, data, message):
     log_id = str(uuid.uuid4())
     date_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -14,8 +14,9 @@ def add_error_log(error_source, error_description):
     log_entry = {
         "log_id": log_id,
         "date_time": date_time,
-        "error_source": error_source,
-        "error_description": error_description
+        "code": code,
+        "data": data,
+        "message": message
     }
 
     # Read the existing data from DB
@@ -41,8 +42,9 @@ def callback(ch, method, properties, body):
         message = json.loads(body)
         print(" [x] Received %r" % message)
         add_error_log(
-            error_source=message.get('error_source'),
-            error_description=message.get('error_description')
+            code=message.get('code'),
+            data=message.get('data'),
+            message=message.get('message')
         )
     except json.JSONDecodeError as e:
         print(f"Error decoding JSON: {e}")

@@ -11,8 +11,9 @@ channel.queue_declare(queue='error_logs')
 
 # Send a message
 test_message = {
-    'error_source': 'user',
-    'error_description': 'unsuccessful update of loyalty points.'
+    'code':  401,
+    'data': 'payment: unsuccessful update of loyalty points'
+    'message' 'payment: failure sent for error handling'
 }
 channel.basic_publish(exchange='',
                       routing_key='error_logs',

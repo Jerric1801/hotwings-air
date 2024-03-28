@@ -16,8 +16,9 @@ def create_log():
         
         # Call the add_error_log service function to create and save the new ErrorLog entry
         new_log = add_error_log(
-            error_source=data['error_source'],
-            error_description=data['errorDescription']
+            code=data['code'],
+            data=data['data'],
+            message=data['message']
         )
         
         # Convert the log to JSON and return a success response
