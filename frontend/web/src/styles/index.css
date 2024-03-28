@@ -748,7 +748,7 @@ ol {
 
   input[type=checkbox]:checked {
     +label {
-      background: #bada55;
+      background: #688212;
       -webkit-animation-name: rubberBand;
       animation-name: rubberBand;
       animation-duration: 300ms;
@@ -788,7 +788,8 @@ ol {
     font-weight: bold;
     line-height: 1.5rem;
     padding: 4px 0;
-    background: #F42536;
+    background: var(--red);
+    color: white;
     border-radius: 5px;
     animation-duration: 300ms;
     animation-fill-mode: both;
@@ -801,7 +802,7 @@ ol {
       top: 1px;
       left: 50%;
       transform: translate(-50%, 0%);
-      background: rgba(255, 255, 255, .4);
+      background: rgba(249, 200, 200, 0.4);
       border-radius: 3px;
     }
 
@@ -830,7 +831,8 @@ ol {
     font-weight: bold;
     line-height: 1.8rem;
     padding: 5px 0;
-    background: #F42536;
+    color: white;
+    background: var(--red);
     border-radius: 5px;
     animation-duration: 300ms;
     animation-fill-mode: both;
@@ -843,7 +845,7 @@ ol {
       top: 1px;
       left: 50%;
       transform: translate(-50%, 0%);
-      background: rgba(255, 255, 255, .4);
+      background: rgba(249, 200, 200, 0.4);
       border-radius: 3px;
     }
 
@@ -932,10 +934,6 @@ ol {
 .rubberBand {
   -webkit-animation-name: rubberBand;
   animation-name: rubberBand;
-}
-
-.Submit_button {
-  background-color: red;
 }
 
 
