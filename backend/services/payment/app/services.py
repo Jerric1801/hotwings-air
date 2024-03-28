@@ -2,7 +2,7 @@ import requests  # Or the library you use for API calls
 import os, sys
 import pika
 import json 
-import amqp_connection
+from .amqp_connection import create_connection, check_exchange
 
 # function 1 to stripe
 def send_payment_details_to_stripe(payload):
@@ -65,34 +65,29 @@ def send_payment_details_to_notifications(payload):
 def send_errors(exchangename, exchangetype, error_key, payload):
     
     #create a connection and a channel to the broker to publish messages to error queues
-    connection = amqp_connection.create_connection() 
+    connection = create_connection() 
     channel = connection.channel()
 
     #if the exchange is not yet created, exit the program
-    if not amqp_connection.check_exchange(channel, exchangename, exchangetype):
+    if not check_exchange(channel, exchangename, exchangetype):
         print("\nCreate the 'Exchange' before running this microservice. \nExiting the program.")
         sys.exit(0)  # Exit with a success status
 
-    url="http://localhost:5000/errors"
-    response = requests.post(url, json = payload)
-    print(response) 
     code = payload["code"]
     message = json.dumps(payload)
 
-    if response.status_code == 200:
-        channel.basic_publish(exchange=exchangename, routing_key=f"{error_key}.error", 
-                    body=message, properties=pika.BasicProperties(delivery_mode = 2)) 
+    # if response.status_code == 200:
+    channel.basic_publish(exchange=exchangename, routing_key=f"{error_key}.error", 
+                body=message, properties=pika.BasicProperties(delivery_mode = 2)) 
 
-        # - reply from the invocation is not used;
-        # continue even if this invocation fails        
-        print(f"\n {error_key} status ({code}) published to the RabbitMQ Exchange:", message)
+    # - reply from the invocation is not used;
+    # continue even if this invocation fails        
+    print(f"\n {error_key} status ({code}) published to the RabbitMQ Exchange:", message)
 
-        # Return error
-        return {
-            "code": 500,
-            "data": {f"{error_key}_result":message},
-            "message": f"{error_key} failure sent for error handling."
-        }
+    # Return error
+    return {
+        "code": 500,
+        "data": {f"{error_key}_result":message},
+        "message": f"{error_key} failure sent for error handling."
+    }
     
-    else:
-        raise Exception("Failed to send error details over to errors")

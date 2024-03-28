@@ -7,4 +7,4 @@ CORS(app)
 app.config.from_object('config')
 
 from . import models 
-from . import routes 
+from . import routes  

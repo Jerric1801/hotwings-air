@@ -46,7 +46,7 @@ def send_payment_data():
             if stripe_code not in range(200, 300):
                 # Inform the error microservice
                 print('\n\n-----Publishing the Stripe error message with routing_key=stripe.error-----')
-                send_errors("stripe.topic", "topic", "stripe", stripe_result)
+                send_errors("stripe_topic", "topic", "stripe", stripe_result)
                 
                 return jsonify(stripe_result), stripe_code
             
