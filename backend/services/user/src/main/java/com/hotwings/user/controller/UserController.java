@@ -3,13 +3,13 @@ package com.hotwings.user.controller;
 import com.hotwings.user.dto.amqp.ErrorMessage;
 import com.hotwings.user.dto.amqp.NotificationsMessage;
 import com.hotwings.user.dto.disruption.DisruptionRequest;
-import com.hotwings.user.dto.disruption.DisruptionResponse;
 import com.hotwings.user.dto.points.PointsRequest;
 import com.hotwings.user.dto.points.PointsResponse;
 import com.hotwings.user.dto.user.AuthResponse;
 import com.hotwings.user.dto.user.LoginRequest;
 import com.hotwings.user.dto.user.UserRequest;
 import com.hotwings.user.dto.user.UserResponse;
+import com.hotwings.user.models.User;
 import com.hotwings.user.publisher.RabbitMQProducer;
 import com.hotwings.user.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -29,12 +29,14 @@ public class UserController {
     private final RabbitMQProducer producer;
 
     @PostMapping("/error")
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> sendError(@RequestBody ErrorMessage errorMessage) {
         producer.sendError(errorMessage);
         return ResponseEntity.ok("Message sent to RabbitMQ ...");
     }
 
     @PostMapping("/notifications")
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> sendNotifications(@RequestBody NotificationsMessage notificationsMessage) {
         producer.sendNotifications(notificationsMessage);
         return ResponseEntity.ok("Message sent to RabbitMQ ...");
@@ -72,7 +74,7 @@ public class UserController {
 
     @PostMapping("/disruption")
     @ResponseStatus(HttpStatus.OK)
-    public DisruptionResponse getAffectedUsers(@RequestBody DisruptionRequest disruptionRequest) {
+    public List<User> getAffectedUsers(@RequestBody DisruptionRequest disruptionRequest) {
         return userService.getAffectedUsers(disruptionRequest);
     }
 

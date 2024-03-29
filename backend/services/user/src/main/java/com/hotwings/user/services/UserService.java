@@ -1,7 +1,6 @@
 package com.hotwings.user.services;
 
 import com.hotwings.user.dto.disruption.DisruptionRequest;
-import com.hotwings.user.dto.disruption.DisruptionResponse;
 import com.hotwings.user.dto.points.PointsRequest;
 import com.hotwings.user.dto.points.PointsResponse;
 import com.hotwings.user.dto.user.AuthResponse;
@@ -13,7 +12,6 @@ import com.hotwings.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +22,6 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final WebClient webClient;
 
     public AuthResponse createUser(UserRequest userRequest) {
         Optional<User> checkUser = userRepository.findOneByEmail(userRequest.getEmail());
@@ -94,11 +91,10 @@ public class UserService {
         return new PointsResponse(currentPoints, "Points cannot be negative", false);
     }
 
-    public DisruptionResponse getAffectedUsers(DisruptionRequest disruptionRequest) {
+    public List<User> getAffectedUsers(DisruptionRequest disruptionRequest) {
         String date = disruptionRequest.getDate();
         String flight_id = disruptionRequest.getFlight_id();
-        List<User> affectedUsers = userRepository.findByDisruptedFlight(date, flight_id);
-        return new DisruptionResponse(affectedUsers);
+        return userRepository.findByDisruptedFlight(date, flight_id);
     }
 
 }
