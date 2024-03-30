@@ -9,7 +9,7 @@ def add_transaction_log(total_price, user_id, loyalty_points=None, price_differe
     log_id = str(uuid.uuid4())
     date_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    # Construct the new log entry
+    # Construct the new log entry (might have to add 'data' & 'message' field)
     log_entry = {
         "log_id": log_id,
         "date_time": date_time,

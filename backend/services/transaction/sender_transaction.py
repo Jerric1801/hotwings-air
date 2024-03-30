@@ -2,11 +2,11 @@
 import pika
 import json
 
-# Establish connection
+# Establish connection 
 connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
 channel = connection.channel()
 
-# Declare the queue
+# Declare the queue (Create a Queue)
 channel.queue_declare(queue='transaction_logs')
 
 # Send a message

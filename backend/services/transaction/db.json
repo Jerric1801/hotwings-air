@@ -24,6 +24,20 @@
             "user_id": "1123465.",
             "loyalty_points": "1005",
             "price_difference": "100.50."
+        },
+        {
+            "log_id": "cdfc0b7d-a114-40ea-8fc9-20a71564429c",
+            "date_time": "2024-03-30 22:19:49",
+            "user_id": "1123465.",
+            "loyalty_points": "1005",
+            "price_difference": "100.50."
+        },
+        {
+            "log_id": "eff73f41-6681-47ed-9d7f-7490cf924563",
+            "date_time": "2024-03-30 22:19:49",
+            "user_id": "1123465.",
+            "loyalty_points": "1005",
+            "price_difference": "100.50."
         }
     ]
 }
