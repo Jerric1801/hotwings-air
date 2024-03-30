@@ -20,17 +20,29 @@ services:
   #   volumes:          # Optional for data persistence 
   #     - mongodb_data:/data/db 
 
-#######################################################
-  # Payment Record: The Payment microservice
-  #######################################################
-  shipping_record:
+  ########################################################
+  # Payment Record: The process_ payment microservice
+  ########################################################
+  process_payment:
     build:
       context: ./payment
       dockerfile: Dockerfile
-    image: jiayenbeh/payment
+    image: jiayenbeh/process_payment
     restart: always
     depends_on:
       - rabbitmq
+    environment:
+      PYTHONUNBUFFERED: 1
+
+  #######################################################
+  # Create Itinerary: The create_itinerary microservice
+  #######################################################
+  create_itinerary:
+    build:
+      context: ./create_itinerary
+      dockerfile: Dockerfile
+    image: jiayenbeh/create_itinerary
+    restart: always
     environment:
       PYTHONUNBUFFERED: 1
 
