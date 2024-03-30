@@ -1,12 +1,11 @@
 from flask import jsonify, request, render_template
 
 from app import app
-from .services import create_stripe_checkout_session, send_payment_details_to_flight_inventory,send_payment_details_to_transactions,send_payment_details_to_users,send_payment_details_to_notifications, send_errors
+from .services import create_stripe_checkout_session, send_payment_details_to_flight_inventory,send_payment_details_to_rabbitmq,send_payment_details_to_users
 from .models import Payment
 from .utils import stripe_keys
 
 import os, sys
-import json 
 import stripe 
 
 @app.route("/config", methods = ["GET"])
@@ -37,8 +36,7 @@ def payment_success():
         # Retrieve the payment intent to get details like amount and currency
         payment_intent = stripe.PaymentIntent.retrieve(payment_intent_id)
         amount_paid = payment_intent.amount_received
-        points = round(amount_paid*1.2/100)
-        # currency = payment_intent.currency
+        points = round(amount_paid)
 
         # Convert amount to a more readable format (e.g., from cents to dollars)
         amount_paid = amount_paid/100  # Adjust based on the smallest currency unit
@@ -92,7 +90,7 @@ def send_payment_data():
             if stripe_code not in range(200, 300):
                 # Inform the error microservice
                 print('\n\n-----Publishing the Stripe error message with routing_key=stripe.error-----')
-                send_errors("stripe_topic", "topic", "stripe", stripe_result)
+                send_payment_details_to_rabbitmq("payment_topic", "topic", "Error", "stripe.error", stripe_result)
                 
                 return jsonify(stripe_result), stripe_code
             
@@ -117,7 +115,7 @@ def send_payment_data():
                     if flight_code not in range(200, 300):
                         # Inform the error microservice
                         print('\n\n-----Publishing the Flight Inventory error message with routing_key=flight.error-----')
-                        send_errors("flight.topic", "topic", "flight", flight_result)
+                        send_payment_details_to_rabbitmq("payment_topic", "topic", "Error", "flight.error", flight_result)
                 
                         return jsonify(flight_result), flight_code
                     
@@ -132,7 +130,7 @@ def send_payment_data():
                             }   
                             print('\n-----Invoking Transactions -----')
 
-                            transaction_result = send_payment_details_to_transactions(transaction_data)
+                            transaction_result = send_payment_details_to_rabbitmq("payment_topic", "topic", "Transactions", "payment.trans", transaction_data)
 
                             print('\n------------------------')
                             print('transaction_result:', transaction_result)
@@ -142,7 +140,7 @@ def send_payment_data():
                             if transaction_code not in range(200, 300):
                                 # Inform the error microservice
                                 print('\n\n-----Publishing the Transaction error message with routing_key=trans.error-----')
-                                send_errors("trans.topic", "topic", "trans", transaction_result)
+                                send_payment_details_to_rabbitmq("payment_topic", "topic", "Error", "trans.error", transaction_result)
                         
                                 return jsonify(transaction_result), transaction_code
                             
@@ -164,7 +162,7 @@ def send_payment_data():
                             }   
                             print('\n-----Invoking Notifications -----')
 
-                            noti_payment_result = send_payment_details_to_notifications(confirmation_data)
+                            noti_payment_result =  send_payment_details_to_rabbitmq("payment_topic", "topic", "Notifications", "confirmation.noti", confirmation_data)
 
                             print('\n------------------------')
                             print('noti_payment_result:', noti_payment_result)
@@ -174,7 +172,7 @@ def send_payment_data():
                             if noti_payment_code not in range(200, 300):
                                 # Inform the error microservice
                                 print('\n\n-----Publishing the Notification error message with routing_key=noti.error-----')
-                                send_errors("noti.topic", "topic", "noti", noti_payment_result)
+                                send_payment_details_to_rabbitmq("payment_topic", "topic", "Error", "noti.error", noti_payment_result)
                         
                                 return jsonify(noti_payment_result), noti_payment_code
                             
@@ -207,7 +205,7 @@ def send_payment_data():
                             if user_code not in range(200, 300):
                                 # Inform the error microservice
                                 print('\n\n-----Publishing the User error message with routing_key=user.error-----')
-                                send_errors("user.topic", "topic", "user", user_result)
+                                send_payment_details_to_rabbitmq("payment_topic", "topic", "Error", "user.error", user_result)
                         
                                 return jsonify(user_result), user_code
                             
@@ -221,7 +219,7 @@ def send_payment_data():
                                 }   
                                 print('\n-----Invoking Notifications -----')
 
-                                noti_points_result = send_payment_details_to_notifications(noti_points_data)
+                                noti_points_result = send_payment_details_to_rabbitmq("payment_topic", "topic", "Notifications", "points.noti", noti_points_data)
 
                                 print('\n------------------------')
                                 print('noti_points_result:', noti_points_result)
@@ -231,7 +229,7 @@ def send_payment_data():
                                 if noti_points_code not in range(200, 300):
                                     # Inform the error microservice
                                     print('\n\n-----Publishing the Notifications error message with routing_key=noti.error-----')
-                                    send_errors("noti.topic", "topic", "noti", noti_points_result)
+                                    send_payment_details_to_rabbitmq("payment_topic", "topic", "Error", "noti.error", noti_points_result)
                             
                                     return jsonify(noti_points_result), user_code
                             
