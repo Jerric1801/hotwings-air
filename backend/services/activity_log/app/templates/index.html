@@ -1,0 +1,13 @@
+<html>
+<head>
+    <title>Activity Log</title>
+</head>
+<body>
+    <h1>Activity Log</h1>
+    <ul>
+        {% for log in logs %}
+            <li>{{ log.message }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
