@@ -5,26 +5,26 @@ from datetime import datetime
 
 db_path = 'db.json'  # REPLACE WITH DB!!**
 
-def add_transaction_log(total_price, user_id, loyalty_points=None, price_difference=None):
+def add_transaction_log(type, user_id, payment_amt=None, loyalty_points=None, price_difference=None):
     log_id = str(uuid.uuid4())
     date_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    # Construct the new log entry (might have to add 'data' & 'message' field)
     log_entry = {
         "log_id": log_id,
         "date_time": date_time,
-        "user_id": user_id
+        "type": type,
+        "user_id": user_id,
     }
 
     # Add optional fields only if they have been provided (can be used by both scenario 1 & 3)
-    if total_price is not None:
-        log_entry["total_price"] = total_price
+    if payment_amt is not None:
+        log_entry["payment_amt"] = payment_amt
     if loyalty_points is not None:
         log_entry["loyalty_points"] = loyalty_points
     if price_difference is not None:
         log_entry["price_difference"] = price_difference
 
-    # Read the existing data from DB
+    # Read the existing data from DB (REPLACE WITH DB!!**)
     try:
         with open(db_path, 'r') as file:
             data = json.load(file)
@@ -46,15 +46,18 @@ def callback(ch, method, properties, body):
         message = json.loads(body)
         print(" [x] Received %r" % message)
 
+        type = message['type']  # This will raise a KeyError if 'type' is not present.
+        user_id = message['user_id']  # This will raise a KeyError if 'user_id' is not present.
+
         # Extract data with defaults if not present
-        total_price = message.get('total_price')
-        user_id = message.get('user_id')
+        payment_amt = message.get('payment_amt')
         loyalty_points = message.get('loyalty_points')
         price_difference = message.get('price_difference')
 
         add_transaction_log(
-            total_price=total_price,
+            type=type,
             user_id=user_id,
+            payment_amt=payment_amt,
             loyalty_points=loyalty_points,
             price_difference=price_difference
         )

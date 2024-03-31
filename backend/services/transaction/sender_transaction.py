@@ -11,9 +11,12 @@ channel.queue_declare(queue='transaction_logs')
 
 # Send a message
 test_message = {
+    'type': 'p',
     'user_id': '1123465.',
+    'payment_amt': "1002..50",
     'loyalty_points': '1005',
     'price_difference': '100.50.'
+
     
 }
 channel.basic_publish(exchange='',
