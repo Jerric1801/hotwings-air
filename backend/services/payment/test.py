@@ -25,12 +25,12 @@ from app.services import  create_stripe_checkout_session, send_payment_details_t
 # send_payment_details_to_users(user_data)
 
 # # passing data to transaction microservice test [PASSED]
-# transaction_data = {
-#     "user_id": "user 4444",
-#     "type": "P",
-#     "payment_amt": 444.40
-# }
-# send_payment_details_to_rabbitmq("payment_topic", "topic", "Transaction", "payment.trans", transaction_data)
+transaction_data = {
+    "user_id": "user 4444",
+    "type": "P",
+    "payment_amt": 444.40
+}
+send_payment_details_to_rabbitmq("payment_topic", "topic", "Transactions", "payment.trans", transaction_data)
 
 # # passing data to notification microservice test [PASSED]
 # confirmation_data = {
@@ -41,9 +41,9 @@ from app.services import  create_stripe_checkout_session, send_payment_details_t
 # send_payment_details_to_rabbitmq("payment_topic", "topic", "Notification", "payment.noti", confirmation_data)
 
 # # passing data to error microservice test
-stripe_result= {
-    "code": '500',
-    "data": "stripe_result: Payment failed",
-    "message": "stripe failure sent for error handling."
-}
-send_payment_details_to_rabbitmq("payment_topic", "topic", "Error", "stripe.error", stripe_result)
+# stripe_result= {
+#     "code": '500',
+#     "data": "stripe_result: Payment failed",
+#     "message": "stripe failure sent for error handling."
+# }
+# send_payment_details_to_rabbitmq("payment_topic", "topic", "Error", "stripe.error", stripe_result)
