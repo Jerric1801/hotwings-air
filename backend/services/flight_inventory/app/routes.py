@@ -1,17 +1,12 @@
 from flask import jsonify, request
 from app import app, db
 from .models import Flight, Seating_Plan
+from .services import update_seats
 from bson import json_util
 import json
 from datetime import datetime, timedelta
 from bson.objectid import ObjectId
 
-@app.route('/flight', methods = ["GET"])
-def get_all_flights():
-    if request.method == "GET":
-        flights = db.test.find_one({"field1":"value1"})
-        return json.loads(json_util.dumps(flights))
-    
 @app.route('/flight/search', methods = ["POST"])
 def search_flights():
     if request.method == "POST":
@@ -88,50 +83,80 @@ def search_seating():
                 return jsonify({"message": "Flight not found."}), 404 
         except ValueError:
             return jsonify({"message": "Invalid flight number."}), 400 
-    
-@app.route('/flight/<flight_number>', methods = ["GET"])
-def get_flight(flight_number):
-    if request.method == "GET":
-        print("called")
-        try:
-            flight = db.flight.find_one({"_id":flight_number})
-            if flight:
-                return json.loads(json_util.dumps(flight))
-            else:
-                return jsonify({"message": "Flight not found."}), 404 
-        except ValueError:
-            return jsonify({"message": "Invalid flight number."}), 400  
-        
-@app.route('/flight/<origin>/origin', methods = ["GET"])
-def get_origin(origin):
-    if request.method == "GET":
-        try:
-            flight = db.flight.find_one({"origin": origin})
-            print(flight)
-            if flight:
-                return json.loads(json_util.dumps(flight))
-            else:
-                return jsonify({"message": "Origin not found."}), 404 
-        except ValueError:
-            return jsonify({"message": "Invalid flight number."}), 400  
 
-
-@app.route('/flight/new', methods = ["POST"])
-def create_flight():
+@app.route('/flight/seating/update', methods = ["POST"])
+def update_seating():
     if request.method == "POST":
-        data = request.get_json()
         try:
-             # 1. Create and Save Seating Plan
-            seating_plan_data = data['aircraft'].pop('seating_plan', None)  # Extract and remove 
-            if seating_plan_data:
-                seating_plan = Seating_Plan(**seating_plan_data)
-                seating_plan.save()
-                data['aircraft']['seating_plan_id'] = seating_plan.id
+            data = json.loads(request.get_json())
+            #dictionary with [seat_id (string), seats(list)]
+            departId= data.get("depart_id")
+            returnId = data.get("return_id")
+            departSeats = data.get("depart_seats")
+            returnSeats = data.get("return_seats")
+            depart_updated = update_seats(departId, departSeats)
+            return_updated = True
+            if returnId:
+                return_updated = update_seats(returnId, returnSeats)
 
-            # 2. Create and Save Flight
-            new_flight = Flight(**data)
-            new_flight.save()
-            return jsonify(new_flight.to_json()), 201
-        except Exception as e: 
-            print(e)
-            return jsonify({'error': str(e)}), 500
+            if depart_updated and return_updated:  
+                return jsonify({"Success": "Seats updated"}), 200
+            else:
+                return jsonify({"Failed": "Unable to update seats"}), 404 
+            
+        except Exception as e:
+            return jsonify({"Failed": "Unable to update seats"}), 404 
+        
+
+# @app.route('/flight', methods = ["GET"])
+# def get_all_flights():
+#     if request.method == "GET":
+#         flights = db.test.find_one({"field1":"value1"})
+#         return json.loads(json_util.dumps(flights))
+     
+# @app.route('/flight/<flight_number>', methods = ["GET"])
+# def get_flight(flight_number):
+#     if request.method == "GET":
+#         print("called")
+#         try:
+#             flight = db.flight.find_one({"_id":flight_number})
+#             if flight:
+#                 return json.loads(json_util.dumps(flight))
+#             else:
+#                 return jsonify({"message": "Flight not found."}), 404 
+#         except ValueError:
+#             return jsonify({"message": "Invalid flight number."}), 400  
+        
+# @app.route('/flight/<origin>/origin', methods = ["GET"])
+# def get_origin(origin):
+#     if request.method == "GET":
+#         try:
+#             flight = db.flight.find_one({"origin": origin})
+#             print(flight)
+#             if flight:
+#                 return json.loads(json_util.dumps(flight))
+#             else:
+#                 return jsonify({"message": "Origin not found."}), 404 
+#         except ValueError:
+#             return jsonify({"message": "Invalid flight number."}), 400  
+
+
+# @app.route('/flight/new', methods = ["POST"])
+# def create_flight():
+#     if request.method == "POST":
+#         data = request.get_json()
+#         try:
+#              # 1. Create and Save Seating Plan
+#             seating_plan_data = data['aircraft'].pop('seating_plan', None)  # Extract and remove 
+#             if seating_plan_data:
+#                 seating_plan = Seating_Plan(**seating_plan_data)
+#                 seating_plan.save()
+#                 data['aircraft']['seating_plan_id'] = seating_plan.id
+
+#             # 2. Create and Save Flight
+#             new_flight = Flight(**data)
+#             new_flight.save()
+#             return jsonify(new_flight.to_json()), 201
+#         except Exception as e: 
+#             print(e)
+#             return jsonify({'error': str(e)}), 500

@@ -22,7 +22,7 @@ function Seat(props) {
 
     return (
         <li className={`seat ${seatClass? "seat-large" : ""}`}>
-            <input type="checkbox" id={seat_number} disabled={isAvailable} onChange={e => add_seat(e)}/>
+            <input type="checkbox" id={seat_number} disabled={!isAvailable} onChange={e => add_seat(e)}/>
             <label htmlFor={seat_number}>{seat_number}</label>
         </li>
     )

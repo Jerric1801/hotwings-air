@@ -14,7 +14,7 @@ function LoyaltyPointsSlider({ onChange }) {
       <input
         type="range"
         min="0"
-        max="10000"
+        max="1000"
         value={value}
         onChange={handleChange}
       />

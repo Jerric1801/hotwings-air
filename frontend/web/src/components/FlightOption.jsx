@@ -79,7 +79,8 @@ function FlightOption(props) {
         "seatClass": seat_class,
         "departure": options["departure"]["$date"],
         "arrival": options["arrival"]["$date"],
-        "pax": options["pax"]
+        "pax": options["pax"],
+        "flight_number": options["flight_number"]
       }
                           };  
     props.onSelect(selectedData); 

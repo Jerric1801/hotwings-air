@@ -12,11 +12,14 @@ def create_stripe_checkout_session(product_description, unit_amount, points_used
     try:
         product = stripe.Product.create(name='ticket', description=product_description)
         price = stripe.Price.create(product=product.id, unit_amount=unit_amount, currency=currency)
-        domain_url = "http://127.0.0.1:5001"
+        # domain_url = "http://localhost:5004"
 
         checkout_session = stripe.checkout.Session.create(
-            success_url=f"{domain_url}/payment/success?session_id={{CHECKOUT_SESSION_ID}}",
-            cancel_url=f"{domain_url}/payment/cancelled",
+            # success_url=f"{domain_url}/payment/success?session_id={{CHECKOUT_SESSION_ID}}",
+            # cancel_url=f"{domain_url}/payment/cancelled",
+            #implement checkout id
+            success_url="http://localhost:3000/payment?status=success",
+            cancel_url="http://localhost:3000/payment?status=canceled",
             mode="payment",
             custom_text={
                 "submit": {"message":"Points used: " + str(points_used)}
@@ -24,7 +27,8 @@ def create_stripe_checkout_session(product_description, unit_amount, points_used
             line_items=[{'price': price.id, 'quantity': 1}],
             metadata={"points_used": str(points_used)},  # Store points used here
         )
-        return {"sessionId": checkout_session["id"],"code":200}
+        return checkout_session["url"]
+    # 
     except Exception as e:
         raise Exception(f"Stripe Checkout Session creation failed: {str(e)}")
 #return stripe.redirectToCheckout({sessionId: data.sessionId}) --> redirects to stripe checkout page, shld be implemented on front end
@@ -32,14 +36,11 @@ def create_stripe_checkout_session(product_description, unit_amount, points_used
 # function 2 to flight inventory
 def send_payment_details_to_flight_inventory(payload):
     json_string = json.dumps(payload)
-    print(json_string)
-    flight_id = json_string[1]
-    url=f"http://localhost:5000/flight/{flight_id}"
+    url=f"http://host.docker.internal:5000/flight/seating/update"
     response = requests.post(url, json = json_string)
-    print(response) 
 
     if response.status_code == 200:
-        return response.json()
+        return response.status_code
     else:
         raise Exception("Failed to send payment details over to flight inventory")   
        

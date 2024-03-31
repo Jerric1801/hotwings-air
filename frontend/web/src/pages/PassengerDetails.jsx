@@ -21,8 +21,7 @@ function PassengerDetails() {
     const navigate = useNavigate()
     const handleContinue = () => {
         // check whether fields are valid
-        console.log(content)
-        localStorage.setItem("passengerDetails", content)
+        localStorage.setItem("passengerDetails", JSON.stringify(content))
         navigate("/seats")
     }
 

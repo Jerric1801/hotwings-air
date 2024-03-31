@@ -157,7 +157,7 @@ def generate_seating_plan(aircraft_model, capacity):
         for row in range(1, num_rows + 1):
             for letter in seat_letters:
                 seat_number = f"{seat_number_row}{letter}"
-                available = random.random() < 0.40 
+                available = random.random() < 0.70 
                 seat = {"seat_number":seat_number, 
                         "class_type":class_type,
                         "available": available}
