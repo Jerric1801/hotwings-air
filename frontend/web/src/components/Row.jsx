@@ -4,12 +4,13 @@ function Row(props) {
     const num_seats = props["num_seats"]
     const details = props["row_details"]
     const seats = []
+    const selected_seats = props["selected_seats"]
     let type = 'small'
     if (num_seats === 9) {
         type = 'large'
     }
     for (let i = 0; i < num_seats; i++) {
-        seats.push(<Seat key = {i} seat_details={details[i]} type={type}/>)
+        seats.push(<Seat key = {i} seat_details={details[i]} type={type} selected_seats={selected_seats}/>)
     }
 
     return (

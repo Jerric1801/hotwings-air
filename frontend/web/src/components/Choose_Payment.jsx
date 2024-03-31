@@ -8,7 +8,7 @@ function Choose_Payment(){
 
   return (
     <div>
-      <h2>Payment Options</h2>
+      <h3>Payment Options</h3>
       <div>
         <div className="payment-option">
           <label className={selectedOption === 'Credit Card' ? 'selected' : ''}>

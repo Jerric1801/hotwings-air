@@ -6,11 +6,14 @@ function Plane(props) {
   const num_seats = props['content'].length
   let planeClass = false
   let seats_per_row = 6
+  const selected_seats = []
 
   if (num_seats > 200) {
     seats_per_row = 9
     planeClass = true
   }
+
+  props.handleSeatChange(selected_seats)
 
   const num_rows = num_seats / seats_per_row
 
@@ -20,7 +23,7 @@ function Plane(props) {
     let start_index = num * seats_per_row;
     let end_index = start_index + seats_per_row;
     let row_details = details.slice(start_index, end_index); 
-    rows.push(<Row key={num} num_seats={seats_per_row} row_details={row_details}/>)
+    rows.push(<Row key={num} num_seats={seats_per_row} row_details={row_details} selected_seats={selected_seats}/>)
   }
 
   return (

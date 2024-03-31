@@ -1,0 +1,179 @@
+version: '3'  
+
+services:
+#==========================================================================
+#   Service: Flight Inventory -port 5000
+#========================================================================== 
+  flight_inventory:
+    container_name: flight_inventory
+    build: 
+      context:
+        ./backend/services/flight_inventory  
+    ports:
+      - '5000:5000'   
+    depends_on:
+      - mongodb        
+    links:             
+      - mongodb
+#==========================================================================
+#   Service: Flight Search -port 5001
+#==========================================================================       
+
+  flight_search:
+    container_name: flight_search
+    build: 
+      context:
+        ./backend/services/flight_search 
+    ports:
+      - '5001:5001'  
+#==========================================================================
+#  Service: Pricing -port 5002
+#========================================================================== 
+  pricing:
+    container_name: flight_pricing
+    build: 
+      context:
+        ./backend/services/pricing
+    ports:
+      - '5002:5002'  
+    depends_on:
+      - sql_db 
+#==========================================================================
+#   Service: User -port 5003
+#========================================================================== 
+  # user:
+  #   container_name: user
+  #   build: 
+  #     context:
+  #       ./backend/services/user
+  #   ports:
+  #     - '5003:5003'  
+  #   depends_on:
+  #     - mongodb
+  #     - rabbitmq
+  #   links:
+  #     - mongodb
+#==========================================================================
+#   Service: Payment -port 5004
+#========================================================================== 
+  payment:
+    container_name: payment
+    build: 
+      context:
+        ./backend/services/payment
+    ports:
+      - '5004:5004' 
+    depends_on:
+      - rabbitmq 
+#==========================================================================
+#   Create Itinerary: Payment -port ???
+#========================================================================== 
+  # create_itinerary:
+  #   build:
+  #     context: ./backend/services/create_itinerary
+  #   ports:
+  #     - '' 
+  #   restart: always
+  #   environment:
+  #     PYTHONUNBUFFERED: 1
+#==========================================================================
+#   MOM: rabbitmq -port 5672, 15672
+#========================================================================== 
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - '5672:5672' 
+      - '15672:15672'  
+    volumes: 
+      - ./backend/common/rabbitmq/rabbitmq.config:/etc/rabbitmq/rabbitmq.config
+      - ./backend/common/rabbitmq/rabbitmq_definitions.json:/etc/rabbitmq/rabbitmq_definitions.json
+      - rabbitmq_data:/var/lib/rabbitmq
+#==========================================================================
+#   MOM: rabbitmq setup -port 5672, 15672
+#========================================================================== 
+  rabbitmq-setup:
+    build:
+      context:
+        ./backend/common/rabbitmq
+    depends_on:
+      - rabbitmq
+    links: # Consider updating to modern networking if possible
+      - rabbitmq
+    environment:  # Environment variables for connection
+      - RABBITMQ_HOST=rabbitmq 
+      - RABBITMQ_USER=your_username
+      - RABBITMQ_PASSWORD=your_password 
+#==========================================================================
+#  Database: mongodb -port 27017
+#========================================================================== 
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:         
+      - mongodb_data:/data/db 
+#==========================================================================
+#   Database Manager: mongodb -port 8081
+#========================================================================== 
+  mongo-express:
+    container_name: mongo_express
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@host.docker.internal:27017/
+    depends_on:
+      - mongodb
+#==========================================================================
+#   Seeder: mongodb
+#========================================================================== 
+  mongo-seed:
+    build: ./backend/common/database/mongo
+    depends_on:
+      - mongodb
+#==========================================================================
+#   Database: sql -port 3306
+#========================================================================== 
+  sql_db:  
+    container_name: sql_db
+    image: mysql:5.7  
+    restart: always
+    environment:
+      MYSQL_DATABASE: prices
+      MYSQL_ROOT_PASSWORD: strong_password
+      MYSQL_PASSWORD: password 
+    ports:
+      - 3306:3306
+    volumes:
+      - ./backend/common/database/my_sql:/docker-entrypoint-initdb.d 
+      - db_data:/var/lib/mysql
+#==========================================================================
+#   Database Manager: phpmyadmin -port 8082 (user: root, password: strong_password)
+#========================================================================== 
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    links:
+      - sql_db
+    environment:
+      PMA_HOST: sql_db
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - 8082:80
+#==========================================================================
+#   Volumes
+#========================================================================== 
+volumes:
+  mongodb_data:
+  db_data:
+  rabbitmq_data:   

@@ -51,6 +51,12 @@ h2 {
   font-family: avenir-next;
 }
 
+h3 {
+  margin: 0;
+  padding: 0;
+  font-family: avenir-next;
+}
+
 p {
   margin: 0;
   padding: 0;
@@ -86,10 +92,11 @@ form {
 }
 
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active  {
-    -webkit-box-shadow: white inset !important; /* Or your desired color */
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: white inset !important;
+  /* Or your desired color */
 }
 
 #root {
@@ -301,7 +308,7 @@ nav ul:last-child {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
   align-items: center;
   justify-content: center;
-  gap:2vw
+  gap: 2vw
 }
 
 .selection-flight-expand {
@@ -323,7 +330,7 @@ nav ul:last-child {
   gap: 2.5vw;
 }
 
-.selection-flight-depart > p {
+.selection-flight-depart>p {
   font-weight: 800;
 }
 
@@ -336,7 +343,7 @@ nav ul:last-child {
   gap: 2.5vw;
 }
 
-.selection-flight-return > p {
+.selection-flight-return>p {
   font-weight: 800;
 }
 
@@ -348,7 +355,7 @@ nav ul:last-child {
   align-items: center;
 }
 
-.selection-flight-submit button{
+.selection-flight-submit button {
   width: 90%;
   height: 60%;
   border: none;
@@ -500,7 +507,7 @@ nav ul:last-child {
   overflow: scroll;
 }
 
-.passenger-details h1{
+.passenger-details h1 {
   margin-top: 1vh;
   margin-left: 2.5vw;
 }
@@ -533,7 +540,7 @@ nav ul:last-child {
 
 .passenger-form-details {
   width: 30%;
-  height:100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -554,7 +561,7 @@ nav ul:last-child {
   gap: 2vh;
 }
 
-.passenger-form-field input{
+.passenger-form-field input {
   height: 90%;
   width: 60%;
   font-family: avenir-next;
@@ -563,7 +570,7 @@ nav ul:last-child {
   padding-left: 5px;
 }
 
-.passenger-form-field input:focus{
+.passenger-form-field input:focus {
   border: var(--red) 0.5px solid;
 }
 
@@ -574,7 +581,7 @@ nav ul:last-child {
 
 }
 
-.passenger-details-submit button{
+.passenger-details-submit button {
   width: 10%;
   height: 60%;
   float: right;
@@ -626,7 +633,7 @@ nav ul:last-child {
   height: 10vh;
 }
 
-.plane-seat-header button{
+.plane-seat-header button {
   width: 10%;
   height: 60%;
   float: right;
@@ -655,7 +662,7 @@ nav ul:last-child {
 }
 
 .plane-large {
-  width:45%;
+  width: 45%;
 }
 
 .cockpit {
@@ -739,7 +746,7 @@ ol {
 
   &:nth-child(3) {
     margin-right: 25%;
-  }  
+  }
 
   input[type=checkbox] {
     position: absolute;
@@ -775,8 +782,8 @@ ol {
         box-shadow: none;
         cursor: not-allowed;
       }
+    }
   }
-}
 
 
   label {
@@ -818,6 +825,7 @@ ol {
   &:nth-child(3) {
     margin-right: 5% !important;
   }
+
   &:nth-child(6) {
     margin-right: 5%;
   }
@@ -940,17 +948,122 @@ ol {
 /* ==========================================================================
    Payment Page
    ========================================================================== */
-.Booking_Title {
+.booking-page {
+  width: 100vw;
+  height: 100vh;
   display: flex;
-  flex-direction: row;
-  margin-top: 10vh;
-  margin-left: 1vw;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--beige);
 }
 
-.Itinerary h2 {
+.booking-container {
+  width: 70%;
+  height: 60%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.itinerary-breakdown {
+  width: 35%;
+  height: 100%;
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 5%;
+  background-color: var(--red);
+  border-radius: 30px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+  padding-left: 5%;
+}
+
+
+.itinerary-details {
+  height: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.booking-payment {
+  width: 60%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 5%;
+  padding-left: 5%;
+  background-color: var(--white);
+  border-radius: 30px;
+  opacity: 0.9;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+}
+
+.payment-slider-container {
+  width: 90%;
+  height: 20%;
+}
+
+.payment-slider {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-around;
+}
+
+.payment-slider input[type="range"] {
+  width: 80%; 
+  height: 20%; 
+  background-color: var(--red); 
+  border-radius: 5px; 
+}
+
+/* .payment-slider input[type="range"]::-webkit-slider-runnable-track {
+  background-color: var(--red); 
+} */
+
+/* .payment-slider input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 20px;
+  background-color: var(--red); 
+  border-radius: 50%;
+} */ 
+
+.payment-options {
+  width: 90%;
+  height: 25%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+
+.payment-checkout {
+  width: 90%;
+  height: 10%;
   display: flex;
   flex-direction: row;
-  margin-left: 1vw;
-  width: 50%;
-  background-color: red;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.payment-checkout button{
+  height: 95%;
+  width: 30%;
+  background-color: var(--red);
+  border-radius: 15px;
+  border: none;
+  color: var(--white);
+  box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+}
+
+.payment-checkout button:hover{
+  cursor: pointer;
 }

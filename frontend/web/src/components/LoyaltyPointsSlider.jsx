@@ -9,17 +9,16 @@ function LoyaltyPointsSlider({ onChange }) {
   };
 
   return (
-    <div style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '5px' }}>
-      <h2 style={{ textAlign: 'center', marginBottom: '10px' }}>Loyalty Points</h2>
+    <div className='payment-slider'>
+      <h3>Loyalty Points</h3>
       <input
         type="range"
         min="0"
         max="10000"
         value={value}
         onChange={handleChange}
-        style={{ width: '100%' }}
       />
-      <p>Value: {value}</p>
+      <p>Points: {value}</p>
     </div>
   );
 }
