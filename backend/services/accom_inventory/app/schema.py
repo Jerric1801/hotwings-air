@@ -18,6 +18,7 @@ class RoomType(graphene.ObjectType):
     description = graphene.String()
     price_per_night = graphene.Float()
     is_available = graphene.Boolean()
+    id = graphene.ID()
 
 class HotelType(graphene.ObjectType):
     rooms = graphene.List(RoomType)
@@ -45,9 +46,12 @@ class Query(graphene.ObjectType):
             total_occupancy = 0
             for room in sorted_rooms:
                 if room['is_available'] and total_occupancy < pax:
-                    accumulated_rooms.append(room)
-                    # print(accumulated_rooms)
+                    # Assuming each room document in MongoDB has an '_id' field:
+                    room_with_id = room.copy()  # Copy the room dict to avoid mutating the original
+                    room_with_id['id'] = str(room['_id'])  # Convert ObjectId to string and set as 'id'
+                    accumulated_rooms.append(room_with_id)
                     total_occupancy += room['max_occupancy']
+
             
             # Create a new hotel document with the filtered rooms                   
             hotel_data = {
