@@ -17,26 +17,67 @@
 
 Hotel Document
 {
-    "_id": "hotel_456",  // Unique hotel identifier
-    "hotel_name": "Airport Plaza Hotel",
-    "location_near": "JFK",  // Airport code it's near to
-    "address": {
-        "street": "123 Airport Road",
-        "city": "New York",
-        "state": "NY",
-        "country": "USA",
-        "postal_code": "10010"
+  "_id": {
+    "$oid": "660a0b2eae6e48d60c025b66"
+  },
+  "hotel_name": "Gateway Inn JFK",
+  "location_near": "JFK",
+  "address": {
+    "street": "123 JFK Blvd",
+    "city": "New York",
+    "state": "NY",
+    "zip": "11101"
+  },
+  "rooms": [
+    {
+      "type": "Standard Double",
+      "max_occupancy": 2,
+      "description": "A comfortable room for couples or solo travelers.",
+      "price_per_night": 120,
+      "is_available": true,
+      "_id": {
+        "$oid": "660a0b2eae6e48d60c025b4c"
+      }
     },
-    "standard_amenities": ["Wi-Fi", "Air Conditioning", "TV", "Room Service"]
-}
-
-Room document
-{
-    "_id": "room_789",
-    "hotel_id": "hotel_456",
-    "type": "Standard Double", #can be Family suite too which houses 4 pax
-    "max_occupancy": 2,
-    "description": "A cozy room perfect for couples or solo travelers. Features one double bed and an en-suite bathroom.",
-    "price_per_night": 120,
-    "is_available": True // assume queried from hotel side whether this room avail now
+    {
+      "type": "Family Suite",
+      "max_occupancy": 4,
+      "description": "Spacious room perfect for families, with two queen beds.",
+      "price_per_night": 180,
+      "is_available": true,
+      "_id": {
+        "$oid": "660a0b2eae6e48d60c025b4d"
+      }
+    },
+    {
+      "type": "Executive Suite",
+      "max_occupancy": 2,
+      "description": "Luxury accommodation with a king-size bed and office space.",
+      "price_per_night": 220,
+      "is_available": true,
+      "_id": {
+        "$oid": "660a0b2eae6e48d60c025b4e"
+      }
+    },
+    {
+      "type": "Deluxe Double",
+      "max_occupancy": 2,
+      "description": "Double room with extra comfort amenities.",
+      "price_per_night": 150,
+      "is_available": true,
+      "_id": {
+        "$oid": "660a0b2eae6e48d60c025b4f"
+      }
+    },
+    {
+      "type": "Quadruple Room",
+      "max_occupancy": 4,
+      "description": "Ideal for groups, featuring two double beds.",
+      "price_per_night": 200,
+      "is_available": true,
+      "_id": {
+        "$oid": "660a0b2eae6e48d60c025b50"
+      }
+    }
+  ]
 }
