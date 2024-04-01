@@ -1,7 +1,8 @@
 from flask import jsonify, request
 from app import app, db
+from app import app
 from flask_sqlalchemy import SQLAlchemy
-# from .services import call_flight_inventory
+from .services import call_flight_inventory
 from .models import Pricing
 import json
 
@@ -67,3 +68,4 @@ def print_all_pricing():
             })
 
         return json.dumps(flight_data), 200
+    
