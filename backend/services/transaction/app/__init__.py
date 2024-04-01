@@ -1,4 +1,9 @@
-from .services import consume_transaction
+from flask import Flask
 
 def create_app():
-    consume_transaction()
+    app = Flask(__name__)
+
+    from .routes import init_app
+    init_app(app)
+
+    return app
