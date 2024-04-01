@@ -1,0 +1,40 @@
+{
+    "logs": [
+        {
+            "log_id": "57c1513e-bc13-4185-82c1-72cf0ed836f6",
+            "date_time": "2024-04-01 14:37:42",
+            "type": "p",
+            "user_id": "1123465.",
+            "payment_amt": "1002..50",
+            "loyalty_points": "1005",
+            "price_difference": "100.50."
+        },
+        {
+            "log_id": "b0e3c5d7-dc1a-4827-a0ab-267f1c6e74d4",
+            "date_time": "2024-04-01 14:45:21",
+            "type": "p",
+            "user_id": "1123465.",
+            "payment_amt": "1002..50",
+            "loyalty_points": "1005",
+            "price_difference": "100.50."
+        },
+        {
+            "log_id": "e8bf0b0c-463e-4bc8-8bbf-754b0c544b3f",
+            "date_time": "2024-04-01 14:45:47",
+            "type": "p",
+            "user_id": "1123465.",
+            "payment_amt": "1002..50",
+            "loyalty_points": "1005",
+            "price_difference": "100.50."
+        },
+        {
+            "log_id": "fc44f4dd-8f45-4f91-853e-09eaaf6ffcce",
+            "date_time": "2024-04-01 14:45:48",
+            "type": "p",
+            "user_id": "1123465.",
+            "payment_amt": "1002..50",
+            "loyalty_points": "1005",
+            "price_difference": "100.50."
+        }
+    ]
+}

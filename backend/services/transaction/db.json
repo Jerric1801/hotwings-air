@@ -1,47 +1,17 @@
 {
     "logs": [
         {
-            "log_id": "3350c1fa-afc7-4fb6-95fd-54c929443bfe",
-            "date_time": "2024-03-21 13:02:44",
-            "total_price": "69.90",
-            "user_id": "1123465."
-        },
-        {
-            "log_id": "f01e1c18-2ecc-4c4e-b3aa-c73d7424bac8",
-            "date_time": "2024-03-21 13:02:53",
-            "total_price": "69.90",
-            "user_id": "1123465."
-        },
-        {
-            "log_id": "c5dcc782-bdb3-4286-b1a5-5b569aa6729d",
-            "date_time": "2024-03-21 13:12:08",
+            "log_id": "012f717a-05a1-4bf0-8f1e-91e9072aa999",
+            "date_time": "2024-04-01 14:49:37",
+            "type": "p",
             "user_id": "1123465.",
-            "total_price": "69.90"
-        },
-        {
-            "log_id": "84e67d09-0c0d-44cb-9c65-57d882735e74",
-            "date_time": "2024-03-21 13:13:06",
-            "user_id": "1123465.",
+            "payment_amt": "1002..50",
             "loyalty_points": "1005",
             "price_difference": "100.50."
         },
         {
-            "log_id": "cdfc0b7d-a114-40ea-8fc9-20a71564429c",
-            "date_time": "2024-03-30 22:19:49",
-            "user_id": "1123465.",
-            "loyalty_points": "1005",
-            "price_difference": "100.50."
-        },
-        {
-            "log_id": "eff73f41-6681-47ed-9d7f-7490cf924563",
-            "date_time": "2024-03-30 22:19:49",
-            "user_id": "1123465.",
-            "loyalty_points": "1005",
-            "price_difference": "100.50."
-        },
-        {
-            "log_id": "c0e7eb61-13ac-4f71-9f70-32087a9680ec",
-            "date_time": "2024-03-31 14:18:25",
+            "log_id": "f17bf8bf-ec74-42d5-a3f9-3db98e2540be",
+            "date_time": "2024-04-01 14:49:37",
             "type": "p",
             "user_id": "1123465.",
             "payment_amt": "1002..50",
