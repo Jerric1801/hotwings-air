@@ -112,7 +112,6 @@ docs/_build/
 
 # PyBuilder
 .pybuilder/
-target/
 
 # Jupyter Notebook
 .ipynb_checkpoints
@@ -178,3 +177,5 @@ venv.bak/
 /site
 
 .DS_Store
+
+.idea
