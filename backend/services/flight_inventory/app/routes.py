@@ -1,6 +1,6 @@
 from flask import jsonify, request
 from app import app, db
-from .models import Flight, Seating_Plan
+from .models import Flight, Seating_Plan, FlightTemplate
 from .services import update_seats
 from bson import json_util
 import json
@@ -106,6 +106,73 @@ def update_seating():
             
         except Exception as e:
             return jsonify({"Failed": "Unable to update seats"}), 404 
+
+@app.route('/flight/alternatives', methods = ["POST"])
+def alternatives():
+    if request.method == "POST":
+        try:
+            data = json.loads(request.get_json())
+            print(data)
+
+            flight_id = data.get("flight_id")
+            # date = data.get("date")
+            print(flight_id)
+
+            flight_query = {
+                "_id":ObjectId(flight_id),
+            }
+
+            old_flight_query = db['flight'].find_one(flight_query)
+
+            print(old_flight_query)
+
+            old_flight = FlightTemplate(**old_flight_query)
+
+            alternative_query = {
+                "flight_number": old_flight.flight_number,
+                "departure": {
+                    "$gt": old_flight.departure,
+                    "$lt": old_flight.departure + timedelta(days=10)
+                }
+            }
+
+            print("alt query", alternative_query)
+
+            alternative_flights = db['flight'].find(alternative_query).limit(5)
+
+            possible_flights = []
+
+            for flight in alternative_flights:
+                flight_item = FlightTemplate(**flight)
+                if flight_item.flight_id != old_flight.flight_id:
+                    print(flight)
+                    seat_query = {
+                        "_id":flight_item.seating_plan_id,
+                    }
+
+                    seating_plan = db['seating__plan'].find_one(seat_query)
+
+                    if seating_plan:
+                        available_seats_count = len([seat['available'] for seat in seating_plan['seats']])
+                        print("Number of available seats:", available_seats_count)
+                    else:
+                        print("Seating plan not found.")
+
+                    itinerary_details = {
+                        "flight_number": flight_item.flight_number,
+                        "avaliable_seats": available_seats_count,
+                        "date": flight_item.departure
+                    }
+
+                    possible_flights.append(itinerary_details)
+                
+            if alternative_flights:
+                return json.loads(json_util.dumps(possible_flights))
+            else:
+                return jsonify({"message": "Flight not found."}), 404 
+
+        except Exception as e:
+            return jsonify({"Failed": "Unable to find alternative flights"}), 404 
         
 
 # @app.route('/flight', methods = ["GET"])

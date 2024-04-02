@@ -20,3 +20,15 @@ class Flight(Document):
     origin = fields.StringField()
     destination = fields.StringField()
     aircraft = fields.EmbeddedDocumentField(Aircraft) 
+
+
+class FlightTemplate:
+    def __init__(self, **kwargs):
+        self.flight_id = kwargs.get("_id")
+        self.flight_number = kwargs.get('flight_number')
+        self.departure = kwargs.get('departure')
+        self.arrival = kwargs.get('arrival')
+        self.origin = kwargs.get('origin')
+        self.destination = kwargs.get('destination')
+        self.aircraft = kwargs.get('aircraft')
+        self.seating_plan_id = self.aircraft["seating_plan_id"]

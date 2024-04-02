@@ -15,21 +15,19 @@ def send_itinerary_data():
             # 4. Receive delayed flight details from Update Delay complex microservice
             data = request.get_json()
             print("\nReceived a record of flight delay:", data)
-            old_flight_data = data.get('old_flight_data')
-            user_email = data.get('user_email')
 
-            itinerary = Itinerary(old_flight_data=old_flight_data, user_email=user_email)
+            itinerary = Itinerary(**data)
 
             # 6. Send flight data to Flight Inventory microservice
             flight_inventory_data = {
-                old_flight_data : itinerary.old_flight_data,
-                user_email : itinerary.user_email
+               "flight_id" : itinerary.flight_id,
             }
             print('\n-----Invoking Flight Inventory-----')
 
             # 7. Receive recommended flight from Flight Inventory microservice
             flight_inventory_result = send_flight_details_to_flight_inventory(flight_inventory_data)
-        
+
+            return jsonify({"success": "m"}), 200
             print('\n------------------------')
             print('flight_inventory_result:', flight_inventory_result)
 

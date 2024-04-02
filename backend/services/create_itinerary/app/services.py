@@ -7,7 +7,7 @@ from .amqp_connection import create_connection, check_exchange
 # function 1 to flight inventory
 def send_flight_details_to_flight_inventory(payload):
     json_string = json.dumps(payload)
-    url=f"http://localhost:5000/flight_inventory"
+    url=f"http://host.docker.internal:5000/flight/alternatives"
     response = requests.post(url, json = json_string)
     print(response) 
 

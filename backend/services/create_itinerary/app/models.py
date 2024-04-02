@@ -1,10 +1,10 @@
 class Itinerary: 
 
-    def __init__(self, old_flight_data=None, new_flight_data=None, accommodation=None, user_email=None):
-        self.old_flight_data = old_flight_data
-        self.new_flight_data = new_flight_data
-        self.accommodation = accommodation
-        self.user_email = user_email
+    def __init__(self, **kwargs):
+        self.flight_number = kwargs("flight_number")
+        self.user_email = kwargs("user_list")
+        self.flight_id = kwargs("flight_id")
+        self.date = kwargs("date")
 
     def json(self):
         return { 
