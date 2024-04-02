@@ -6,7 +6,7 @@
 - │   ├── config.py     # Application configurations
 - │   ├── models.py     # Database models 
 - │   ├── routes.py     # API endpoints/views
-- │   ├── services.py   # Business logic
+- │   ├── schema.py     # Schema for GraphQL
 - │   └── utils.py      # Helper functions 
 - ├── requirements.txt  # Python dependencies
 - ├── run.py            # Script to start the Flask app
