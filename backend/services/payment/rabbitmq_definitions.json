@@ -39,28 +39,28 @@
     "policies": [],
     "queues": [
         {
-            "name": "Transactions",
+            "name": "transactions",
             "vhost": "/",
             "durable": true,
             "auto_delete": false,
             "arguments": {}
         },
         {
-            "name": "Notifications",
+            "name": "notifications",
             "vhost": "/",
             "durable": true,
             "auto_delete": false,
             "arguments": {}
         },
         {
-            "name": "Error",
+            "name": "error",
             "vhost": "/",
             "durable": true,
             "auto_delete": false,
             "arguments": {}
         },
         {
-            "name": "Activity_Log",
+            "name": "activity_log",
             "vhost": "/",
             "durable": true,
             "auto_delete": false,
@@ -69,7 +69,7 @@
     ],
     "exchanges": [
         {
-            "name": "payment_topic",
+            "name": "hotwings",
             "vhost": "/",
             "type": "topic",
             "durable": true,
@@ -80,33 +80,33 @@
     ],
     "bindings": [
         {
-            "source": "payment_topic",
+            "source": "hotwings",
             "vhost": "/",
-            "destination": "Transactions",
+            "destination": "transactions",
             "destination_type": "queue",
             "routing_key": "*.trans",
             "arguments": {}
         },
         {
-            "source": "payment_topic",
+            "source": "hotwings",
             "vhost": "/",
-            "destination": "Notifications",
+            "destination": "notifications",
             "destination_type": "queue",
             "routing_key": "*.noti",
             "arguments": {}
         },
         {
-            "source": "payment_topic",
+            "source": "hotwings",
             "vhost": "/",
-            "destination": "Error",
+            "destination": "error",
             "destination_type": "queue",
             "routing_key": "*.error",
             "arguments": {}
         },
         {
-            "source": "payment_topic",
+            "source": "hotwings",
             "vhost": "/",
-            "destination": "Activity_Log",
+            "destination": "activity_log",
             "destination_type": "queue",
             "routing_key": "#",
             "arguments": {}

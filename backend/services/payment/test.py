@@ -1,6 +1,6 @@
-from app.services import  create_stripe_checkout_session, send_payment_details_to_flight_inventory, send_payment_details_to_users,send_payment_details_to_rabbitmq
+from app.services import  create_stripe_checkout_session, send_payment_details_to_flight_inventory, send_payment_details_to_users,send_payment_details_to_rabbitmq, create_email_template
 
-
+import json
 # passing data to stripe api microservice test [PASSED]
 # product_description = "flight XYZ456"
 # unit_amount = 765
@@ -41,9 +41,47 @@ from app.services import  create_stripe_checkout_session, send_payment_details_t
 # send_payment_details_to_rabbitmq("payment_topic", "topic", "Notification", "payment.noti", confirmation_data)
 
 # # passing data to error microservice test
-stripe_result= {
-    "code": '500',
-    "data": "stripe_result: Payment failed",
-    "message": "stripe failure sent for error handling."
+# stripe_result= {
+#     "code": '500',
+#     "data": "stripe_result: Payment failed",
+#     "message": "stripe failure sent for error handling."
+# }
+# send_payment_details_to_rabbitmq("payment_topic", "topic", "Error", "stripe.error", stripe_result)
+
+# creating email template 
+flight_details = {
+    "origin" : "SIN",
+    "destination" : "LON",
+    "seat_num" : ["A1", "A2", "B3", "B4"]
 }
-send_payment_details_to_rabbitmq("payment_topic", "topic", "Error", "stripe.error", stripe_result)
+confirmation_email = create_email_template("confirmation", flight_details)
+print('\n-----Confirmation Email -----')
+print(confirmation_email["subject"])
+print(confirmation_email["message"])
+
+accumulated_loyalty_points = 2345
+points_email = create_email_template("points", accumulated_loyalty_points)
+print('\n-----Loyalty Points Email -----')
+print(points_email["subject"])
+print(points_email["message"])
+
+flight_data = {
+    "flight_id" : "flight 0123456",
+    "origin" : "SIN",
+    "destination" : "LON"
+}
+points_email = create_email_template("delay", flight_data)
+print('\n-----Flight Delay Email -----')
+print(points_email["subject"])
+print(points_email["message"])
+
+
+confirmation_data = {
+    "user_email": "jiayenbeh@gmail.com",
+    "subject":confirmation_email["subject"],
+    "message_body": confirmation_email["message"]
+}   
+print('\n-----Invoking Notifications -----')
+
+# noti_payment_result = send_payment_details_to_rabbitmq("payment_topic", "topic", "Notifications", "confirmation.noti", confirmation_data)
+

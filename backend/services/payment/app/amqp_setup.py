@@ -4,7 +4,7 @@ import pika
 
 hostname = "localhost" # default hostname
 port = 5672            # default port
-exchangename = "payment_topic" # exchange name
+exchangename = "hotwings" # exchange name
 exchangetype = "topic" # - use a 'topic' exchange to enable interaction
 
 #to create a connection to the broker
@@ -60,28 +60,28 @@ def create_queues(channel):
 # function to create Transaction queue  
 def create_transaction_queue(channel):
     print('amqp_setup:create_transaction_queue')
-    t_queue_name = 'Transactions'
+    t_queue_name = 'transactions'
     channel.queue_declare(queue=t_queue_name, durable=True)
     channel.queue_bind(exchange=exchangename, queue=t_queue_name, routing_key='*.trans')
 
 # function to create Notifications queue
 def create_notification_queue(channel):
     print('amqp_setup:create_notification_queue')
-    n_queue_name = 'Notifications'
+    n_queue_name = 'notifications'
     channel.queue_declare(queue=n_queue_name, durable=True)
     channel.queue_bind(exchange=exchangename, queue=n_queue_name, routing_key='*.noti')
 
 # function to create Activity_Log queue
 def create_activity_log_queue(channel):
     print('amqp_setup:create_activity_log_queue')
-    a_queue_name = 'Activity_Log'
+    a_queue_name = 'activity_log'
     channel.queue_declare(queue=a_queue_name, durable=True)
     channel.queue_bind(exchange=exchangename, queue=a_queue_name, routing_key='#')
     
 # function to create Error queue
 def create_error_queue(channel):
     print('amqp_setup:create_error_queue')
-    e_queue_name = 'Error'
+    e_queue_name = 'error'
     channel.queue_declare(queue=e_queue_name, durable=True)
     channel.queue_bind(exchange=exchangename, queue=e_queue_name, routing_key='*.error')
 
