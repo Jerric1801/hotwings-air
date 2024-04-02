@@ -18,10 +18,6 @@ public class UpdateDelayController {
     private final UpdateDelayService updateDelayService;
     private final RabbitMQProducer producer;
 
-    @PostMapping("/itinerary")
-    @ResponseStatus(HttpStatus.OK)
-    public void sendItinerary() {
-    }
 
     @PostMapping("/notifications")
     @ResponseStatus(HttpStatus.OK)

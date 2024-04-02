@@ -1,30 +1,27 @@
-from app import db
-from bson.objectid import ObjectId
+import requests  # Or the library you use for API calls
+import os, sys
+import pika
+import json 
+from .amqp_connection import create_connection, check_exchange
 
-def update_seats(seat_id, seats):
-    try:
-        print("seats", seats)
-        print("seatID", seat_id)
+def send_payment_details_to_rabbitmq(exchangename, exchangetype, microservice, routing_key, payload):
 
-        seating_plan_collection = db['seating__plan']
+   #create a connection and a channel to the broker to publish messages to error queues
+    connection = create_connection() 
+    channel = connection.channel()
 
-        for seat_number in seats:
-            result = seating_plan_collection.update_one({
-                '_id': ObjectId(seat_id),
-                'seats.seat_number': seat_number 
-            }, {
-                '$set': {
-                    'seats.$.available': False  
-                }
-            })
+    #if the exchange is not yet created, exit the program
+    if not check_exchange(channel, exchangename, exchangetype):
+        print(f"\nCreate the 'Exchange' before running the {microservice} microservice. \nExiting the program.")
+        sys.exit(0)  # Exit with a success status
 
-            if result.modified_count == 0:
-                print(f"Seat {seat_number} not found or already marked unavailable")
-            else:
-                print("Seats updated succesfully")
-                return True
+    message = json.dumps(payload)
+    print(message)
 
+    # Publish message to specific queue based on the routing_key
+    channel.basic_publish(exchange=exchangename, routing_key=f"{routing_key}", 
+                body=message, properties=pika.BasicProperties(delivery_mode = 2)) 
 
-    except Exception as e:  # Catch more specific exceptions if needed
-        print("Failed to update Seating:", e)
-        return False
+        
+    print(f"\n Message is published to the RabbitMQ Exchange under {microservice} and Activity_Log queue:", message)
+    return {"code": 200}

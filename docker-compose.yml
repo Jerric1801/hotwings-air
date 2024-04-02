@@ -47,7 +47,8 @@ services:
       context:
         ./backend/services/user
     ports:
-      - '5003:5003'  
+      - '5003:5003' 
+      - "8000:8000"  
     depends_on:
       - mongodb
       - rabbitmq
@@ -65,6 +66,7 @@ services:
       - '5004:5004' 
     depends_on:
       - rabbitmq 
+
 #==========================================================================
 #   Service: Transaction -port 5005
 #========================================================================== 
@@ -77,29 +79,75 @@ services:
       - '5005:5005' 
     depends_on:
       - rabbitmq 
+
 #==========================================================================
 #   Service: Activity Log -port 5006
 #========================================================================== 
-  activity_log:
-    container_name: activity_log
+  # activity_log:
+  #   container_name: activity_log
+  #   build: 
+  #     context:
+  #       ./backend/services/activity_log
+  #   ports:
+  #     - '5006:5006' 
+  #   depends_on:
+  #     - rabbitmq 
+
+#==========================================================================
+#   Service: Notification -port 5007
+#========================================================================== 
+  notification:
+    container_name: notifications
     build: 
       context:
-        ./backend/services/activity_log
+        ./backend/services/notifications
     ports:
-      - '5006:5006' 
+      - '5007:5007' 
     depends_on:
       - rabbitmq 
+
 #==========================================================================
-#   Create Itinerary: Payment -port ???
+#   Service: Flight Tracker -port 5008
 #========================================================================== 
-  # create_itinerary:
-  #   build:
-  #     context: ./backend/services/create_itinerary
-  #   ports:
-  #     - '' 
-  #   restart: always
-  #   environment:
-  #     PYTHONUNBUFFERED: 1
+  flight_tracker:
+    container_name: flight_tracker
+    build: 
+      context:
+        ./backend/services/flight_tracker
+    ports:
+      - '5008:5008' 
+    depends_on:
+      - rabbitmq 
+
+#==========================================================================
+#   Service: Update Delay -port 5009
+#========================================================================== 
+  update_delay:
+    container_name: update_delay
+    build: 
+      context:
+        ./backend/services/update_delay
+    ports:
+      - '5009:5009' 
+    depends_on:
+      - rabbitmq 
+
+
+
+#==========================================================================
+#   Service: Create Itinerary -port 5010
+#========================================================================== 
+  create_itinerary:
+    build:
+      context: ./backend/services/create_itinerary
+    ports:
+      - '5010:5010' 
+    restart: always
+    environment:
+      PYTHONUNBUFFERED: 1
+    depends_on:
+      - rabbitmq 
+
 #==========================================================================
 #   MOM: rabbitmq -port 5672, 15672
 #========================================================================== 

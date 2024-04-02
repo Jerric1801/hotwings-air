@@ -56,32 +56,34 @@ def create_queues(channel):
     create_transaction_queue(channel)
     create_notification_queue(channel)
     create_activity_log_queue(channel)
+    create_user_queue(channel)
+    create_tracker_queue(channel)
 
 # function to create Transaction queue  
 def create_transaction_queue(channel):
     print('amqp_setup:create_transaction_queue')
-    t_queue_name = 'Transactions'
+    t_queue_name = 'transactions'
     channel.queue_declare(queue=t_queue_name, durable=True)
-    channel.queue_bind(exchange=exchangename, queue=t_queue_name, routing_key='*.trans')
+    channel.queue_bind(exchange=exchangename, queue=t_queue_name, routing_key='*.transactions')
 
 # function to create Notifications queue
 def create_notification_queue(channel):
     print('amqp_setup:create_notification_queue')
-    n_queue_name = 'Notifications'
+    n_queue_name = 'notifications'
     channel.queue_declare(queue=n_queue_name, durable=True)
-    channel.queue_bind(exchange=exchangename, queue=n_queue_name, routing_key='*.noti')
+    channel.queue_bind(exchange=exchangename, queue=n_queue_name, routing_key='*.notifications')
 
 # function to create Activity_Log queue
 def create_activity_log_queue(channel):
     print('amqp_setup:create_activity_log_queue')
-    a_queue_name = 'Activity_Log'
+    a_queue_name = 'activity_log'
     channel.queue_declare(queue=a_queue_name, durable=True)
-    channel.queue_bind(exchange=exchangename, queue=a_queue_name, routing_key='#')
+    channel.queue_bind(exchange=exchangename, queue=a_queue_name, routing_key='*.activity_log')
     
 # function to create Error queue
 def create_error_queue(channel):
     print('amqp_setup:create_error_queue')
-    e_queue_name = 'Error'
+    e_queue_name = 'error'
     channel.queue_declare(queue=e_queue_name, durable=True)
     channel.queue_bind(exchange=exchangename, queue=e_queue_name, routing_key='*.error')
 
@@ -90,7 +92,14 @@ def create_user_queue(channel):
     print('amqp_setup:create_user_queue')
     e_queue_name = 'user'
     channel.queue_declare(queue=e_queue_name, durable=True)
-    channel.queue_bind(exchange=exchangename, queue=e_queue_name, routing_key='*.error')
+    channel.queue_bind(exchange=exchangename, queue=e_queue_name, routing_key='*.user')
+
+def create_tracker_queue(channel):
+    print('amqp_setup:create_tracker_queue')
+    e_queue_name = 'tracker'
+    channel.queue_declare(queue=e_queue_name, durable=True)
+    channel.queue_bind(exchange=exchangename, queue=e_queue_name, routing_key='*.tracker')
+
 
 
 if __name__ == "__main__":  # execute this program only if it is run as a script (not by 'import')   

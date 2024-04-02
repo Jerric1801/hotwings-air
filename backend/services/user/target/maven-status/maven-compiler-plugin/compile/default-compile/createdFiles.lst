@@ -1,6 +1,0 @@
-com\hotwings\user\models\User.class
-com\hotwings\user\models\User$UserBuilder.class
-com\hotwings\user\repository\UserRepository.class
-com\hotwings\user\UserApplication.class
-com\hotwings\user\services\UserService.class
-com\hotwings\user\controller\UserController.class

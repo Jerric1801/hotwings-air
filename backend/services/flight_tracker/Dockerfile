@@ -9,6 +9,6 @@ RUN apt-get update && apt-get install -y iputils-ping
 
 COPY . . 
 
-EXPOSE 5010
+EXPOSE 5008
 
 CMD ["python", "run.py"] 

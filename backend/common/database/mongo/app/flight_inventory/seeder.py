@@ -32,7 +32,7 @@ def seed_flight_inventory():
 
         db = client['flight_inventory'] 
 
-        connect(alias='flight_inventory', db='flight_inventory', host='mongodb', port=27017, username='root', password='example', authentication_source='admin') 
+        engine = connect(db='flight_inventory', host='mongodb', port=27017, username='root', password='example', authentication_source='admin') 
         
     except Exception as e:
         print("Failed to connect to mongodb", e) 
@@ -58,6 +58,6 @@ def seed_flight_inventory():
             except:
                 print("error detected")
 
-        disconnect(alias='flight_inventory')
+        engine.disconnect()
     else:
-        disconnect(alias='flight_inventory')
+        engine.disconnect()

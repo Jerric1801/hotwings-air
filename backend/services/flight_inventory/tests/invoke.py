@@ -11,7 +11,7 @@ body = {
     "depart_origin": "Kuala Lumpur",
     "depart_seat_id": "6609911c4564d0b4199d7358",
     "depart_seats": ["11E", "11F"],
-    "loyalty_points": 0,
+    "loyalty_points": 20,
     "other_passengers": [],
     "return_arrival_time": "2024-04-23T07:17:29.591Z",
     "return_departure_time": "2024-04-23T00:35:29.591Z",
@@ -21,15 +21,21 @@ body = {
     "return_origin": "Dubai",
     "return_seat_id": "660991144564d0b4199d7274",
     "return_seats": ["4B", "4C"],
-    "total_price": 0,
-    "user_email": "jerric1801@gmail.com",
+    "total_price": 1800,
+    "user_email": "jerric.chan.2022@scis.smu.edu.sg",
     "user_first": "Jerric",
     "user_gender": "Mr",
     "user_last": "Chan",
     "user_phone": ""
 }
-response = requests.post("http://127.0.0.1:5004/payment", json = body)
 
+boyang = "byzhou.2022@scis.smu.edu.sg"
+# response = requests.post("http://127.0.0.1:5004/payment", json = body)
+
+body1 = {"flight_id": "HW436",
+         "date":"2024-04-02T05:23:29.636Z"}
+response = requests.post("http://127.0.0.1:5008/flight_tracker/invoke", json = body1)
+# print(response.content)
 
 # response = requests.get("http://127.0.0.1:5000/flight/Singapore/origin")
 # response = requests.post("http://127.0.0.1:5001/flight_search", json = {

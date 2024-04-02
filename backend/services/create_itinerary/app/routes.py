@@ -1,7 +1,7 @@
 from flask import jsonify, request
 
 from app import app
-from .services import send_flight_details_to_search_flight, send_flight_details_to_search_accomodation, send_flight_details_to_custom_webpage, send_flight_details_to_rabbitmq
+from .services import send_flight_details_to_flight_inventory, send_flight_details_to_accomodation, send_flight_details_to_custom_webpage, send_error_to_rabbitmq
 from .models import Itinerary
 
 import os, sys
@@ -18,59 +18,59 @@ def send_itinerary_data():
             old_flight_data = data.get('old_flight_data')
             user_email = data.get('user_email')
 
-            itinerary = Itinerary(old_flight_data, user_email)
+            itinerary = Itinerary(old_flight_data=old_flight_data, user_email=user_email)
 
-            # 5. Send flight data to Search Flight complex microservice
-            search_flight_data = {
+            # 6. Send flight data to Flight Inventory microservice
+            flight_inventory_data = {
                 old_flight_data : itinerary.old_flight_data,
                 user_email : itinerary.user_email
             }
-            print('\n-----Invoking Search Flight-----')
+            print('\n-----Invoking Flight Inventory-----')
 
-            # 8. Receive recommended flight from Search Flight complex microservice
-            search_flight_result = send_flight_details_to_search_flight(search_flight_data)
+            # 7. Receive recommended flight from Flight Inventory microservice
+            flight_inventory_result = send_flight_details_to_flight_inventory(flight_inventory_data)
         
             print('\n------------------------')
-            print('search_flight_result:', search_flight_result)
+            print('flight_inventory_result:', flight_inventory_result)
 
-            search_flight_code = search_flight_result["code"]
+            flight_inventory_code = flight_inventory_result["code"]
 
-            # 9. Activate error handler if the search flight fails
-            if search_flight_code not in range(200, 300):
+            # 7. Activate error handler if the search flight fails
+            if flight_inventory_code not in range(200, 300):
                 # Inform the error microservice
-                print('\n\n-----Publishing the Search Flight error message with routing_key=search_flight.error-----')
-                send_flight_details_to_rabbitmq("payment_topic", "topic", "Error", "search_flight.error", search_flight_result)
+                print('\n\n-----Publishing the Flight_inventory error message with routing_key=search_flight.error-----')
+                send_error_to_rabbitmq("hotwings", "topic", "Error", "flight_inventory.error", flight_inventory_result)
                 
-                return jsonify(search_flight_result), search_flight_code
+                return jsonify(flight_inventory_result), flight_inventory_code
             
             else:
 
                 try:
-                    # 9. Send new flight details to Search Accommodation microservice
-                    flight_data = search_flight_result["data"]
+                    # 8. Send new flight details to Accommodation Inventory microservice
+                    flight_data = flight_inventory_result["data"]
                     itinerary.update_new_flight_data(new_flight_data=flight_data)
-                    print('\n-----Invoking Search Accommodation -----')
+                    print('\n-----Invoking Accommodation Inventory -----')
 
-                    accommodation_result = send_flight_details_to_search_accomodation(flight_data)
+                    accommodation_result = send_flight_details_to_accomodation(flight_data)
 
-                    # 12. Receive recommended accommodation from Search Accommodation
+                    # 9. Receive recommended accommodation from Accommodation Inventory
                     print('\n------------------------')
                     print('accommodation_result:', accommodation_result)
 
                     accommodation_code = accommodation_result["code"]
 
-                    # 13.  Activate error handler if the search accommodation fails
+                    # 9.  Activate error handler if the search accommodation fails
                     if accommodation_code not in range(200, 300):
                         # Inform the error microservice
-                        print('\n\n-----Publishing the Search Accommodation error message with routing_key=search_accommodation.error-----')
-                        send_flight_details_to_rabbitmq("payment_topic", "topic", "Error", "search_accommodation.error", accommodation_result)
+                        print('\n\n-----Publishing the Accommodation Inventory error message with routing_key=accommodation.error-----')
+                        send_error_to_rabbitmq("hotwings", "topic", "Error", "accommodation.error", accommodation_result)
                 
                         return jsonify(accommodation_result), accommodation_code
                     
                     else:
 
                         try:
-                            # 13. Send new flight details and accommodation to Create Webpage microservice
+                            # 10. Send new flight details and accommodation to Create Webpage microservice
                             accommodation = accommodation_result["data"]
                             itinerary.update_accommodation(accommodation=accommodation)
                             custom_webpage_data = {
@@ -79,19 +79,20 @@ def send_itinerary_data():
                                 "user_email" : itinerary.user_email
                             }
                             print('\n-----Invoking Custom Webpage -----')
-                
+
                             custom_webpage_result = send_flight_details_to_custom_webpage(custom_webpage_data)
 
                             print('\n------------------------')
                             print('custom_webpage_result:', custom_webpage_result)
 
+                            # 11. Receive reply status
                             custom_webpage_code = custom_webpage_result["code"]
 
-                            # 14.  Activate error handler if the custom webpage fails
+                            # 11.  Activate error handler if the custom webpage fails
                             if custom_webpage_code not in range(200, 300):
                                 # Inform the error microservice
                                 print('\n\n-----Publishing the Custom Webpage error message with routing_key=webpage.error-----')
-                                send_flight_details_to_rabbitmq("payment_topic", "topic", "Error", "webpage.error", custom_webpage_result)
+                                send_error_to_rabbitmq("payment_topic", "topic", "Error", "webpage.error", custom_webpage_result)
                         
                                 return jsonify(custom_webpage_result), custom_webpage_code
                             
@@ -111,7 +112,7 @@ def send_itinerary_data():
                     ex_str = str(e) + " at " + str(exc_type) + ": " + fname + ": line " + str(exc_tb.tb_lineno)
                     print(ex_str)
 
-                    return jsonify({"error": "Search Accommodation microservice has an internal error: " + ex_str}), 500
+                    return jsonify({"error": "Accommodation inventory microservice has an internal error: " + ex_str}), 500
 
         except Exception as e:
             # Unexpected error in code
@@ -120,7 +121,7 @@ def send_itinerary_data():
             ex_str = str(e) + " at " + str(exc_type) + ": " + fname + ": line " + str(exc_tb.tb_lineno)
             print(ex_str)
 
-            return jsonify({"error": "Search Flight has an internal error: " + ex_str}), 500
+            return jsonify({"error": "Flight Inventory has an internal error: " + ex_str}), 500
         
        
     # if reached here, not a JSON request.

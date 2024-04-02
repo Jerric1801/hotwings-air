@@ -1,7 +1,7 @@
 from flask import jsonify, request, render_template
 from flask_cors import cross_origin
 from app import app
-from .services import create_stripe_checkout_session, send_payment_details_to_flight_inventory,send_payment_details_to_rabbitmq,send_payment_details_to_users
+from .services import create_stripe_checkout_session, send_payment_details_to_flight_inventory,send_payment_details_to_rabbitmq,send_payment_details_to_users, create_email_template
 from .models import Payment
 from .utils import stripe_keys
 
@@ -91,7 +91,7 @@ def send_payment_data():
             if flight_result not in range(200, 300):
                 # Inform the error microservice
                 print('\n\n-----Publishing the Flight Inventory error message with routing_key=flight.error-----')
-                send_payment_details_to_rabbitmq(EXCHANGE, "topic", "Error", "flight.error", flight_result)
+                send_payment_details_to_rabbitmq(EXCHANGE, "topic", "error", "flight.error", flight_result)
         
                 return jsonify(flight_result)
             
@@ -108,17 +108,18 @@ def send_payment_data():
                     }   
                     print('\n-----Invoking Transactions -----')
 
-                    transaction_result = send_payment_details_to_rabbitmq(EXCHANGE, "topic", "Transactions", "payment.trans", transaction_data)
+                    transaction_result = send_payment_details_to_rabbitmq(EXCHANGE, "topic", "transactions", "payment.transactions", transaction_data)
 
                     print('\n------------------------')
                     print('transaction_result:', transaction_result)
 
                     transaction_code = transaction_result["code"]
+                    # transaction_code = 200
 
                     if transaction_code not in range(200, 300):
                         # Inform the error microservice
                         print('\n\n-----Publishing the Transaction error message with routing_key=trans.error-----')
-                        send_payment_details_to_rabbitmq(EXCHANGE, "topic", "Error", "trans.error", transaction_result)
+                        send_payment_details_to_rabbitmq(EXCHANGE, "topic", "error", "transactions.error", transaction_result)
                 
                         return jsonify(transaction_result), transaction_code
                     
@@ -133,17 +134,21 @@ def send_payment_data():
             
             
                 try:
+                    flight_details = {
+                        "origin" : paymentDetails.depart_origin,
+                        "destination" : paymentDetails.depart_destination,
+                        "seat_num" : paymentDetails.depart_seats
+                    }
+                    email_details = create_email_template("confirmation", flight_details)
                     # 5. Sends confirmation email to user 
                     confirmation_data = {
-                        "user_id": paymentDetails.user_email,
-                        "type": "P",
-                        "payment_amt": paymentDetails.total_price,
-                        "loyalty_points": paymentDetails.loyalty_points,
-                        "price_difference": 0
+                        "email": paymentDetails.user_email,
+                        "notification_type": email_details["subject"],
+                        "notification_message": email_details["message"],
                     }   
                     print('\n-----Invoking Notifications -----')
 
-                    noti_payment_result =  send_payment_details_to_rabbitmq("payment_topic", "topic", "Notifications", "confirmation.noti", confirmation_data)
+                    noti_payment_result =  send_payment_details_to_rabbitmq(EXCHANGE, "topic", "notifications", "complete.notifications", confirmation_data)
 
                     print('\n------------------------')
                     print('noti_payment_result:', noti_payment_result)
@@ -153,7 +158,7 @@ def send_payment_data():
                     if noti_payment_code not in range(200, 300):
                         # Inform the error microservice
                         print('\n\n-----Publishing the Notification error message with routing_key=noti.error-----')
-                        send_payment_details_to_rabbitmq("payment_topic", "topic", "Error", "noti.error", noti_payment_result)
+                        send_payment_details_to_rabbitmq(EXCHANGE, "topic", "error", "notifications.error", noti_payment_result)
                 
                         return jsonify(noti_payment_result), noti_payment_code
                     
@@ -166,43 +171,45 @@ def send_payment_data():
 
                     return jsonify({"error": "Notifications mciroservice has an internal error: " + ex_str}), 500
                 
-                return jsonify({"message": "success"}), 200
                 
                 try:
+                    net_loyalty_points = int(paymentDetails.base_price * 0.1 - paymentDetails.loyalty_points)
                     # 5. Calculate loyalty points and send to Users
                     loyalty_points_data = {
-                        "user_id": paymentDetails.user_id,
-                        "flight_id": paymentDetails.flight_id,
-                        "loyalty_points": paymentDetails.orig_price
+                        "loyalty_points": net_loyalty_points
                     }   
                     print('\n-----Invoking User -----')
 
-                    user_result = send_payment_details_to_users(loyalty_points_data)
+                    user_result = send_payment_details_to_users(paymentDetails.user_email, loyalty_points_data)
 
                     print('\n------------------------')
                     print('user_result:', user_result)
 
-                    user_code = user_result["code"]
-                    accumulated_loyalty_points = user_result["accumulated_loyalty_points"]
+                    user_code = user_result['status']
+                    accumulated_loyalty_points = user_result["loyalty_points"]
 
-                    if user_code not in range(200, 300):
+                    if not user_code:
                         # Inform the error microservice
                         print('\n\n-----Publishing the User error message with routing_key=user.error-----')
-                        send_payment_details_to_rabbitmq("payment_topic", "topic", "Error", "user.error", user_result)
+                        send_payment_details_to_rabbitmq(EXCHANGE, "topic", "error", "user.error", user_result)
                 
                         return jsonify(user_result), user_code
                     
                     else:
 
                         # 6. Sends accumulated loyalty points email to user
+                        points_details = accumulated_loyalty_points
+                        email_details = create_email_template("points", points_details)
+
                         noti_points_data = {
-                            "user_email": paymentDetails.user_email,
-                            "msg_type": "L",
-                            "loyalty_points": accumulated_loyalty_points
+                            "email": paymentDetails.user_email,
+                            "notification_type": email_details["subject"],
+                            "notification_message": email_details["message"],
                         }   
+
                         print('\n-----Invoking Notifications -----')
 
-                        noti_points_result = send_payment_details_to_rabbitmq("payment_topic", "topic", "Notifications", "points.noti", noti_points_data)
+                        noti_points_result = send_payment_details_to_rabbitmq(EXCHANGE, "topic", "notifications", "points.notifications", noti_points_data)
 
                         print('\n------------------------')
                         print('noti_points_result:', noti_points_result)
@@ -212,10 +219,11 @@ def send_payment_data():
                         if noti_points_code not in range(200, 300):
                             # Inform the error microservice
                             print('\n\n-----Publishing the Notifications error message with routing_key=noti.error-----')
-                            send_payment_details_to_rabbitmq("payment_topic", "topic", "Error", "noti.error", noti_points_result)
+                            send_payment_details_to_rabbitmq(EXCHANGE, "topic", "error", "noti.error", noti_points_result)
                     
                             return jsonify(noti_points_result), user_code
-                    
+                        
+
                 except Exception as e:
                     # Unexpected error in code
                     exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -233,6 +241,8 @@ def send_payment_data():
             print(ex_str)
 
             return jsonify({"error": "Flight Inventory microservice has an internal error: " + ex_str}), 500
+        
+        return jsonify({"message":"success"}), 200
 
     #     except Exception as e:
     #         # Unexpected error in code

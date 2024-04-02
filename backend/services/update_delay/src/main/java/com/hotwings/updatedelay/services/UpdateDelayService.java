@@ -1,6 +1,7 @@
 package com.hotwings.updatedelay.services;
 
 import com.hotwings.updatedelay.dto.FlightMessage;
+import com.hotwings.updatedelay.dto.ItineraryMessage;
 import com.hotwings.updatedelay.dto.NotificationsMessage;
 import com.hotwings.updatedelay.models.User;
 import com.hotwings.updatedelay.publisher.RabbitMQProducer;
@@ -23,9 +24,9 @@ public class UpdateDelayService {
 
     public void getAffectedUsers(FlightMessage flightMessage) {
         String date = flightMessage.getDate();
-        String flight_id = flightMessage.getFlight_id();
+        String flight_number = flightMessage.getFlight_number();
         List<User> affectedUsers = webClient.post()
-                .uri("http://localhost:8080/user/disruption")
+                .uri("http://host.docker.internal:5003/user/disruption")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(flightMessage)
                 .retrieve()
@@ -34,11 +35,24 @@ public class UpdateDelayService {
         if (affectedUsers != null) {
             for (User u : affectedUsers) {
                 String email = u.getEmail();
-                String msg_body = "We are sorry to inform you that your flight " + flight_id + " on " + date + "has been delayed. You will receive an email with steps on what to do next.";
+                String msg_body = "We are sorry to inform you that your flight " + flight_number + " on " + date + "has been delayed. You will receive an email with steps on what to do next.";
                 NotificationsMessage msg = new NotificationsMessage(email, "Flight Delay", msg_body);
                 producer.sendNotifications(msg);
             }
+
+            createItinerary(flightMessage, affectedUsers);
         }
+    }
+
+    public void createItinerary(FlightMessage flightMessage, List<User> affectedUsers) {
+        ItineraryMessage iti = new ItineraryMessage(affectedUsers, flightMessage.getFlight_id(), flightMessage.getDate(), flightMessage.getFlight_number());
+         webClient.post()
+            .uri("http://host.docker.internal:5010/create_itinerary")
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(iti)
+            .retrieve()
+            .bodyToMono(ItineraryMessage.class)
+            .block();
     }
 
 }

@@ -1,4 +1,4 @@
-from app.services import  send_flight_details_to_search_flight, send_flight_details_to_search_accomodation, send_flight_details_to_custom_webpage, send_flight_details_to_rabbitmq
+from app.services import  send_flight_details_to_flight_inventory, send_flight_details_to_accomodation, send_flight_details_to_custom_webpage, send_error_to_rabbitmq
 
 # passing old flight data to search flight complex mciroservice test
 old_flight_data = {
@@ -11,7 +11,7 @@ old_flight_data = {
     "seat_number": ["A1", "B2", "A4"]
 }
 user_email = "jiayenbeh@gmail.com"
-search_flight_result = send_flight_details_to_search_flight(old_flight_data, user_email)
+search_flight_result = send_flight_details_to_flight_inventory(old_flight_data, user_email)
 
 # passing new flight data to search accommodation microservice test
 new_flight_data = {
@@ -23,7 +23,7 @@ new_flight_data = {
     "aircraft": "Boeing 456",
     "seat_number": ["A2", "B1", "A4"]
 }  
-send_flight_details_to_search_accomodation(new_flight_data)
+send_flight_details_to_accomodation(new_flight_data)
 
 # passing new flight data and accommodation data to create webpage microservice test 
 accommodation = {
@@ -38,9 +38,9 @@ accommodation = {
 send_flight_details_to_custom_webpage(new_flight_data, accommodation, user_email)
 
 # # passing data to error microservice test
-stripe_result= {
+flight_inventory_result= {
     "code": '500',
-    "data": "stripe_result: Payment failed",
-    "message": "stripe failure sent for error handling."
+    "data": "flight_inventory_result: Update of Flight Inventory",
+    "message": "updating of flight_inventory failure sent for error handling."
 }
-send_flight_details_to_rabbitmq("payment_topic", "topic", "Error", "stripe.error", stripe_result)
+send_error_to_rabbitmq("hotwings", "topic", "Error", "flight_inventory.error", flight_inventory_result)

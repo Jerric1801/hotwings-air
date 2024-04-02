@@ -91,7 +91,7 @@
             "vhost": "/",
             "destination": "transactions",
             "destination_type": "queue",
-            "routing_key": "*.trans",
+            "routing_key": "*.transactions",
             "arguments": {}
         },
         {
@@ -99,7 +99,7 @@
             "vhost": "/",
             "destination": "notifications",
             "destination_type": "queue",
-            "routing_key": "*.notification",
+            "routing_key": "*.notifications",
             "arguments": {}
         },
         {
@@ -115,7 +115,7 @@
             "vhost": "/",
             "destination": "activity_log",
             "destination_type": "queue",
-            "routing_key": "#",
+            "routing_key": "*.activity_log",
             "arguments": {}
         },
         {

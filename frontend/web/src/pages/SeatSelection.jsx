@@ -3,6 +3,7 @@ import Plane from '../components/Plane';
 import { useNavigate } from 'react-router-dom';
 
 function SeatSelection() {
+  localStorage.setItem("paymentSuccess", false)
   //fetch seats from local
   const seat_plan = JSON.parse(localStorage.getItem("flightSelectionSeats"))
   const planes = []

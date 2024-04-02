@@ -69,6 +69,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>update_delay</finalName>
 	</build>
 
 </project>

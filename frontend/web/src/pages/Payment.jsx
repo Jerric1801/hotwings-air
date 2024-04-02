@@ -14,6 +14,7 @@ function Payment() {
   //get passenger selections
   const passengerString = localStorage.getItem('passengerDetails')
   const passengers = JSON.parse(passengerString)
+  const paymentSuccess = localStorage.getItem("paymentSuccess")
 
   const navigate = useNavigate()
 
@@ -67,27 +68,33 @@ function Payment() {
     return payload
   }
 
-  const handlePayment = async() => {
-  
+  const handlePayment = async () => {
+
     const payment_url = await fetchData("payment/stripe", 5004, {
       method: 'POST',
-      body: {"flight_number": "Hotwings Air", 
-              "total_price":totalPrice,
-              "loyalty_points":loyaltyPoints}
+      body: {
+        "flight_number": "Hotwings Air",
+        "total_price": totalPrice,
+        "loyalty_points": loyaltyPoints
+      }
     })
-    console.log(payment_url)
-    window.location.href = payment_url
+    if (payment_url) {
+      window.location.href = payment_url
+      localStorage.setItem("paymentSuccess", true)
+    }
+    else {
+      console.log("link not valid")
+    }
   }
 
 
-  const dispatchPayload = async() => {
-
+  const dispatchPayload = async () => {
     let payload = {}
     const first_flight = selections[0]
     const first_seat = seats["depart"]
     payload["depart_seats"] = first_seat
     payload = deconstruct_flight(payload, first_flight, "depart")
-    if (selections[1]){
+    if (selections[1]) {
       const second_flight = selections[1]
       deconstruct_flight(payload, second_flight, "return")
       const second_seat = seats["return"]
@@ -102,7 +109,7 @@ function Payment() {
     for (let key in passengers) {
       //identify booker
       const details = passengers[key]
-      if (key == 0){
+      if (key == 0) {
         payload["user_email"] = details["email"]
         payload["user_gender"] = details["gender"]
         payload["user_first"] = details["firstName"]
@@ -113,25 +120,27 @@ function Payment() {
         payload["other_passengers"].push(details)
       }
     }
-    console.log(payload)
+
     const response = await fetchData("payment", 5004, {
       method: 'POST',
       body: payload
     })
     console.log(response)
-    if(response.status = 200) {
-      navigate("Success")
+    if (response.status = 200) {
+      navigate("/Success", { state: { dispatchCompleted: true } }); 
     }
-  }
 
+  }
 
   const [searchParams] = useSearchParams();
   const paymentStatus = searchParams.get('status');
   //check return link
-  if (paymentStatus === 'success') {
-      // Handle different statuses
-      dispatchPayload()
-  } else if (paymentStatus === 'canceled'){
+  if (paymentStatus === 'success' && paymentSuccess) {
+    localStorage.setItem("paymentSuccess", false)
+    // Handle different statuses
+    dispatchPayload()
+    // navigate("Success", { state: { dispatchCompleted: true } }); 
+  } else if (paymentStatus === 'canceled') {
     return (<h1>Payment Canceled</h1>)
   }
 
@@ -141,14 +150,14 @@ function Payment() {
 
         <div className='itinerary-breakdown'>
           <h1>Itinerary</h1>
-            {itineraryDetails.map((flightDetail) => (
-              <div key={flightDetail.direction} className='itinerary-details'> 
-                <h3>{flightDetail.direction}</h3>
-                <p>{flightDetail.trip}</p>
-                <p>{flightDetail.pax} pax</p>
-                <p>${flightDetail.price}</p>
-              </div>
-            ))}
+          {itineraryDetails.map((flightDetail) => (
+            <div key={flightDetail.direction} className='itinerary-details'>
+              <h3>{flightDetail.direction}</h3>
+              <p>{flightDetail.trip}</p>
+              <p>{flightDetail.pax} pax</p>
+              <p>${flightDetail.price}</p>
+            </div>
+          ))}
           <h2>Total:  ${basePrice}</h2>
         </div>
 

@@ -79,17 +79,30 @@ public class UserService {
         return new AuthResponse("Login Failed", false);
     }
 
-    public PointsResponse updateLoyaltyPoints(String email, PointsRequest pointsRequest) {
-        User user = userRepository.findOneByEmail(email).orElse(null);
-        int currentPoints = user.getLoyalty_points();
-        int newPoints = currentPoints + pointsRequest.getLoyalty_points();
-        if (newPoints >= 0) {
-            user.setLoyalty_points(newPoints);
-            userRepository.save(user);
-            return new PointsResponse(user.getLoyalty_points(), "Points updated successfully", true);
-        }
-        return new PointsResponse(currentPoints, "Points cannot be negative", false);
-    }
+     public PointsResponse updateLoyaltyPoints(String email, PointsRequest pointsRequest) {
+         try {
+             User user = userRepository.findOneByEmail(email).orElse(null);
+             if (user != null){
+                 int currentPoints = user.getLoyalty_points();
+                 int newPoints = currentPoints + pointsRequest.getLoyalty_points();
+                 if (newPoints >= 0) {
+                     user.setLoyalty_points(newPoints);
+                     userRepository.save(user);
+                     return new PointsResponse(user.getLoyalty_points(), "Points updated successfully", true);
+                 }
+                 return new PointsResponse(currentPoints, "Points cannot be negative", false);
+             }
+             else {
+                 System.out.println("user does not exist");
+                 return new PointsResponse(403, "no point found", false);
+             }
+         }
+         catch(Exception e) {
+             System.out.println(e.getMessage());
+             return new PointsResponse(404, "no point found", false);
+         }
+     }
+
 
     public List<User> getAffectedUsers(DisruptionRequest disruptionRequest) {
         String date = disruptionRequest.getDate();

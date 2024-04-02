@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FlightMessage {
-    private String date;
     private String flight_id;
+    private String date;
+    private String flight_number;
 }

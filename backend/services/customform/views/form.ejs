@@ -1,0 +1,57 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rebook your flight</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="/form.css">
+    <style>
+    </style>
+    <script src=""></script>
+</head>
+<body>
+
+    <div class="">
+        <h1>Rebook your flight</h1>
+        <p>We are sorry that your flight <%= flight_id %> on <%= date %> has been disrupted</p>
+        <div>
+            Please take a look at the recommended options below if you would like to rebook your flight.
+        </div>
+        <div class="options">
+            <% recommended_flights.forEach(flight => { %>
+                <div class="flight-option">
+                    <div>
+                        Date: <%= flight.date %>
+                    </div>
+                    <div>
+                        Flight: <%= flight.flight_id %>
+                    </div>
+                    <div>
+                        Seats left: <%= flight.availability %>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+        <div class="<%= recommended_accommodation.length === 0 ? 'hidden' : '' %>">
+            <div>
+                Since there are no longer flights available today, please take a look at the recommended accommodation options below.
+            </div>
+            <div class="options">
+                <% recommended_accommodation.forEach(hotel => { %>
+                    <div class="accommodation-option">
+                        <div>
+                            Hotel: <%= hotel.hotel_name %>
+                        </div>
+                        <div>
+                            Rooms available: <%= hotel.availability %>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+        <div>
+            <button>Submit</button>
+        </div>
+    </div>
+
+</body>
+</html>
