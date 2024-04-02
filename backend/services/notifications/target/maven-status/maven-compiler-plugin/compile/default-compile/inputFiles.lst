@@ -1,0 +1,6 @@
+C:\esd\notifications\src\main\java\com\hotwings\notifications\consumer\RabbitMQConsumer.java
+C:\esd\notifications\src\main\java\com\hotwings\notifications\services\NotificationsService.java
+C:\esd\notifications\src\main\java\com\hotwings\notifications\NotificationsApplication.java
+C:\esd\notifications\src\main\java\com\hotwings\notifications\services\EmailSenderService.java
+C:\esd\notifications\src\main\java\com\hotwings\notifications\config\RabbitMQConfig.java
+C:\esd\notifications\src\main\java\com\hotwings\notifications\dto\NotificationsMessage.java

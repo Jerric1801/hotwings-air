@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.hotwings.updatedelay.UpdatedelayApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.413 s -- in com.hotwings.updatedelay.UpdatedelayApplicationTests

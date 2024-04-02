@@ -132,19 +132,15 @@ services:
     depends_on:
       - rabbitmq 
 
-
-
 #==========================================================================
 #   Service: Create Itinerary -port 5010
 #========================================================================== 
   create_itinerary:
+    container_name: create_itinerary
     build:
       context: ./backend/services/create_itinerary
     ports:
       - '5010:5010' 
-    restart: always
-    environment:
-      PYTHONUNBUFFERED: 1
     depends_on:
       - rabbitmq 
 

@@ -112,19 +112,13 @@ def alternatives():
     if request.method == "POST":
         try:
             data = json.loads(request.get_json())
-            print(data)
 
             flight_id = data.get("flight_id")
-            # date = data.get("date")
-            print(flight_id)
-
             flight_query = {
                 "_id":ObjectId(flight_id),
             }
 
             old_flight_query = db['flight'].find_one(flight_query)
-
-            print(old_flight_query)
 
             old_flight = FlightTemplate(**old_flight_query)
 
@@ -136,7 +130,6 @@ def alternatives():
                 }
             }
 
-            print("alt query", alternative_query)
 
             alternative_flights = db['flight'].find(alternative_query).limit(5)
 
@@ -145,7 +138,7 @@ def alternatives():
             for flight in alternative_flights:
                 flight_item = FlightTemplate(**flight)
                 if flight_item.flight_id != old_flight.flight_id:
-                    print(flight)
+           
                     seat_query = {
                         "_id":flight_item.seating_plan_id,
                     }
