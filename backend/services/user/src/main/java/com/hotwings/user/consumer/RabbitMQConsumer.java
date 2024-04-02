@@ -17,12 +17,12 @@ public class RabbitMQConsumer {
     private static final Logger LOGGER = LoggerFactory.getLogger(RabbitMQConsumer.class);
     private final UserService userService;
 
-//    @RabbitListener(queues = {"${rabbitmq.cost.queue.name}"})
-//    public PointsResponse consume(CostMessage costMessage) {
-//        LOGGER.info(String.format("Received message -> %s", costMessage));
-//        String email = costMessage.getEmail();
-//        int points = costMessage.getLoyalty_points();
-//        PointsRequest pointsRequest = new PointsRequest(points);
-//        return userService.updateLoyaltyPoints(email, pointsRequest);
-//    }
+   @RabbitListener(queues = {"${rabbitmq.cost.queue.name}"})
+   public PointsResponse consume(CostMessage costMessage) {
+       LOGGER.info(String.format("Received message -> %s", costMessage));
+       String email = costMessage.getEmail();
+       int points = costMessage.getLoyalty_points();
+       PointsRequest pointsRequest = new PointsRequest(points);
+       return userService.updateLoyaltyPoints(email, pointsRequest);
+     }
 }

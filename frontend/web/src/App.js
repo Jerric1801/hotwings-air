@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import PassengerDetails from './pages/PassengerDetails';
 import SeatSelection from './pages/SeatSelection';
 import Payment from './pages/Payment';
+import Success from './pages/Success'
 
 function App() {
   // Global state variables are handled here
@@ -23,6 +24,7 @@ function App() {
         <Route path="/passenger" element={<PassengerDetails/>} />
         <Route path="/seats" element={<SeatSelection/>} />
         <Route path="/payment" element={<Payment/>} />
+        <Route path="/success" element={<Success/>} />
       </Routes>   
     </BrowserRouter>
   );

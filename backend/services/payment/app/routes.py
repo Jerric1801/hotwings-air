@@ -166,7 +166,7 @@ def send_payment_data():
 
                     return jsonify({"error": "Notifications mciroservice has an internal error: " + ex_str}), 500
                 
-                return "success", 200
+                return jsonify({"message": "success"}), 200
                 
                 try:
                     # 5. Calculate loyalty points and send to Users

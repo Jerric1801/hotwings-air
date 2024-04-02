@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import LoyaltyPointsSlider from '../components/LoyaltyPointsSlider';
 import Choose_Payment from '../components/Choose_Payment';
 import fetchData from '../utils/apiUtils';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 
 function Payment() {
   //get seat selections 
@@ -14,6 +14,8 @@ function Payment() {
   //get passenger selections
   const passengerString = localStorage.getItem('passengerDetails')
   const passengers = JSON.parse(passengerString)
+
+  const navigate = useNavigate()
 
   let basePrice = 0
   let totalPrice = 0
@@ -117,7 +119,12 @@ function Payment() {
       body: payload
     })
     console.log(response)
+    if(response.status = 200) {
+      navigate("Success")
+    }
   }
+
+
   const [searchParams] = useSearchParams();
   const paymentStatus = searchParams.get('status');
   //check return link
