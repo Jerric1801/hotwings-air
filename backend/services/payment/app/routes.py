@@ -93,7 +93,7 @@ def send_payment_data():
                 print('\n\n-----Publishing the Stripe error message with routing_key=stripe.error-----')
                 send_payment_details_to_rabbitmq("payment_topic", "topic", "Error", "stripe.error", stripe_result)
                 
-                return jsonify(stripe_result), stripe_code
+                return jsonify(stripe_result["sessionId"]), stripe_code
             
             else:
 
