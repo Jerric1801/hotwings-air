@@ -31,11 +31,9 @@ def create_stripe_checkout_session(product_description, unit_amount, points_used
 
 # function 2 to flight inventory
 def send_payment_details_to_flight_inventory(payload):
-    json_string = json.dumps(payload)
-    print(json_string)
-    flight_id = json_string[1]
+    flight_id = payload["flight_id"]
     url=f"http://localhost:5000/flight/{flight_id}"
-    response = requests.post(url, json = json_string)
+    response = requests.post(url, json = payload)
     print(response) 
 
     if response.status_code == 200:
@@ -45,11 +43,10 @@ def send_payment_details_to_flight_inventory(payload):
        
 # function 3 to users
 def send_payment_details_to_users(payload):
-    json_string = json.dumps(payload)
-    print(json_string)
-    user_id = json_string[0]
+    user_id = payload["user_id"]
+    print(user_id)
     url=f"http://localhost:5000/users/{user_id}"
-    response = requests.post(url, json = json_string)
+    response = requests.post(url, json = payload)
     print(response) 
 
     if response.status_code == 200:
@@ -60,7 +57,7 @@ def send_payment_details_to_users(payload):
 # function 4 publishing message via amqp to RabbitMQ
 def send_payment_details_to_rabbitmq(exchangename, exchangetype, microservice, routing_key, payload):
 
-   #create a connection and a channel to the broker to publish messages to error queues
+   #create a connection and a channel to the broker to publish messages to the different queues
     connection = create_connection() 
     channel = connection.channel()
 
@@ -78,73 +75,4 @@ def send_payment_details_to_rabbitmq(exchangename, exchangetype, microservice, r
 
         
     print(f"\n Message is published to the RabbitMQ Exchange under {microservice} and Activity_Log queue:", message)
-
-    # Return error
-    return {
-        "code": 500,
-        "data": {f"{microservice}_error":message},
-        "message": f"Transmission of data to {microservice} microservice failure sent for error handling."
-    }
-    
-        
-# # function 5 to notifications
-# def send_payment_details_to_notification(exchangename, exchangetype, payload):
-    
-#     #create a connection and a channel to the broker to publish messages to error queues
-#     connection = create_connection() 
-#     channel = connection.channel()
-
-#     #if the exchange is not yet created, exit the program
-#     if not check_exchange(channel, exchangename, exchangetype):
-#         print("\nCreate the 'Exchange' before running the Notifications microservice. \nExiting the program.")
-#         sys.exit(0)  # Exit with a success status
-
-#     code = payload["code"]
-#     message = json.dumps(payload)
-
-#     # if response.status_code == 200:
-#     channel.basic_publish(exchange=exchangename, routing_key="#", 
-#                 body=message, properties=pika.BasicProperties(delivery_mode = 2)) 
-
-#     # - reply from the invocation is not used;
-#     # continue even if this invocation fails        
-#     print(f"\n  Notification status ({code}) published to the RabbitMQ Exchange:", message)
-
-#     # Return error
-#     return {
-#         "code": 500,
-#         "data": {"notifications_error":message},
-#         "message": "Transmission of data to notification microservice failure sent for error handling."
-#     }
-    
-    
-# # function 6 to errors
-# def send_errors(exchangename, exchangetype, error_key, payload):
-    
-#     #create a connection and a channel to the broker to publish messages to error queues
-#     connection = create_connection() 
-#     channel = connection.channel()
-
-#     #if the exchange is not yet created, exit the program
-#     if not check_exchange(channel, exchangename, exchangetype):
-#         print("\nCreate the 'Exchange' before running the Error microservice. \nExiting the program.")
-#         sys.exit(0)  # Exit with a success status
-
-#     code = payload["code"]
-#     message = json.dumps(payload)
-
-#     # if response.status_code == 200:
-#     channel.basic_publish(exchange=exchangename, routing_key=f"{error_key}.error", 
-#                 body=message, properties=pika.BasicProperties(delivery_mode = 2)) 
-
-#     # - reply from the invocation is not used;
-#     # continue even if this invocation fails        
-#     print(f"\n {error_key} status ({code}) published to the RabbitMQ Exchange:", message)
-
-#     # Return error
-#     return {
-#         "code": 500,
-#         "data": {f"{error_key}_result":message},
-#         "message": f"{error_key} failure sent for error handling."
-#     }
     

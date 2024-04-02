@@ -6,6 +6,7 @@ from .models import Payment
 from .utils import stripe_keys
 
 import os, sys
+import json
 import stripe 
 
 @app.route("/config", methods = ["GET"])
@@ -155,14 +156,20 @@ def send_payment_data():
 
                         try:
                             # 5. Sends confirmation email to user 
+                            flight_details = {
+                                "origin" : paymentDetails.origin,
+                                "destination" : paymentDetails.destination,
+                                "seat_num" : paymentDetails.seat_number
+                            }
+                            confirmation_email = create_email_template("confirmation", flight_details)
                             confirmation_data = {
                                 "user_email": paymentDetails.user_email,
-                                "msg_type": "P",
-                                "payment_data": stripe_result
+                                "subject": confirmation_email["subject"],
+                                "message_body": confirmation_email["message"]
                             }   
                             print('\n-----Invoking Notifications -----')
 
-                            noti_payment_result =  send_payment_details_to_rabbitmq("payment_topic", "topic", "Notifications", "confirmation.noti", confirmation_data)
+                            noti_payment_result = send_payment_details_to_rabbitmq("payment_topic", "topic", "Notifications", "confirmation.noti", confirmation_data)
 
                             print('\n------------------------')
                             print('noti_payment_result:', noti_payment_result)
@@ -212,11 +219,12 @@ def send_payment_data():
                             else:
 
                                 # 6. Sends accumulated loyalty points email to user
+                                points_email = create_email_template("points", accumulated_loyalty_points)
                                 noti_points_data = {
                                     "user_email": paymentDetails.user_email,
-                                    "msg_type": "L",
-                                    "loyalty_points": accumulated_loyalty_points
-                                }   
+                                    "subject": points_email["subject"],
+                                    "message_body": points_email["message"]
+                                }  
                                 print('\n-----Invoking Notifications -----')
 
                                 noti_points_result = send_payment_details_to_rabbitmq("payment_topic", "topic", "Notifications", "points.noti", noti_points_data)
@@ -267,7 +275,41 @@ def send_payment_data():
     }), 400
 
 
+def create_email_template(type, details):
+    if type == "confirmation":
+        subject = "Flight Booking Confirmed!"
 
+        if details["accommodation"]:
+            accommodation = details["accommodation"]
+            message = f"<h1> Flight Booking Confirmed</h1>\nDear Sir/Madam, \n Thanks for flying with Hotwings. 
+            We're sorry to hear about your delayed flights and have arranged a new flight and accommodation for you. Your confirmed itinerary details are shown below:
+            \n Place of Origin: {details["origin"]}\n Place of Destination: {details["destination"]} \n Seat Numbers: {",".join([seat for seat in details["seat_num"]])}\n 
+            You have successfully secured an accomodation at {accommodation["hotel_name"]} located at {accommodation["location_near"]}\n 
+            We hope you have a pleasant trip ahead!
+            <b>Hotwings provide you the wings to fly to any destinations possible!<b> "
+        else: 
+            message = f"<h1> Flight Booking Confirmed</h1>\nDear Sir/Madam, \n Thanks for flying with Hotwings. 
+            We're excited to inform you of your flight details for your upcoming trip. Your confirmed itinerary details are shown below:
+            \n Place of Origin: {details["origin"]}\n Place of Destination: {details["destination"]} \n Seat Numbers: {",".join([seat for seat in details["seat_number"]])}\n 
+            We hope you have  apelasant trip ahead!
+            <b>Hotwings provide you the wings to fly to any destinations possible!<b> "
+
+    elif type == "points": 
+        subject = "Accumulated Loyalty Points"
+        message = f"<h1> Accumulated Loyalty Points</h1>\nDear Sir/Madam, \n Thanks for flying with Hotwings.
+        Your total loyalty points as of today are shown below: {details}\n . 
+        \n <b>Hotwings provide you the wings to fly to any destinations possible!<b> "
+
+    elif type == "delay":
+        subject = f"Notification: Delayed Flight {details["flight_id"]}"
+        message = f"<h1> Unforeseen Flight Delay</h1>\nDear Sir/Madam,
+         \n We regret to inform you there has been a delay to your scheduledn flight {details["flight_id"]} from 
+         {details["origin"]} tp {details["destination"]}. We sincerely apologize for any inconvenince this delay may cause you. 
+         \n\nOur team is working diligently to resolve the issue and get you on your way as soon as possible. Please rest assured that we will keep you updated with any further developments regarding your flight. 
+         Thank you for choosing to fly with us. We appreciate your understanding and look forward to welcoming you onboard soon.
+        \n <b>Hotwings provide you the wings to fly to any destinations possible!<b> "
+
+    return json.dumps({"subject": subject, "message": message})
 
       
     
