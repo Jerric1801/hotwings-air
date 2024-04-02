@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Transaction Log</title>
+</head>
+<body>
+    <h1>Transactions</h1>
+    <ul>
+        {% for transaction in transactions %}
+            <li>{{ transaction.type }} - {{ transaction.user_id }} - {{ transaction.payment_amt }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

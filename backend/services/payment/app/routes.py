@@ -8,6 +8,8 @@ from .utils import stripe_keys
 import os, sys
 import stripe 
 
+EXCHANGE = "hotwings"
+
 @app.route("/config", methods = ["GET"])
 def get_publishable_key():
     if request.method == "GET":
@@ -81,32 +83,32 @@ def send_payment_data():
             flight_data = paymentDetails.get_flight_inventory()
             print('\n-----Invoking Flight Inventory -----')
 
-            flight_result = send_payment_details_to_flight_inventory(flight_data)
-
+            # flight_result = send_payment_details_to_flight_inventory(flight_data)
+            flight_result = 200
             print('\n------------------------')
             print('flight_result:', flight_result)
 
             if flight_result not in range(200, 300):
                 # Inform the error microservice
                 print('\n\n-----Publishing the Flight Inventory error message with routing_key=flight.error-----')
-                send_payment_details_to_rabbitmq("payment_topic", "topic", "Error", "flight.error", flight_result)
+                send_payment_details_to_rabbitmq(EXCHANGE, "topic", "Error", "flight.error", flight_result)
         
                 return jsonify(flight_result)
             
             else:
 
-                return "success", 200
-
                 try:
                     # 5. Record payment details in transaction
                     transaction_data = {
-                        "user_id": paymentDetails.user_id,
+                        "user_id": paymentDetails.user_email,
                         "type": "P",
-                        "payment_amt": stripe_result["price"]
+                        "payment_amt": paymentDetails.total_price,
+                        "loyalty_points": paymentDetails.loyalty_points,
+                        "price_difference": 0
                     }   
                     print('\n-----Invoking Transactions -----')
 
-                    transaction_result = send_payment_details_to_rabbitmq("payment_topic", "topic", "Transactions", "payment.trans", transaction_data)
+                    transaction_result = send_payment_details_to_rabbitmq(EXCHANGE, "topic", "Transactions", "payment.trans", transaction_data)
 
                     print('\n------------------------')
                     print('transaction_result:', transaction_result)
@@ -116,7 +118,7 @@ def send_payment_data():
                     if transaction_code not in range(200, 300):
                         # Inform the error microservice
                         print('\n\n-----Publishing the Transaction error message with routing_key=trans.error-----')
-                        send_payment_details_to_rabbitmq("payment_topic", "topic", "Error", "trans.error", transaction_result)
+                        send_payment_details_to_rabbitmq(EXCHANGE, "topic", "Error", "trans.error", transaction_result)
                 
                         return jsonify(transaction_result), transaction_code
                     
@@ -128,13 +130,16 @@ def send_payment_data():
                     print(ex_str)
 
                     return jsonify({"error": "Transaction microservice has an internal error: " + ex_str}), 500
-
+            
+            
                 try:
                     # 5. Sends confirmation email to user 
                     confirmation_data = {
-                        "user_email": paymentDetails.user_email,
-                        "msg_type": "P",
-                        "payment_data": stripe_result
+                        "user_id": paymentDetails.user_email,
+                        "type": "P",
+                        "payment_amt": paymentDetails.total_price,
+                        "loyalty_points": paymentDetails.loyalty_points,
+                        "price_difference": 0
                     }   
                     print('\n-----Invoking Notifications -----')
 
@@ -160,6 +165,8 @@ def send_payment_data():
                     print(ex_str)
 
                     return jsonify({"error": "Notifications mciroservice has an internal error: " + ex_str}), 500
+                
+                return "success", 200
                 
                 try:
                     # 5. Calculate loyalty points and send to Users

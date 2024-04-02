@@ -41,18 +41,18 @@ services:
 #==========================================================================
 #   Service: User -port 5003
 #========================================================================== 
-  # user:
-  #   container_name: user
-  #   build: 
-  #     context:
-  #       ./backend/services/user
-  #   ports:
-  #     - '5003:5003'  
-  #   depends_on:
-  #     - mongodb
-  #     - rabbitmq
-  #   links:
-  #     - mongodb
+  user:
+    container_name: user
+    build: 
+      context:
+        ./backend/services/user
+    ports:
+      - '5003:5003'  
+    depends_on:
+      - mongodb
+      - rabbitmq
+    links:
+      - mongodb
 #==========================================================================
 #   Service: Payment -port 5004
 #========================================================================== 
@@ -63,6 +63,30 @@ services:
         ./backend/services/payment
     ports:
       - '5004:5004' 
+    depends_on:
+      - rabbitmq 
+#==========================================================================
+#   Service: Transaction -port 5005
+#========================================================================== 
+  transaction:
+    container_name: transaction
+    build: 
+      context:
+        ./backend/services/transaction
+    ports:
+      - '5005:5005' 
+    depends_on:
+      - rabbitmq 
+#==========================================================================
+#   Service: Activity Log -port 5006
+#========================================================================== 
+  activity_log:
+    container_name: activity_log
+    build: 
+      context:
+        ./backend/services/activity_log
+    ports:
+      - '5006:5006' 
     depends_on:
       - rabbitmq 
 #==========================================================================

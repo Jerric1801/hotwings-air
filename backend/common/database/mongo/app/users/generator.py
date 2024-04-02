@@ -19,7 +19,6 @@ fake = Faker()  # Initialize Faker for realistic data
 def generate_user():
     """Generates a single user dictionary."""
     return {
-        "userid": ''.join(random.choices(string.ascii_letters + string.digits, k=8)),
         "name": fake.name(),
         "email": fake.email(),
         "password": fake.password(),  # Consider using hashing for real applications
@@ -36,5 +35,5 @@ def generate_users(num_users):
 users = generate_users(100)  # Generate 100 users
 
 # Save to JSON file
-with open("seed_data.json", "w") as f:
+with open("user.json", "w") as f:
     json.dump(users, f, indent=4)

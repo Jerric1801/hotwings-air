@@ -6,6 +6,7 @@ from flask_cors import CORS
 from pymongo import MongoClient
 from mongoengine import connect
 from .models import Flight, Seating_Plan
+from mongoengine.connection import disconnect
 
 def seed_flight_inventory():
     app = Flask(__name__)
@@ -31,7 +32,7 @@ def seed_flight_inventory():
 
         db = client['flight_inventory'] 
 
-        connect(db='flight_inventory', host='mongodb', port=27017, username='root', password='example', authentication_source='admin') 
+        connect(alias='flight_inventory', db='flight_inventory', host='mongodb', port=27017, username='root', password='example', authentication_source='admin') 
         
     except Exception as e:
         print("Failed to connect to mongodb", e) 
@@ -56,3 +57,7 @@ def seed_flight_inventory():
                 new_flight.save()
             except:
                 print("error detected")
+
+        disconnect(alias='flight_inventory')
+    else:
+        disconnect(alias='flight_inventory')

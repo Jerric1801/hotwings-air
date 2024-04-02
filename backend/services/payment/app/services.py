@@ -79,7 +79,7 @@ def send_payment_details_to_rabbitmq(exchangename, exchangetype, microservice, r
 
         
     print(f"\n Message is published to the RabbitMQ Exchange under {microservice} and Activity_Log queue:", message)
-
+    return {"code": 200}
     # Return error
     return {
         "code": 500,
