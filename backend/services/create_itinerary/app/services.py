@@ -5,28 +5,28 @@ import json
 from .amqp_connection import create_connection, check_exchange
 
 # function 1 to flight inventory
-def send_flight_details_to_search_flight(payload):
+def send_flight_details_to_flight_inventory(payload):
     json_string = json.dumps(payload)
-    url=f"http://localhost:5000/search_flight"
+    url=f"http://localhost:5000/flight_inventory"
     response = requests.post(url, json = json_string)
     print(response) 
 
     if response.status_code == 200:
         return response.json()
     else:
-        raise Exception("Failed to send flight details over to flight search")   
+        raise Exception("Failed to send old flight details over to flight inventory")   
        
 # function 2 to search accomodation
-def send_flight_details_to_search_accomodation(payload):
+def send_flight_details_to_accomodation(payload):
     json_string = json.dumps(payload)
-    url=f"http://localhost:5000/search_accomodation"
+    url=f"http://localhost:5000/accomodation_inventory"
     response = requests.post(url, json = json_string)
     print(response) 
 
     if response.status_code == 200:
         return response.json()
     else:
-        raise Exception("Failed to send flight details over to search accomodation")
+        raise Exception("Failed to send new flight details over to accomodation inventory")
 
 # function 3 to create webpage
 def send_flight_details_to_custom_webpage(payload):
@@ -40,8 +40,8 @@ def send_flight_details_to_custom_webpage(payload):
     else:
         raise Exception("Failed to send itinerary details over to create webpage")
     
-# function 4 publishing message via amqp to RabbitMQ
-def send_flight_details_to_rabbitmq(exchangename, exchangetype, microservice, routing_key, payload):
+# function 4 publishing error message via amqp to RabbitMQ
+def send_error_to_rabbitmq(exchangename, exchangetype, microservice, routing_key, payload):
 
    #create a connection and a channel to the broker to publish messages to error queues
     connection = create_connection() 
@@ -53,7 +53,6 @@ def send_flight_details_to_rabbitmq(exchangename, exchangetype, microservice, ro
         sys.exit(0)  # Exit with a success status
 
     message = json.dumps(payload)
-    print(message)
 
     # Publish message to specific queue based on the routing_key
     channel.basic_publish(exchange=exchangename, routing_key=f"{routing_key}", 
@@ -61,10 +60,3 @@ def send_flight_details_to_rabbitmq(exchangename, exchangetype, microservice, ro
 
     print(f"\n Message is published to the RabbitMQ Exchange under {microservice} and Activity_Log queue:", message)
 
-    # Return error
-    return {
-        "code": 500,
-        "data": {f"{microservice}_error":message},
-        "message": f"Transmission of data to {microservice} microservice failure sent for error handling."
-    }
-    
