@@ -44,10 +44,13 @@ body1 =  {
 # response = requests.post("http://localhost:5010/create_itinerary", json = body1)
 
 print("running")
-body1 =  {'departure': '2024-04-03T00:35:29.626561', 'flight_number': 'HW586', 'recommended_flights': [{'departure': 'Fri, 05 Apr 2024 00:35:29 GMT', 'flight_number': 'HW586', 'availability': 132}], 'recommended_accommodation': [{'hotel_name': 'Four Seasons', 'availability': 2}, {'hotel_name': 'Four Seasons', 'availability': 4}, {'hotel_name': 'Four Seasons', 'availability': 4}, {'hotel_name': 'Four Seasons', 'availability': 2}], 'user_emails': ['jerric.chan.2022@scis.smu.edu.sg', 'byzhou.2022@scis.smu.edu.sg', 'jerric1811@gmail.com']}
+body1 =  {'departure': '2024-04-03T00:35:29.626561', 
+          'flight_number': 'HW586', 
+          'recommended_flights': [{'departure': 'Fri, 05 Apr 2024 00:35:29 GMT', 'flight_number': 'HW586', 'availability': 132}], 'recommended_accommodation': [{'hotel_name': 'Four Seasons', 'availability': 2}, {'hotel_name': 'Four Seasons', 'availability': 4}, {'hotel_name': 'Four Seasons', 'availability': 4}, {'hotel_name': 'Four Seasons', 'availability': 2}], 
+          'user_emails': ['jerric.chan.2022@scis.smu.edu.sg', 'byzhou.2022@scis.smu.edu.sg', 'jerric1811@gmail.com']}
 
 
-response = requests.post("http://127.0.0.1:5012/form", json = body1)
+response = requests.post("http://localhost:5012/form", json = body1)
 
 # print(response.content)
 

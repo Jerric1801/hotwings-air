@@ -85,7 +85,7 @@ def send_itinerary_data():
                                 print('\n\n-----Publishing the Custom Webpage error message with routing_key=webpage.error-----')
                                 send_error_to_rabbitmq("payment_topic", "topic", "Error", "webpage.error", custom_webpage_result)
                         
-                                return jsonify(custom_webpage_result), custom_webpage_code
+                                return jsonify(custom_webpage_result)
                             
                         except Exception as e:
                             # Unexpected error in code

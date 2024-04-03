@@ -15,10 +15,13 @@ app.use(bodyParser.json("application/json"));
 
 app.post('/form', (req, res) => {
     const recommendations = new customform(req.body);
-    recommendations.save().then( async (customform) => {
+    const message = `http://localhost:5012/form/${req.body.departure}&${req.body.flight_number}`
+    recommendations.save().then(async(customform) => {
         res.status(201).send(customform);
-        await producer.publishMessage('notifications', req.body.email, req.body.notification_type, req.body.notification_message);
-        res.send();
+        for (let email of req.body.user_emails){
+            await producer.publishMessage('form.notifications', email , "Rebook Flight", message);
+            res.send();
+        }
     }).catch((error) => {
         res.status(400).send(error);
     })
@@ -32,8 +35,10 @@ app.post('/form', (req, res) => {
 //     })
 // });
 
-app.get('/form/:date&:flight', (req, res) => {
-    customform.findOne({departure: req.params.departure, flight_number: req.params.flight}).then((form) => {
+app.get('/form/:departure&:flight_number', (req, res) => {
+    customform.findOne({departure: req.params.departure, flight_number: req.params.flight_number}).then((form) => {
+
+
         if (!form) {
             return res.status(404).send();
         }
@@ -48,6 +53,6 @@ app.post('/sendform', async(req, res, next) => {
     res.send();
 })
 
-app.listen(4545, () => {
+app.listen(5012, () => {
     console.log("--- Custom Form Service is running ---")
 });

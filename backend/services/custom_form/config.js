@@ -1,6 +1,6 @@
 module.exports = {
     rabbitMQ: {
-        url: 'amqp://localhost',
+        url: 'amqp://host.docker.internal',
         exchangeName: 'hotwings',
     },
 }

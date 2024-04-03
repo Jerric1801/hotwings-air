@@ -15,7 +15,7 @@ class Producer {
         }
 
         const exchangeName = config.rabbitMQ.exchangeName;
-        await this.channel.assertExchange(exchangeName, 'topic', {durable: false});
+        await this.channel.assertExchange(exchangeName, 'topic', {durable: true});
 
         const logDetails = {
             email: email,
