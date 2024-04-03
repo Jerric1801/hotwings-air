@@ -54,9 +54,9 @@ body1 =  {'departure': '2024-04-03T00:35:29.626561',
 
 body1 = {
     "accommodation": "660d98cc4f08e3905205b88f",
-    "new_flight_data": "660cd42cbbb3208d39d36620",
+    "new_flight_data": "660de7b7506aa89d3ed76325",
     "old_flight_data": "HW790",
-    "user_email": "jerric1811@gmail.com",
+    "user_email": "byzhou.2022@scis.smu.edu.sg",
     "pax": 3
 }
 
