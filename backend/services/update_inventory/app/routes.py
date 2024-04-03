@@ -26,14 +26,14 @@ def inventory_data():
 
            
             #3. Update Accommodation Inventory to accommodation inventory - AMQP
-            accommodation_inventory = {
+            payload = {
                "room_id" : InventoryDetails.accommodation["room_id"],
                "hotel_id" : InventoryDetails.accommodation["hotel_id"]
             }
 
             print("\n ---- Updating Accommodation Inventory ----")
 
-            accomodation_result = send_message_to_rabbitmq(accommodation_inventory)
+            accomodation_result = send_message_to_rabbitmq('hotwings', 'topic', accommodation_inventory, 'update.accommodation', payload)
 
             print('\n------------------------')
             print('accommodation_result:', accommodation_inventory)
