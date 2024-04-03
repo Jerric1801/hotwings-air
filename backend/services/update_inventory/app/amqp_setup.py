@@ -2,9 +2,9 @@ import time
 import pika
 from os import environ
 
-hostname = "localhost" # default hostname
+hostname = "host.docker.internal" # default hostname
 port = 5672            # default port
-exchangename = "inventory_update_topic" # exchange name
+exchangename = "hotwings" # exchange name
 exchangetype = "topic" # - use a 'topic' exchange to enable interaction
 
 #to create a connection to the broker

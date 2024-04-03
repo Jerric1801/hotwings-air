@@ -59,6 +59,7 @@ def create_queues(channel):
     create_user_queue(channel)
     create_tracker_queue(channel)
     create_accommodation_queue(channel)
+    create_pricing_queue(channel)
 
 # function to create Transaction queue  
 def create_transaction_queue(channel):
@@ -106,6 +107,13 @@ def create_accommodation_queue(channel):
     e_queue_name = 'accommodation'
     channel.queue_declare(queue=e_queue_name, durable=True)
     channel.queue_bind(exchange=exchangename, queue=e_queue_name, routing_key='*.accommodation')
+
+def create_pricing_queue(channel):
+    print('amqp_setup:create_pricing_queue')
+    e_queue_name = 'pricing'
+    channel.queue_declare(queue=e_queue_name, durable=True)
+    channel.queue_bind(exchange=exchangename, queue=e_queue_name, routing_key='*.pricing')
+
 
 
 if __name__ == "__main__":  # execute this program only if it is run as a script (not by 'import')   

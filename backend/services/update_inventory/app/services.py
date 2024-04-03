@@ -7,6 +7,7 @@ from .amqp_connection import create_connection, check_exchange
        
 # function 1 to flight_inventory 
 def update_flight_inventory(payload):
+    payload = json.dumps(payload)
     url="http://host.docker.internal:5000/flight/disrupted/update"
     response = requests.post(url, json = payload)
     print(response) 
@@ -18,7 +19,7 @@ def update_flight_inventory(payload):
         
     
 # function 2 to send message to AMQP via rabbitMQ
-def send_message_to_rabbitmq(exchangename, exchangetype,microservice, routing_key, payload):
+def send_message_to_rabbitmq(exchangename, exchangetype, microservice, routing_key, payload):
     
     #create a connection and a channel to the broker to publish messages 
     connection = create_connection() 
@@ -65,6 +66,9 @@ def create_email_template(type, details):
         \n\nYour total loyalty point as of today is: {details}. \
         \n\nHope to see you onboard of our flight soon!\
         \n\n~~~~~~~~~~Hotwings provide you the wings to fly to any destinations possible!~~~~~~~~~~"
+
+    return {"subject": subject,
+            "message": message}
 
 
        

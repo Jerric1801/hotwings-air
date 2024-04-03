@@ -182,16 +182,21 @@ def alternatives():
 def update_disrupted():
     if request.method == "POST":
         try:
-            data = request.get_json()
+            data = json.loads(request.get_json())
+
             
             details = Disrupted(**data)
+
+            print(details)
 
             query = {
                 "_id" : ObjectId(details.flight_id)
             }
 
-
+        
             flight_results = db['flight'].find_one(query)
+
+            print(flight_results)
 
             chosen_flight = FlightTemplate(**flight_results)
             print(chosen_flight)
@@ -209,7 +214,12 @@ def update_disrupted():
                     break
 
             if update_seats(chosen_flight.seating_plan_id, seats):
-                return jsonify({"Success": "Seats updated"}), 200
+                print("success")
+                return jsonify({"origin": chosen_flight.origin,
+                                "destination": chosen_flight.destination,
+                                "departure": chosen_flight.departure,
+                                "flight_number": chosen_flight.flight_number,
+                                "seats": seats }), 200
             else:
                 return jsonify({"Failed": "Unable to update seats"}), 404 
             

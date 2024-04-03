@@ -1,5 +1,6 @@
 package com.hotwings.user.services;
 
+import com.hotwings.user.dto.amqp.NotificationsMessage;
 import com.hotwings.user.dto.disruption.DisruptionRequest;
 import com.hotwings.user.dto.points.PointsRequest;
 import com.hotwings.user.dto.points.PointsResponse;
@@ -8,6 +9,7 @@ import com.hotwings.user.dto.user.LoginRequest;
 import com.hotwings.user.dto.user.UserRequest;
 import com.hotwings.user.dto.user.UserResponse;
 import com.hotwings.user.models.User;
+import com.hotwings.user.publisher.RabbitMQProducer;
 import com.hotwings.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,7 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final RabbitMQProducer producer;
 
     public AuthResponse createUser(UserRequest userRequest) {
         Optional<User> checkUser = userRepository.findOneByEmail(userRequest.getEmail());
@@ -102,7 +105,6 @@ public class UserService {
              return new PointsResponse(404, "no point found", false);
          }
      }
-
 
     public List<User> getAffectedUsers(DisruptionRequest disruptionRequest) {
         String departure = disruptionRequest.getDeparture();

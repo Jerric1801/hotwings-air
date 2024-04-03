@@ -1,7 +1,7 @@
 import time
 import pika
 
-hostname = "localhost" # default hostname
+hostname = "host.docker.internal" # default hostname
 port = 5672            # default port
 
 # Instead of hardcoding the values, we can also get them from the environ as shown below
