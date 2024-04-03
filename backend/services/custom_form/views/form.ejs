@@ -15,7 +15,7 @@
 
     <div class="rebook">
         <h1>Rebook your flight</h1>
-
+      
         <div class="divider"></div>
 
         <p>We are sorry that your flight <%= flight_number %> on <%= departure %> has been disrupted.</p>
@@ -70,11 +70,9 @@
         </div>
     </div>
 
-    <script>
-        const flight_options = document.getElementsByClassName('flight_option');
-        const accommodation_options = document.getElementsByClassName('accommodation_option');
-
+    <script>      
         function selected_flight(id) {
+            const flight_options = document.getElementsByClassName('flight_option');
             let selected = id.id;
             for (let i of flight_options) {
                 if (i.id == selected) {
@@ -88,6 +86,7 @@
         }
 
         function selected_accommodation(id) {
+            const accommodation_options = document.getElementsByClassName('accommodation_option');
             let selected = id.id;
             for (let i of accommodation_options) {
                 if (i.id == selected) {
@@ -101,10 +100,39 @@
         }
 
         function submit() {
+            const user = JSON.parse('<%- JSON.stringify(email) %>');
+            const pax = JSON.parse('<%- JSON.stringify(pax) %>');
+            const old_flight = JSON.parse('<%- JSON.stringify(flight_number) %>');
             let selections = document.getElementsByClassName('selected');
+            let new_flight = '';
+            let hotel = '';
             for (let i of selections) {
-                console.log(i);
+                if (i.classList.contains('flight_option')) {
+                    new_flight = i.id;
+                } else if (i.classList.contains('accommodation_option')) {
+                    hotel = i.id;
+                }
             }
+    
+            const query = {
+                "new_flight_data": new_flight,
+                "old_flight_data": old_flight,
+                "user_email": user,
+                "accommodation": hotel,
+                "pax": pax
+            }
+
+            console.log(query)
+
+            fetch('http://localhost:5013/update_inventory', {
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify(query)
+            }).then((res) => {
+                return res.json();
+            }).then((data) => {
+                console.log(data);
+            })
         }
     </script>
 

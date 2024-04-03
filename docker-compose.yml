@@ -154,6 +154,7 @@ services:
       - '5011:5011' 
     depends_on:
       - mongodb
+      - rabbitmq
     links:
       - mongodb
 
@@ -171,6 +172,19 @@ services:
       - mongodb
     links:
       - mongodb
+    
+
+#==========================================================================
+#   Service: Update Inventory -port 5013
+#========================================================================== 
+  update_inventory:
+    container_name: update_inventory
+    build:
+      context: ./backend/services/update_inventory
+    ports:
+      - '5013:5013'  
+    depends_on:
+      - rabbitmq   
     
     
 #==========================================================================

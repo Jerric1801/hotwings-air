@@ -32,3 +32,8 @@ class FlightTemplate:
         self.destination = kwargs.get('destination')
         self.aircraft = kwargs.get('aircraft')
         self.seating_plan_id = self.aircraft["seating_plan_id"]
+
+class Disrupted:
+    def __init__(self, **kwargs):
+        self.pax = kwargs.get('pax')
+        self.flight_id = kwargs.get('flight_id')

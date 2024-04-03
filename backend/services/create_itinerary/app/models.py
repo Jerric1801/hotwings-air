@@ -3,6 +3,7 @@ class Itinerary:
     email_list =[]
     potential_flights = []
     potential_accommodation =[]
+    total_pax = 0
 
     def __init__(self, **kwargs):
         self.flight_number = kwargs.get("flight_number")
@@ -36,4 +37,11 @@ class Itinerary:
 
     def handle_emails(self):
         for email in self.user_email:
-            self.email_list.append(email["email"])
+            upcoming_bookings = email["upcoming_bookings"]
+            for booking in upcoming_bookings:
+                if booking["flight_number"] == self.flight_number:
+                    booking_pax = booking['pax']
+                    self.total_pax += booking_pax
+                    break
+            self.email_list.append({"email": email["email"],
+                                    "pax": booking_pax})

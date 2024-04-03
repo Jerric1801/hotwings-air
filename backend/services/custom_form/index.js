@@ -15,11 +15,14 @@ app.use(bodyParser.json("application/json"));
 
 app.post('/form', (req, res) => {
     const recommendations = new customform(req.body);
-    const message = `http://localhost:5012/form/${req.body.departure}&${req.body.flight_number}`
     recommendations.save().then(async(customform) => {
         res.status(201).send(customform);
-        for (let email of req.body.user_emails){
-            await producer.publishMessage('form.notifications', email , "Rebook Flight", message);
+        for (let mail of req.body.user_emails){
+            let temp_email = mail.email;
+            let pax = mail.pax;
+            console.log(pax)
+            const message = `http://localhost:5012/form/${req.body.departure}&${req.body.flight_number}&${temp_email}&${pax}`;
+            await producer.publishMessage('form.notifications', temp_email , "Rebook Flight", message);
             res.send();
         }
     }).catch((error) => {
@@ -35,14 +38,12 @@ app.post('/form', (req, res) => {
 //     })
 // });
 
-app.get('/form/:departure&:flight_number', (req, res) => {
+app.get('/form/:departure&:flight_number&:email&:pax', (req, res) => {
     customform.findOne({departure: req.params.departure, flight_number: req.params.flight_number}).then((form) => {
-
-
         if (!form) {
             return res.status(404).send();
         }
-        res.render('form', { id:form._id, departure: form.departure, flight_number: form.flight_number, recommended_flights: form.recommended_flights, recommended_accommodation: form.recommended_accommodation });
+        res.render('form', { id:form._id, departure: form.departure, flight_number: form.flight_number, recommended_flights: form.recommended_flights, recommended_accommodation: form.recommended_accommodation, email: req.params.email, pax: req.params.pax});
     }).catch((error) => {
         res.status(500).send(error);
     })
