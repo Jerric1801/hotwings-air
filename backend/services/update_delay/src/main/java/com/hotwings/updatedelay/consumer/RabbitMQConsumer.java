@@ -18,6 +18,11 @@ public class RabbitMQConsumer {
     @RabbitListener(queues = {"${rabbitmq.tracker.queue.name}"})
     public void consume(FlightMessage flightMessage) {
         LOGGER.info(String.format("Received message -> %s", flightMessage));
-        updateDelayService.getAffectedUsers(flightMessage);
+        try {
+            updateDelayService.getAffectedUsers(flightMessage);
+        }
+        catch (Exception e){
+            LOGGER.info("Error in Updating Delay Service");
+        }
     }
 }

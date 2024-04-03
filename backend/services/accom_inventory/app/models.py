@@ -1,6 +1,7 @@
 from mongoengine import Document, fields, EmbeddedDocument
 
 class Room(EmbeddedDocument):
+    _id = fields.StringField(primary_key=True, required=True)
     type = fields.StringField(required=True)
     max_occupancy = fields.IntField(required=True)
     description = fields.StringField()

@@ -15,27 +15,34 @@ app.use(bodyParser.json("application/json"));
 
 app.post('/form', (req, res) => {
     const recommendations = new customform(req.body);
-    recommendations.save().then((customform) => {
+    const message = `http://localhost:5012/form/${req.body.departure}&${req.body.flight_number}`
+    recommendations.save().then(async(customform) => {
         res.status(201).send(customform);
+        for (let email of req.body.user_emails){
+            await producer.publishMessage('form.notifications', email , "Rebook Flight", message);
+            res.send();
+        }
     }).catch((error) => {
         res.status(400).send(error);
     })
 });
 
-app.get('/form', (req, res) => {
-    customform.find({}).then((form) => {
-        res.send(form);
-    }).catch((error) => {
-        res.status(500).send(error);
-    })
-});
+// app.get('/form', (req, res) => {
+//     customform.find({}).then((form) => {
+//         res.send(form);
+//     }).catch((error) => {
+//         res.status(500).send(error);
+//     })
+// });
 
-app.get('/form/:date&:flight', (req, res) => {
-    customform.findOne({date: req.params.date, flight_id: req.params.flight}).then((form) => {
+app.get('/form/:departure&:flight_number', (req, res) => {
+    customform.findOne({departure: req.params.departure, flight_number: req.params.flight_number}).then((form) => {
+
+
         if (!form) {
             return res.status(404).send();
         }
-        res.render('form', { date: form.date, flight_id: form.flight_id, recommended_flights: form.recommended_flights, recommended_accommodation: form.recommended_accommodation });
+        res.render('form', { id:form._id, departure: form.departure, flight_number: form.flight_number, recommended_flights: form.recommended_flights, recommended_accommodation: form.recommended_accommodation });
     }).catch((error) => {
         res.status(500).send(error);
     })
@@ -46,6 +53,6 @@ app.post('/sendform', async(req, res, next) => {
     res.send();
 })
 
-app.listen(4545, () => {
+app.listen(5012, () => {
     console.log("--- Custom Form Service is running ---")
 });

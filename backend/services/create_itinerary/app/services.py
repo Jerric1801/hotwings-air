@@ -9,19 +9,19 @@ def send_flight_details_to_flight_inventory(payload):
     json_string = json.dumps(payload)
     url=f"http://host.docker.internal:5000/flight/alternatives"
     response = requests.post(url, json = json_string)
-    print(response) 
 
     if response.status_code == 200:
         return response.json()
     else:
-        raise Exception("Failed to send old flight details over to flight inventory")   
+        return False
        
 # function 2 to search accomodation
 def send_flight_details_to_accomodation(payload):
     json_string = json.dumps(payload)
-    url=f"http://localhost:5000/accomodation_inventory"
+    url=f"http://accom_inventory:5011/accommodation"
     response = requests.post(url, json = json_string)
-    print(response) 
+
+    print(response)
 
     if response.status_code == 200:
         return response.json()
@@ -31,7 +31,7 @@ def send_flight_details_to_accomodation(payload):
 # function 3 to create webpage
 def send_flight_details_to_custom_webpage(payload):
     json_string = json.dumps(payload)
-    url=f"http://localhost:5000/custom_webpage"
+    url=f"http://host.docker.internal:5012/form"
     response = requests.post(url, json = json_string)
     print(response) 
 

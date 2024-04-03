@@ -58,6 +58,6 @@ def seed_flight_inventory():
             except:
                 print("error detected")
 
-        engine.disconnect()
+        disconnect()
     else:
-        engine.disconnect()
+        disconnect()

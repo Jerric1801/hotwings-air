@@ -2,9 +2,10 @@ import graphene
 from graphene import ObjectType, String, Int, List, Field
 from bson import ObjectId
 from pymongo import MongoClient
+from app import db
 
-client = MongoClient('localhost', port=27017)
-db = client['accom_inventory'] 
+# client = MongoClient('localhost', port=27017)
+# db = client['accom_inventory'] 
 
 class AddressType(graphene.ObjectType):
     street = graphene.String()
@@ -13,6 +14,7 @@ class AddressType(graphene.ObjectType):
     zip = graphene.String() 
 
 class RoomType(graphene.ObjectType):
+    _id = graphene.String()
     type = graphene.String()
     max_occupancy = graphene.Int()
     description = graphene.String()
@@ -33,25 +35,29 @@ class Query(graphene.ObjectType):
     available_rooms = graphene.List(HotelType, origin=graphene.String(required=True), pax=graphene.Int(required=True))
 
     def resolve_available_rooms(self, info, origin, pax):
+        print(origin)
         filter_criteria = {"location_near": origin, "rooms": {"$elemMatch": {"is_available": True}}}
-        hotels = db.hotels.find(filter_criteria)
+        # filter_criteria = {"location_near": origin}
+        hotels = db['hotel'].find(filter_criteria)
         result = []
 
+        total_occupancy = 0
+        accumulated_rooms = []
+        fulfilled = False
+
         for hotel in hotels:
+            print(hotel)
             # Sort rooms by max_occupancy in ascending order to prioritize filling up to pax with smaller rooms first
-            sorted_rooms = sorted(hotel['rooms'], key=lambda room: room['max_occupancy'])
-            # print(sorted_rooms)
-            # Filter and accumulate rooms until the sum of max_occupancy meets/exceeds pax
-            accumulated_rooms = []
-            total_occupancy = 0
-            for room in sorted_rooms:
-                if room['is_available'] and total_occupancy < pax:
+            # sorted_rooms = sorted(hotel['rooms'], key=lambda room: room['max_occupancy'])
+            for room in hotel['rooms']:
+                if room['is_available']:
                     # Assuming each room document in MongoDB has an '_id' field:
                     room_with_id = room.copy()  # Copy the room dict to avoid mutating the original
-                    room_with_id['id'] = str(room['_id'])  # Convert ObjectId to string and set as 'id'
                     accumulated_rooms.append(room_with_id)
                     total_occupancy += room['max_occupancy']
-
+                if pax < total_occupancy:
+                    fulfilled = True
+                    break
             
             # Create a new hotel document with the filtered rooms                   
             hotel_data = {
@@ -61,5 +67,9 @@ class Query(graphene.ObjectType):
                 'rooms': accumulated_rooms,  # Use the filtered list of rooms
             }
             result.append(hotel_data)
+
+            if fulfilled:
+                break
         
         return result
+    

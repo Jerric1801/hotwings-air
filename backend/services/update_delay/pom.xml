@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.hotwings</groupId>
-	<artifactId>updatedelay</artifactId>
+	<artifactId>update_delay</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>updatedelay</name>
+	<name>update_delay</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>21</java.version>

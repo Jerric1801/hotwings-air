@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://127.0.0.1:27017/hotwings', 
+mongoose.connect('mongodb://root:example@host.docker.internal:27017/customform', 
 {
     useNewUrlParser: true,
     useUnifiedTopology: true

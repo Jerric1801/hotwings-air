@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DisruptionRequest {
-    private String date;
-    private String flight_id;
+    private String departure;
+    private String flight_number;
 }

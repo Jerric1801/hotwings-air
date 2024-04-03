@@ -105,9 +105,9 @@ public class UserService {
 
 
     public List<User> getAffectedUsers(DisruptionRequest disruptionRequest) {
-        String date = disruptionRequest.getDate();
-        String flight_id = disruptionRequest.getFlight_id();
-        return userRepository.findByDisruptedFlight(date, flight_id);
+        String departure = disruptionRequest.getDeparture();
+        String flight_number = disruptionRequest.getFlight_number();
+        return userRepository.findByDisruptedFlight(departure, flight_number);
     }
 
 }

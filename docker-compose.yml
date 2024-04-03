@@ -48,7 +48,6 @@ services:
         ./backend/services/user
     ports:
       - '5003:5003' 
-      - "8000:8000"  
     depends_on:
       - mongodb
       - rabbitmq
@@ -144,6 +143,36 @@ services:
     depends_on:
       - rabbitmq 
 
+#==========================================================================
+#   Service: Accomodation Inventory -port 5011
+#========================================================================== 
+  accom_inventory:
+    container_name: accom_inventory
+    build:
+      context: ./backend/services/accom_inventory
+    ports:
+      - '5011:5011' 
+    depends_on:
+      - mongodb
+    links:
+      - mongodb
+
+
+#==========================================================================
+#   Service: Accomodation Inventory -port 5012
+#========================================================================== 
+  custom_form:
+    container_name: custom_form
+    build:
+      context: ./backend/services/custom_form
+    ports:
+      - '5012:5012' 
+    depends_on:
+      - mongodb
+    links:
+      - mongodb
+    
+    
 #==========================================================================
 #   MOM: rabbitmq -port 5672, 15672
 #========================================================================== 

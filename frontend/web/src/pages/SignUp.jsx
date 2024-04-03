@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const CREATE_USER_API = 'http://localhost:8080/user/signup';
+const CREATE_USER_API = 'http://localhost:5003/user/signup';
 
 function SignUp() {
     
@@ -26,23 +26,23 @@ function SignUp() {
         <>
             <div className="sign-up-page">
                 <form action="post">
-                    <div>
+                    <div className="field">
                         <label htmlFor="name">Name:</label>
                         <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} />
                     </div>
 
-                    <div>
+                    <div className="field">
                         <label htmlFor="email">Email:</label>
                         <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                     </div>
 
-                    <div>
+                    <div className="field">
                         <label htmlFor="password">Password:</label>
                         <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                     </div>
 
-                    <div>
-                        <button type="submit" onClick={handleSubmit}>Sign up</button>
+                    <div className="field">
+                        <button className="submitBtn" type="submit" onClick={handleSubmit}>Sign up</button>
                     </div>
                 </form>
             </div>

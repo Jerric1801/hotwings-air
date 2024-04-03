@@ -103,7 +103,7 @@ def create_flights():
 
                 while flight_num in taken or flight_num == "":
                     flight_num = str(flight_type + str(random.randint(100, 999)))
-
+                
                 flight["flight_number"] = flight_num
 
                 flight["origin"] = location

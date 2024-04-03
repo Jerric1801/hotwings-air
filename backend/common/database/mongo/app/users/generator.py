@@ -21,10 +21,10 @@ def generate_user():
     return {
         "name": fake.name(),
         "email": fake.email(),
-        "password": fake.password(),  # Consider using hashing for real applications
+        "password": fake.password(),  
         "loyalty_points": random.randint(0, 1000),
-        "past_bookings": [],  # Placeholder, adjust based on your booking structure
-        "upcoming_bookings": []  # Placeholder, adjust based on your booking structure
+        "past_bookings": [],  
+        "upcoming_bookings": []  
     }
 
 def generate_users(num_users):
