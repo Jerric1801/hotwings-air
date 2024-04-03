@@ -1,2 +1,16 @@
+com/hotwings/updatedelay/dto/FlightMessage.class
 com/hotwings/updatedelay/dto/ItineraryMessage.class
+com/hotwings/updatedelay/UpdatedelayApplication.class
+com/hotwings/updatedelay/consumer/RabbitMQConsumer.class
+com/hotwings/updatedelay/dto/FlightMessage$FlightMessageBuilder.class
+com/hotwings/updatedelay/publisher/RabbitMQProducer.class
+com/hotwings/updatedelay/services/UpdateDelayService.class
+com/hotwings/updatedelay/config/WebClientConfig.class
+com/hotwings/updatedelay/models/User$UserBuilder.class
+com/hotwings/updatedelay/models/User.class
+com/hotwings/updatedelay/config/RabbitMQConfig.class
+com/hotwings/updatedelay/controller/UpdateDelayController.class
+com/hotwings/updatedelay/dto/NotificationsMessage$NotificationsMessageBuilder.class
 com/hotwings/updatedelay/dto/ItineraryMessage$ItineraryMessageBuilder.class
+com/hotwings/updatedelay/services/UpdateDelayService$1.class
+com/hotwings/updatedelay/dto/NotificationsMessage.class

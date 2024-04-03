@@ -15,27 +15,29 @@ app.use(bodyParser.json("application/json"));
 
 app.post('/form', (req, res) => {
     const recommendations = new customform(req.body);
-    recommendations.save().then((customform) => {
+    recommendations.save().then( async (customform) => {
         res.status(201).send(customform);
+        await producer.publishMessage('notifications', req.body.email, req.body.notification_type, req.body.notification_message);
+        res.send();
     }).catch((error) => {
         res.status(400).send(error);
     })
 });
 
-app.get('/form', (req, res) => {
-    customform.find({}).then((form) => {
-        res.send(form);
-    }).catch((error) => {
-        res.status(500).send(error);
-    })
-});
+// app.get('/form', (req, res) => {
+//     customform.find({}).then((form) => {
+//         res.send(form);
+//     }).catch((error) => {
+//         res.status(500).send(error);
+//     })
+// });
 
 app.get('/form/:date&:flight', (req, res) => {
-    customform.findOne({date: req.params.date, flight_id: req.params.flight}).then((form) => {
+    customform.findOne({departure: req.params.departure, flight_number: req.params.flight}).then((form) => {
         if (!form) {
             return res.status(404).send();
         }
-        res.render('form', { date: form.date, flight_id: form.flight_id, recommended_flights: form.recommended_flights, recommended_accommodation: form.recommended_accommodation });
+        res.render('form', { id:form._id, departure: form.departure, flight_number: form.flight_number, recommended_flights: form.recommended_flights, recommended_accommodation: form.recommended_accommodation });
     }).catch((error) => {
         res.status(500).send(error);
     })

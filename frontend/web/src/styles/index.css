@@ -257,6 +257,10 @@ nav ul:last-child {
   ;
 }
 
+.loggedIn {
+  visibility: hidden;
+}
+
 /* ==========================================================================
     Homepage
    ========================================================================== */
@@ -275,6 +279,54 @@ nav ul:last-child {
   justify-content: flex-start;
   padding-left: 10vw;
   background-color: #FFFFFF;
+}
+
+.sign-up-page {
+  width: 100vw;
+  height: 100vh;
+}
+
+.login-page {
+  width: 100vw;
+  height: 100vh;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  margin: 1vh 0;
+}
+
+.field label {
+  margin-bottom: 0.5vh;
+}
+
+.field input {
+  border: none;
+  background-color: rgba(128, 128, 128, 0.292);
+  height: 3vh;
+  width: 15vw;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.submitBtn {
+  border: none;
+  background-color: #9e091386;
+  height: 3vh;
+  width: 10vw;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 1vh;
+}
+
+.submitBtn:hover {
+  background-color: #9e0913d3;
 }
 
 /* ==========================================================================

@@ -36,8 +36,8 @@ def seed_user():
     except Exception as e:
         print("Failed to connect to mongodb", e) 
 
-    if db.flight.count_documents({}) == 0: 
-        with open('app/users/user.json') as f:
+    if db.user.count_documents({}) == 0: 
+        with open('app/data/user.json') as f:
             user_data = json.load(f)
 
         for data in user_data:
@@ -49,6 +49,6 @@ def seed_user():
             except Exception as e:
                 print("error detected", e)
 
-        engine.disconnect()
+        disconnect()
     else: 
-        engine.disconnect()
+        disconnect()

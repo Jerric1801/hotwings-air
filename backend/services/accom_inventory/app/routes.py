@@ -1,23 +1,56 @@
 from flask import jsonify, request
-from app import app, db
-from app import schema
+from app import app
 from bson import ObjectId
+import random
+import graphene
+from app.schema import Query
+import json
 
-@app.route('/search_accommodation', methods=['POST'])
+@app.route('/test', methods=['POST'])
+def test():
+    if request.method == "POST":
+        return jsonify({"success": 1}), 200
+
+
+@app.route('/accommodation', methods=['POST'])
 def graphql():
-    data = request.get_json()
-    query = data.get('query')
-    variables = data.get('variables', {})
+    if request.method == "POST":
+        print("started")
+        schema = graphene.Schema(query=Query)
 
-    result = schema.execute(
-        query,
-        variable_values=variables,
-    )
+        data = json.loads(request.get_json())
+        origin = data.get('origin')
 
-    # Preparing the response object
-    response = {"data": result.data}
-    if result.errors:
-        # Formatting errors as a list of messages
-        response['errors'] = [error.message for error in result.errors]
+        query = '''
+        query AvailableRooms($origin: String!, $pax: Int!) { 
+            availableRooms(origin: $origin, pax: $pax) { 
+                hotelName
+                rooms { 
+                    type 
+                    maxOccupancy 
+                    description 
+                    pricePerNight 
+                    isAvailable 
+                    } 
+                }
+            }
+        '''
 
-    return jsonify(response)
+        variables =  {
+            "origin": origin,
+            "pax": 10
+        }
+
+        result = schema.execute(
+            query,
+            variable_values = variables
+        )
+
+        # Preparing the response object
+        response = {"data": result.data}
+        print(response)
+        if result.errors:
+            # Formatting errors as a list of messages
+            response['errors'] = [error.message for error in result.errors]
+
+        return jsonify(response), 200

@@ -14,6 +14,6 @@ public interface UserRepository extends MongoRepository<User, String> {
 
     Optional<User> findOneByEmail(String email);
 
-    @Query(" { 'upcoming_bookings.date': ?0, 'upcoming_bookings.flight_id': ?1 } ")
-    List<User> findByDisruptedFlight(String date, String flightId);
+    @Query(" { 'upcoming_bookings.departure': ?0, 'upcoming_bookings.flight_number': ?1 } ")
+    List<User> findByDisruptedFlight(String departure, String flight_number);
 }

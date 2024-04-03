@@ -14,69 +14,63 @@ def send_itinerary_data():
         try:
             # 4. Receive delayed flight details from Update Delay complex microservice
             data = request.get_json()
-            print("\nReceived a record of flight delay:", data)
 
             itinerary = Itinerary(**data)
 
             # 6. Send flight data to Flight Inventory microservice
             flight_inventory_data = {
-               "flight_id" : itinerary.flight_id,
+               "flight_number" : itinerary.flight_number,
+               "departure": itinerary.departure
             }
-            print('\n-----Invoking Flight Inventory-----')
 
             # 7. Receive recommended flight from Flight Inventory microservice
-            flight_inventory_result = send_flight_details_to_flight_inventory(flight_inventory_data)
-
-            return jsonify({"success": "m"}), 200
-            print('\n------------------------')
-            print('flight_inventory_result:', flight_inventory_result)
-
-            flight_inventory_code = flight_inventory_result["code"]
-
+            flight_inventory_result = send_flight_details_to_flight_inventory(flight_inventory_data)    
+            print(flight_inventory_result)
+            
             # 7. Activate error handler if the search flight fails
-            if flight_inventory_code not in range(200, 300):
+            if not flight_inventory_result:
                 # Inform the error microservice
-                print('\n\n-----Publishing the Flight_inventory error message with routing_key=search_flight.error-----')
                 send_error_to_rabbitmq("hotwings", "topic", "Error", "flight_inventory.error", flight_inventory_result)
                 
-                return jsonify(flight_inventory_result), flight_inventory_code
+                return jsonify({"error": "no flights received"}), 404
+                
+        
             
             else:
 
                 try:
-                    # 8. Send new flight details to Accommodation Inventory microservice
-                    flight_data = flight_inventory_result["data"]
-                    itinerary.update_new_flight_data(new_flight_data=flight_data)
-                    print('\n-----Invoking Accommodation Inventory -----')
+                    #update itinerary obj for flight
+                    flight_data = flight_inventory_result["flights"] #list of possible flights
+                    itinerary.update_new_flight_data(flight_data)
 
-                    accommodation_result = send_flight_details_to_accomodation(flight_data)
+                    accomodation_payload = {
+                        "origin": flight_inventory_result["origin"]
+                    }
+                    accommodation_result = send_flight_details_to_accomodation(accomodation_payload)
 
-                    # 9. Receive recommended accommodation from Accommodation Inventory
-                    print('\n------------------------')
-                    print('accommodation_result:', accommodation_result)
-
-                    accommodation_code = accommodation_result["code"]
-
-                    # 9.  Activate error handler if the search accommodation fails
-                    if accommodation_code not in range(200, 300):
+                    if not accommodation_result:
                         # Inform the error microservice
-                        print('\n\n-----Publishing the Accommodation Inventory error message with routing_key=accommodation.error-----')
-                        send_error_to_rabbitmq("hotwings", "topic", "Error", "accommodation.error", accommodation_result)
+                        send_error_to_rabbitmq("hotwings", "topic", "error", "accommodation.error", accommodation_result)
+                        return jsonify({"error": "no accoms received"}), 404
                 
-                        return jsonify(accommodation_result), accommodation_code
-                    
+
                     else:
 
                         try:
-                            # 10. Send new flight details and accommodation to Create Webpage microservice
-                            accommodation = accommodation_result["data"]
-                            itinerary.update_accommodation(accommodation=accommodation)
+                            print(accommodation_result)
+                            #update itinerary obj for accommodation
+                            accommodation_data = accommodation_result["data"]["availableRooms"][0]
+                            itinerary.update_accommodation(accommodation_data)
+
                             custom_webpage_data = {
-                                "new_flight_data" : itinerary.new_flight_data,
-                                "accommodation": itinerary.accommodation,
-                                "user_email" : itinerary.user_email
+                                "departure": itinerary.departure,
+                                "flight_number": itinerary.flight_number,
+                                "recommended_flights" : itinerary.potential_flights,
+                                "recommended_accommodation": itinerary.potential_accommodation,
+                                "user_emails" : itinerary.email_list
                             }
-                            print('\n-----Invoking Custom Webpage -----')
+
+                            print(custom_webpage_data)
 
                             custom_webpage_result = send_flight_details_to_custom_webpage(custom_webpage_data)
 
@@ -84,10 +78,9 @@ def send_itinerary_data():
                             print('custom_webpage_result:', custom_webpage_result)
 
                             # 11. Receive reply status
-                            custom_webpage_code = custom_webpage_result["code"]
 
                             # 11.  Activate error handler if the custom webpage fails
-                            if custom_webpage_code not in range(200, 300):
+                            if custom_webpage_result not in range(200, 300):
                                 # Inform the error microservice
                                 print('\n\n-----Publishing the Custom Webpage error message with routing_key=webpage.error-----')
                                 send_error_to_rabbitmq("payment_topic", "topic", "Error", "webpage.error", custom_webpage_result)

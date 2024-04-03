@@ -23,7 +23,7 @@ public class UpdateDelayService {
     private final RabbitMQProducer producer;
 
     public void getAffectedUsers(FlightMessage flightMessage) {
-        String date = flightMessage.getDate();
+        String departure = flightMessage.getDeparture();
         String flight_number = flightMessage.getFlight_number();
         List<User> affectedUsers = webClient.post()
                 .uri("http://host.docker.internal:5003/user/disruption")
@@ -35,7 +35,7 @@ public class UpdateDelayService {
         if (affectedUsers != null) {
             for (User u : affectedUsers) {
                 String email = u.getEmail();
-                String msg_body = "We are sorry to inform you that your flight " + flight_number + " on " + date + "has been delayed. You will receive an email with steps on what to do next.";
+                String msg_body = "We are sorry to inform you that your flight " + flight_number + " on " + departure + "has been delayed. You will receive an email with steps on what to do next.";
                 NotificationsMessage msg = new NotificationsMessage(email, "Flight Delay", msg_body);
                 producer.sendNotifications(msg);
             }
@@ -45,7 +45,7 @@ public class UpdateDelayService {
     }
 
     public void createItinerary(FlightMessage flightMessage, List<User> affectedUsers) {
-        ItineraryMessage iti = new ItineraryMessage(affectedUsers, flightMessage.getFlight_id(), flightMessage.getDate(), flightMessage.getFlight_number());
+        ItineraryMessage iti = new ItineraryMessage(affectedUsers, flightMessage.getFlight_id(), flightMessage.getDeparture(), flightMessage.getFlight_number());
          webClient.post()
             .uri("http://host.docker.internal:5010/create_itinerary")
             .contentType(MediaType.APPLICATION_JSON)

@@ -5,6 +5,7 @@ from .services import update_seats
 from bson import json_util
 import json
 from datetime import datetime, timedelta
+from bson.timestamp import Timestamp
 from bson.objectid import ObjectId
 
 @app.route('/flight/search', methods = ["POST"])
@@ -17,6 +18,8 @@ def search_flights():
             date = data.get("date")
             pax = data.get("pax")
             seatClass = data.get("class")
+
+            print(date)
 
             date_obj = datetime.strptime(date, "%Y-%m-%dT%H:%M:%S.%fZ")
 
@@ -112,32 +115,36 @@ def alternatives():
     if request.method == "POST":
         try:
             data = json.loads(request.get_json())
+            data_departure = data.get('departure')
+            old_flight_number = data.get('flight_number')
+            print("***",type(data_departure))
+            print("***",old_flight_number)
+         
+            #2024-04-03T00:35:29.626Z
+            #2024-04-03T00:35:29.626561
+            #2024-04-03T08:23:00.821Z
 
-            flight_id = data.get("flight_id")
-            flight_query = {
-                "_id":ObjectId(flight_id),
-            }
-
-            old_flight_query = db['flight'].find_one(flight_query)
-
-            old_flight = FlightTemplate(**old_flight_query)
+            old_departure = data_departure[:-3] + "Z"
+            print(old_departure)
+            old_departure = datetime.strptime(old_departure, "%Y-%m-%dT%H:%M:%S.%fZ")
+            print(old_departure)
 
             alternative_query = {
-                "flight_number": old_flight.flight_number,
+                "flight_number": old_flight_number,
                 "departure": {
-                    "$gt": old_flight.departure,
-                    "$lt": old_flight.departure + timedelta(days=10)
+                    "$gt": old_departure,
+                    "$lt": old_departure + timedelta(days = 7)
                 }
             }
-
 
             alternative_flights = db['flight'].find(alternative_query).limit(5)
 
             possible_flights = []
 
             for flight in alternative_flights:
+                print(flight)
                 flight_item = FlightTemplate(**flight)
-                if flight_item.flight_id != old_flight.flight_id:
+                if flight_item.flight_id != old_flight_number:
            
                     seat_query = {
                         "_id":flight_item.seating_plan_id,
@@ -154,69 +161,20 @@ def alternatives():
                     itinerary_details = {
                         "flight_number": flight_item.flight_number,
                         "avaliable_seats": available_seats_count,
-                        "date": flight_item.departure
+                        "date": flight_item.departure,
+                        "origin": flight_item.origin,
+                        "destination": flight_item.destination
                     }
+
+                    origin = flight_item.origin
 
                     possible_flights.append(itinerary_details)
                 
             if alternative_flights:
-                return json.loads(json_util.dumps(possible_flights))
+                return jsonify({"flights": possible_flights, "origin": origin}), 200
             else:
                 return jsonify({"message": "Flight not found."}), 404 
 
         except Exception as e:
             return jsonify({"Failed": "Unable to find alternative flights"}), 404 
         
-
-# @app.route('/flight', methods = ["GET"])
-# def get_all_flights():
-#     if request.method == "GET":
-#         flights = db.test.find_one({"field1":"value1"})
-#         return json.loads(json_util.dumps(flights))
-     
-# @app.route('/flight/<flight_number>', methods = ["GET"])
-# def get_flight(flight_number):
-#     if request.method == "GET":
-#         print("called")
-#         try:
-#             flight = db.flight.find_one({"_id":flight_number})
-#             if flight:
-#                 return json.loads(json_util.dumps(flight))
-#             else:
-#                 return jsonify({"message": "Flight not found."}), 404 
-#         except ValueError:
-#             return jsonify({"message": "Invalid flight number."}), 400  
-        
-# @app.route('/flight/<origin>/origin', methods = ["GET"])
-# def get_origin(origin):
-#     if request.method == "GET":
-#         try:
-#             flight = db.flight.find_one({"origin": origin})
-#             print(flight)
-#             if flight:
-#                 return json.loads(json_util.dumps(flight))
-#             else:
-#                 return jsonify({"message": "Origin not found."}), 404 
-#         except ValueError:
-#             return jsonify({"message": "Invalid flight number."}), 400  
-
-
-# @app.route('/flight/new', methods = ["POST"])
-# def create_flight():
-#     if request.method == "POST":
-#         data = request.get_json()
-#         try:
-#              # 1. Create and Save Seating Plan
-#             seating_plan_data = data['aircraft'].pop('seating_plan', None)  # Extract and remove 
-#             if seating_plan_data:
-#                 seating_plan = Seating_Plan(**seating_plan_data)
-#                 seating_plan.save()
-#                 data['aircraft']['seating_plan_id'] = seating_plan.id
-
-#             # 2. Create and Save Flight
-#             new_flight = Flight(**data)
-#             new_flight.save()
-#             return jsonify(new_flight.to_json()), 201
-#         except Exception as e: 
-#             print(e)
-#             return jsonify({'error': str(e)}), 500

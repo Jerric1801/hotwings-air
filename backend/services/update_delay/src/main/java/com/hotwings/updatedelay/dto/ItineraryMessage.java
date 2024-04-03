@@ -15,6 +15,6 @@ import java.util.List;
 public class ItineraryMessage {
     private List<User> user_list;
     private String flight_id;
-    private String date;
+    private String departure;
     private String flight_number;
 }
