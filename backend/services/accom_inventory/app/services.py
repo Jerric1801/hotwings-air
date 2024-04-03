@@ -1,41 +1,24 @@
 import pika
-import json
-import os, sys
-from amqp_connection import create_connection, check_exchange
-from models import Hotel, Room
 from bson import ObjectId
-from app import db
+from flask import jsonify
 
 def process_data(body):
-    room_ids = body['room_id']
-    hotel_id = body['hotel_id']
-    print(room_ids)
+    from app import db
+    print(body)
+    room_id = body['room_id']
     
-    # Convert hotel_id from string to ObjectId for querying
-    hotel_object_id = ObjectId(hotel_id)
-    
-    # Initialize updated_count
-    updated_count = 0
-
     # Find the hotel document by ID
-    hotel = db.hotels.find_one({"_id": hotel_object_id})
-    
-    if hotel:
-        # Iterate through the rooms to check if the room_id is in the provided list and is_available is True
-        for room in hotel["rooms"]:
-            if str(room['_id']) in room_ids and room['is_available'] == True:
-                room['is_available'] = False
-                updated_count += 1
+    hotels = db.hotels.find()
+
+    for hotel in hotels:
+        print(hotel)
+        room = hotel['rooms']
+        print(room)
+        if str(room['_id']) == room_id:
+            room['is_available'] = False
+            return jsonify({"Success", "Room updated"}), 200
         
-        # If any room was updated, save the changes
-        if updated_count > 0:
-            db.hotels.update_one({"_id": hotel_object_id}, {"$set": {"rooms": hotel["rooms"]}})
-            print(f"{updated_count} room(s) availability updated.")
-        else:
-            print("No matching rooms found or already unavailable.")
-    else:
-        print("Hotel not found.")
-    
+    return jsonify({"Failure", "Room not updated"}), 404
     
 
 def callback(channel, method, properties, body):
@@ -44,7 +27,7 @@ def callback(channel, method, properties, body):
 
 def consume_amqp_messages(channel):
     try:
-        channel.basic_consume(queue="update.accomodation", on_message_callback=callback, auto_ack=True)
+        channel.basic_consume(queue="accommodation", on_message_callback=callback, auto_ack=True)
         print('pricing microservice: Consuming from queue:', "update.accomodation")
         channel.start_consuming()
     
@@ -53,3 +36,13 @@ def consume_amqp_messages(channel):
 
     except KeyboardInterrupt:
         print("pricing microservice: Program interrupted by user.")
+
+
+# def consume_transaction():
+#     connection = pika.BlockingConnection(pika.ConnectionParameters('host.docker.internal'))
+#     channel = connection.channel()
+#     channel.queue_declare(queue='accommodation', durable=True)
+#     channel.basic_consume(queue='accommodation', on_message_callback=callback, auto_ack=False) 
+
+#     print(' [*] Waiting for messages. To exit press CTRL+C')
+#     channel.start_consuming()

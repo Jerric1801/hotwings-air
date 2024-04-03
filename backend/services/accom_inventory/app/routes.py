@@ -20,6 +20,7 @@ def graphql():
 
         data = json.loads(request.get_json())
         origin = data.get('origin')
+        pax = data.get('pax')
 
         query = '''
         query AvailableRooms($origin: String!, $pax: Int!) { 
@@ -38,7 +39,7 @@ def graphql():
 
         variables =  {
             "origin": origin,
-            "pax": 10
+            "pax": int(pax)
         }
 
         result = schema.execute(

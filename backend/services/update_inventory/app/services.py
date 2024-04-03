@@ -4,13 +4,11 @@ import pika
 import json 
 from .amqp_connection import create_connection, check_exchange
 
-
-
        
-# function 1 to flight_inventory #ASK JERRIC
+# function 1 to flight_inventory 
 def update_flight_inventory(payload):
-    url="http://localhost:5000/flight_inventory"
-    response = requests.put(url, json = payload)
+    url="http://host.docker.internal:5000/flight/disrupted/update"
+    response = requests.post(url, json = payload)
     print(response) 
 
     if response.status_code == 200:

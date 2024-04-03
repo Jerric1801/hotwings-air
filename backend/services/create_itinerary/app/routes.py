@@ -20,7 +20,7 @@ def send_itinerary_data():
             # 6. Send flight data to Flight Inventory microservice
             flight_inventory_data = {
                "flight_number" : itinerary.flight_number,
-               "departure": itinerary.departure
+               "departure": itinerary.departure,
             }
 
             # 7. Receive recommended flight from Flight Inventory microservice
@@ -30,7 +30,7 @@ def send_itinerary_data():
             # 7. Activate error handler if the search flight fails
             if not flight_inventory_result:
                 # Inform the error microservice
-                send_error_to_rabbitmq("hotwings", "topic", "Error", "flight_inventory.error", flight_inventory_result)
+                send_error_to_rabbitmq("hotwings", "topic", "error", "flight_inventory.error", flight_inventory_result)
                 
                 return jsonify({"error": "no flights received"}), 404
                 
@@ -44,7 +44,8 @@ def send_itinerary_data():
                     itinerary.update_new_flight_data(flight_data)
 
                     accomodation_payload = {
-                        "origin": flight_inventory_result["origin"]
+                        "origin": flight_inventory_result["origin"],
+                        "pax": itinerary.total_pax
                     }
                     accommodation_result = send_flight_details_to_accomodation(accomodation_payload)
 
@@ -83,7 +84,7 @@ def send_itinerary_data():
                             if custom_webpage_result not in range(200, 300):
                                 # Inform the error microservice
                                 print('\n\n-----Publishing the Custom Webpage error message with routing_key=webpage.error-----')
-                                send_error_to_rabbitmq("payment_topic", "topic", "Error", "webpage.error", custom_webpage_result)
+                                send_error_to_rabbitmq("hotwings", "topic", "error", "webpage.error", custom_webpage_result)
                         
                                 return jsonify(custom_webpage_result)
                             

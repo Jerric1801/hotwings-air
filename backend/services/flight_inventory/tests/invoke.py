@@ -34,10 +34,11 @@ boyang = "byzhou.2022@scis.smu.edu.sg"
     # private String flight_id;
     # private String date;
     # private String flight_number;
+
 body1 =  {	
             "flight_id":"660cd42cbbb3208d39d36620",
-            "flight_number": "HW586",
-            "departure": "2024-04-03T00:35:29.626561",
+            "flight_number": "HW790",
+            "departure": "2024-04-03T00:35:29.641259",
         }
 
 # response = requests.post("http://localhost:5008/flight_tracker/invoke", json = body1)
@@ -50,7 +51,16 @@ body1 =  {'departure': '2024-04-03T00:35:29.626561',
           'user_emails': ['jerric.chan.2022@scis.smu.edu.sg', 'byzhou.2022@scis.smu.edu.sg', 'jerric1811@gmail.com']}
 
 
-response = requests.post("http://localhost:5012/form", json = body1)
+
+body1 = {
+    "accommodation": "660d98cc4f08e3905205b88f",
+    "new_flight_data": "660cd42cbbb3208d39d36620",
+    "old_flight_data": "HW790",
+    "user_email": "jerric1811@gmail.com",
+    "pax": 3
+}
+
+response = requests.post("http://localhost:5013/update_inventory", json = body1)
 
 # print(response.content)
 

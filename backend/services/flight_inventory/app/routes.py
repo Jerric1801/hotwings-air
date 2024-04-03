@@ -1,6 +1,6 @@
 from flask import jsonify, request
 from app import app, db
-from .models import Flight, Seating_Plan, FlightTemplate
+from .models import Flight, Seating_Plan, FlightTemplate, Disrupted
 from .services import update_seats
 from bson import json_util
 import json
@@ -178,3 +178,40 @@ def alternatives():
         except Exception as e:
             return jsonify({"Failed": "Unable to find alternative flights"}), 404 
         
+@app.route('/flight/disrupted/update', methods = ["POST"])
+def update_disrupted():
+    if request.method == "POST":
+        try:
+            data = request.get_json()
+            
+            details = Disrupted(**data)
+
+            query = {
+                "_id" : ObjectId(details.flight_id)
+            }
+
+
+            flight_results = db['flight'].find_one(query)
+
+            chosen_flight = FlightTemplate(**flight_results)
+            print(chosen_flight)
+            seat_query = {
+                "_id": chosen_flight.seating_plan_id
+            }
+
+            seating_plan = db["seating__plan"].find_one(seat_query)
+            print(seating_plan)
+            seats = []
+            for seat in seating_plan["seats"]:
+                if seat['available']:
+                    seats.append(seat['seat_number'])
+                if len(seats) == details.pax:
+                    break
+
+            if update_seats(chosen_flight.seating_plan_id, seats):
+                return jsonify({"Success": "Seats updated"}), 200
+            else:
+                return jsonify({"Failed": "Unable to update seats"}), 404 
+            
+        except Exception as e:
+            return jsonify({"Failed": "Unable to update seats"}), 404 

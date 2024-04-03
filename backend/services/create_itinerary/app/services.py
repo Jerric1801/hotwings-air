@@ -30,12 +30,12 @@ def send_flight_details_to_accomodation(payload):
 
 # function 3 to create webpage
 def send_flight_details_to_custom_webpage(payload):
-    json_string = json.dumps(payload)
+
     url=f"http://host.docker.internal:5012/form"
-    response = requests.post(url, json = json_string)
+    response = requests.post(url, json = payload)
     print(response) 
 
-    if response.status_code == 200:
+    if response.status_code in range(200, 300):
         return response.json()
     else:
         raise Exception("Failed to send itinerary details over to create webpage")

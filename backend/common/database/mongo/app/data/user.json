@@ -11,14 +11,16 @@
                 "departure": "2024-04-03T00:35:29.626561",
                 "arrival": "2024-04-03T03:43:29.626561",
                 "origin": "Los Angeles",
-                "destination": "Paris"
+                "destination": "Paris",
+                "pax": 2
             },
             {
                 "flight_number": "HW693",
                 "departure": "2024-04-03T00:35:29.639346",
                 "arrival": "2024-04-03T10:38:29.639346",
                 "origin": "New York",
-                "destination": "Dubai"
+                "destination": "Dubai",
+                "pax": 3
             }
         ]
     },
@@ -34,14 +36,16 @@
                 "departure": "2024-04-03T00:35:29.626561",
                 "arrival": "2024-04-03T03:43:29.626561",
                 "origin": "Los Angeles",
-                "destination": "Paris"
+                "destination": "Paris",
+                "pax": 1
             },
             {
                 "flight_number": "HW693",
                 "departure": "2024-04-03T00:35:29.639346",
                 "arrival": "2024-04-03T10:38:29.639346",
                 "origin": "New York",
-                "destination": "Dubai"
+                "destination": "Dubai",
+                "pax": 2
             }
         ]
     },
@@ -57,14 +61,16 @@
                 "departure": "2024-04-03T00:35:29.641259",
                 "arrival": "2024-04-03T03:46:29.641259",
                 "origin": "Jakarta",
-                "destination": "Hong Kong"
+                "destination": "Hong Kong",
+                "pax": 2
             },
             {
                 "flight_number": "HW454",
                 "departure": "2024-04-03T00:35:29.647452",
                 "arrival": "2024-04-03T04:40:29.647452",
                 "origin": "Tokyo",
-                "destination": "Jakarta"
+                "destination": "Jakarta",
+                "pax": 6
             }
         ]
     },
@@ -80,14 +86,16 @@
                 "departure": "2024-04-03T00:35:29.641259",
                 "arrival": "2024-04-03T03:46:29.641259",
                 "origin": "Jakarta",
-                "destination": "Hong Kong"
+                "destination": "Hong Kong",
+                "pax": 2
             },
             {
                 "flight_number": "HW454",
                 "departure": "2024-04-03T00:35:29.647452",
                 "arrival": "2024-04-03T04:40:29.647452",
                 "origin": "Tokyo",
-                "destination": "Jakarta"
+                "destination": "Jakarta",
+                "pax": 3
             }
         ]
     },
@@ -103,14 +111,16 @@
                 "departure": "2024-04-05T00:35:29.571518",
                 "arrival": "2024-04-05T09:05:29.571518",
                 "origin": "New York",
-                "destination": "Hong Kong"
+                "destination": "Hong Kong",
+                "pax": 2
             },
             {
                 "flight_number": "HW327",
                 "departure": "2024-04-05T00:35:29.572662",
                 "arrival": "2024-04-05T14:01:29.572662",
                 "origin": "Bangkok",
-                "destination": "Los Angeles"
+                "destination": "Los Angeles",
+                "pax": 1
             }
         ]
     },
@@ -126,14 +136,16 @@
                 "departure": "2024-04-05T00:35:29.571518",
                 "arrival": "2024-04-05T09:05:29.571518",
                 "origin": "New York",
-                "destination": "Hong Kong"
+                "destination": "Hong Kong",
+                "pax": 1
             },
             {
                 "flight_number": "HW327",
                 "departure": "2024-04-05T00:35:29.572662",
                 "arrival": "2024-04-05T14:01:29.572662",
                 "origin": "Bangkok",
-                "destination": "Los Angeles"
+                "destination": "Los Angeles",
+                "pax": 3
             }
         ]
     },
@@ -149,42 +161,48 @@
                 "departure": "2024-04-03T00:35:29.626561",
                 "arrival": "2024-04-03T03:43:29.626561",
                 "origin": "Los Angeles",
-                "destination": "Paris"
+                "destination": "Paris",
+                "pax": 3
             },
             {
                 "flight_number": "HW693",
                 "departure": "2024-04-03T00:35:29.639346",
                 "arrival": "2024-04-03T10:38:29.639346",
                 "origin": "New York",
-                "destination": "Dubai"
+                "destination": "Dubai",
+                "pax": 3
             },
             {
                 "flight_number": "HW790",
                 "departure": "2024-04-03T00:35:29.641259",
                 "arrival": "2024-04-03T03:46:29.641259",
                 "origin": "Jakarta",
-                "destination": "Hong Kong"
+                "destination": "Hong Kong",
+                "pax": 1
             },
             {
                 "flight_number": "HW454",
                 "departure": "2024-04-03T00:35:29.647452",
                 "arrival": "2024-04-03T04:40:29.647452",
                 "origin": "Tokyo",
-                "destination": "Jakarta"
+                "destination": "Jakarta",
+                "pax": 1
             },
             {
                 "flight_number": "HW384",
                 "departure": "2024-04-05T00:35:29.571518",
                 "arrival": "2024-04-05T09:05:29.571518",
                 "origin": "New York",
-                "destination": "Hong Kong"
+                "destination": "Hong Kong",
+                "pax": 3
             },
             {
                 "flight_number": "HW327",
                 "departure": "2024-04-05T00:35:29.572662",
                 "arrival": "2024-04-05T14:01:29.572662",
                 "origin": "Bangkok",
-                "destination": "Los Angeles"
+                "destination": "Los Angeles",
+                "pax": 3
             }
         ]
     },
