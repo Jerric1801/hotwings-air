@@ -48,7 +48,9 @@ def inventory_data():
 
             print("\n ---- Updating Accommodation Inventory ----")
 
+
             accomodation_result = send_message_to_rabbitmq('hotwings','topic',"accommodation","update.accommodation" ,payload)
+
 
             print('\n------------------------')
             print('accommodation_result:', accomodation_result)
