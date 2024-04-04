@@ -182,4 +182,3 @@ def create_email_template(type, details):
         \n\n~~~~~~~~~~Hotwings provide you the wings to fly to any destinations possible!~~~~~~~~~~"
 
     return {"subject": subject, "message": message}
-    

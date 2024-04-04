@@ -85,6 +85,7 @@ def send_payment_data():
 
             # flight_result = send_payment_details_to_flight_inventory(flight_data)
             flight_result = 200
+
             print('\n------------------------')
             print('flight_result:', flight_result)
 
@@ -214,9 +215,8 @@ def send_payment_data():
                         print('\n------------------------')
                         print('noti_points_result:', noti_points_result)
 
-                        noti_points_code = noti_points_result["code"]
 
-                        if noti_points_code not in range(200, 300):
+                        if not noti_points_result:
                             # Inform the error microservice
                             print('\n\n-----Publishing the Notifications error message with routing_key=noti.error-----')
                             send_payment_details_to_rabbitmq(EXCHANGE, "topic", "error", "noti.error", noti_points_result)
@@ -243,55 +243,3 @@ def send_payment_data():
             return jsonify({"error": "Flight Inventory microservice has an internal error: " + ex_str}), 500
         
         return jsonify({"message":"success"}), 200
-
-    #     except Exception as e:
-    #         # Unexpected error in code
-    #         exc_type, exc_obj, exc_tb = sys.exc_info()
-    #         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-    #         ex_str = str(e) + " at " + str(exc_type) + ": " + fname + ": line " + str(exc_tb.tb_lineno)
-    #         print(ex_str)
-
-    #         return jsonify({"error": "Stripe Payment has an internal error: " + ex_str}), 500
-
-       
-    # # if reached here, not a JSON request.
-    # return jsonify({
-    #     "code": 400,
-    #     "message": "Invalid JSON input: " + str(request.get_data())
-    # }), 400
-
-
-
-
-    
-        # try:
-    #     # 1. Receive payment info from UI 
-    #     data = request.get_json()
-    #     print("\nReceived a record of payment details in JSON:", data)
-
-    #     paymentDetails = Payment(**data)
-
-    #     # 2. Send payment info to Stripe
-    #     product_description = paymentDetails.flight_number
-    #     unit_amount = paymentDetails.total_price
-    #     points_used = paymentDetails.loyalty_points
-    #     print('\n-----Invoking Stripe API-----')
-
-    #     # 3. Returns success or failure for payment via Stripe API
-    #     stripe_result = create_stripe_checkout_session(product_description, unit_amount, points_used, currency='sgd')
-        
-    
-    #     print('\n------------------------')
-    #     print('stripe_result:', stripe_result)
-
-    #     stripe_code = stripe_result["code"]
-
-    #     # 4. Activate error handler if there payment fails
-    #     if stripe_code not in range(200, 300):
-    #         # Inform the error microservice
-    #         print('\n\n-----Publishing the Stripe error message with routing_key=stripe.error-----')
-    #         send_payment_details_to_rabbitmq("payment_topic", "topic", "Error", "stripe.error", stripe_result)
-            
-    #         return jsonify(stripe_result), stripe_code
-        
-    #     else:

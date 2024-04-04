@@ -63,10 +63,24 @@
         "received_time": "2024-04-04 02:50:14 SGT"
     },
     {
-        "correlation_id": 1712170226388,
+        "correlation_id": 1712177618335,
         "microservice": "Transaction",
         "status_code": "500",
         "ip_address": "10.119.131.41",
-        "received_time": "2024-04-04 02:50:26 SGT"
+        "received_time": "2024-04-04 04:53:38 SGT"
+    },
+    {
+        "correlation_id": 1712177619621,
+        "microservice": "Transaction",
+        "status_code": "500",
+        "ip_address": "10.119.131.41",
+        "received_time": "2024-04-04 04:53:39 SGT"
+    },
+    {
+        "correlation_id": 1712177775925,
+        "microservice": "Transaction",
+        "status_code": "500",
+        "ip_address": "10.119.131.41",
+        "received_time": "2024-04-04 04:56:16 SGT"
     }
 ]

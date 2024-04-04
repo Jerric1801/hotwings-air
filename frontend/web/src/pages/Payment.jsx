@@ -14,7 +14,7 @@ function Payment() {
   //get passenger selections
   const passengerString = localStorage.getItem('passengerDetails')
   const passengers = JSON.parse(passengerString)
-  const paymentSuccess = localStorage.getItem("paymentSuccess")
+  // const paymentSuccess = localStorage.getItem("paymentSuccess")
 
   const navigate = useNavigate()
 
@@ -125,20 +125,18 @@ function Payment() {
       method: 'POST',
       body: payload
     })
-    console.log(response)
-    if (response.status = 200) {
-      navigate("/Success", { state: { dispatchCompleted: true } }); 
-    }
 
+    navigate("/Success"); 
+    
   }
 
   const [searchParams] = useSearchParams();
   const paymentStatus = searchParams.get('status');
   //check return link
-  if (paymentStatus === 'success' && paymentSuccess) {
-    localStorage.setItem("paymentSuccess", false)
+  if (paymentStatus === 'success' ) {
     // Handle different statuses
     dispatchPayload()
+    // navigate("/Success"); 
     // navigate("Success", { state: { dispatchCompleted: true } }); 
   } else if (paymentStatus === 'canceled') {
     return (<h1>Payment Canceled</h1>)

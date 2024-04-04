@@ -83,15 +83,15 @@ services:
 #==========================================================================
 #   Service: Activity Log -port 5006
 #========================================================================== 
-  # activity_log:
-  #   container_name: activity_log
-  #   build: 
-  #     context:
-  #       ./backend/services/activity_log
-  #   ports:
-  #     - '5006:5006' 
-  #   depends_on:
-  #     - rabbitmq 
+  activity_log:
+    container_name: activity_log
+    build: 
+      context:
+        ./backend/services/activity_log
+    ports:
+      - '5006:5006' 
+    depends_on:
+      - rabbitmq 
 
 #==========================================================================
 #   Service: Notification -port 5007

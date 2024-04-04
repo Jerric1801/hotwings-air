@@ -45,25 +45,23 @@ function Navbar() {
             <li>
                 <Link to="/">Destinations</Link>
             </li>
-        </ul>
-        <ul className={displayName ? 'loggedIn' : ''}>
-            <li>
+            <li className={displayName ? 'loggedIn' : ''}>
                 <Link to="/signup">
                     <Button>Sign Up</Button>
                 </Link>
             </li>
-            <li>
+            <li className={displayName ? 'loggedIn' : ''}>
                 <Link to="/login">
                     <Button>Login</Button>
                 </Link>
             </li>
-        </ul>
-        <ul className={displayName ? '' : 'loggedIn'}>
-            <li>
+            <li className={displayName ? '' : 'loggedIn'}>
                 {displayName}
             </li>
-            <li onClick={call_logout}>
-                <Button>Logout</Button>
+            <li className={displayName ? '' : 'loggedIn'} onClick={call_logout}>
+                <Link to="/">
+                    <Button>Logout</Button>
+                </Link>
             </li>
         </ul>
     </nav>

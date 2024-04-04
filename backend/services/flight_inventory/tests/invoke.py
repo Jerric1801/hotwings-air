@@ -7,7 +7,7 @@ body = {
     "depart_departure_time": "2024-04-02T00:35:29.636Z",
     "depart_destination": "Dubai",
     "depart_flight_number": "HW436",
-    "depart_id": "6609911c4564d0b4199d7359",
+    "depart_id": "660de7bb506aa89d3ed76361",
     "depart_origin": "Kuala Lumpur",
     "depart_seat_id": "6609911c4564d0b4199d7358",
     "depart_seats": ["11E", "11F"],
@@ -30,7 +30,7 @@ body = {
 }
 
 boyang = "byzhou.2022@scis.smu.edu.sg"
-# response = requests.post("http://127.0.0.1:5004/payment", json = body)
+response = requests.post("http://127.0.0.1:5004/payment", json = body)
     # private String flight_id;
     # private String date;
     # private String flight_number;
@@ -60,7 +60,7 @@ body1 = {
     "pax": 3
 }
 
-response = requests.post("http://localhost:5013/update_inventory", json = body1)
+# response = requests.post("http://localhost:5013/update_inventory", json = body1)
 
 # print(response.content)
 

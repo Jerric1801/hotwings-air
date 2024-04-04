@@ -227,6 +227,7 @@ nav {
   flex-direction: center;
   align-items: center;
   overflow: hidden;
+  justify-content: left;
 }
 
 nav ul {
@@ -236,6 +237,7 @@ nav ul {
   justify-content: center;
   align-items: center;
   gap: 5vw;
+  margin-left: 6vw;
 }
 
 nav ul li {
@@ -247,7 +249,7 @@ img {
   margin-left: 5vw;
 }
 
-nav ul:first-child {
+/* nav ul:first-child {
   margin-left: 15vw;
   ;
 }
@@ -255,7 +257,7 @@ nav ul:first-child {
 nav ul:last-child {
   margin-left: 30vw;
   ;
-}
+} */
 
 .loggedIn {
   visibility: hidden;
@@ -271,7 +273,7 @@ nav ul:last-child {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-image: url('../assets/images/home/temp.webp');
+  background-image: url('../assets/images/home/takeoff.png');
   background-size: cover;
   background-position: center;
   display: flex;
@@ -284,11 +286,17 @@ nav ul:last-child {
 .sign-up-page {
   width: 100vw;
   height: 100vh;
+  background-image: url('../assets/images/home/2planes.png');
+  background-size: cover;
+  background-position: center;
 }
 
 .login-page {
   width: 100vw;
   height: 100vh;
+  background-image: url('../assets/images/home/2planes.png');
+  background-size: cover;
+  background-position: center;
 }
 
 form {
