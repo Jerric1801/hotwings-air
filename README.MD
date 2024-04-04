@@ -56,6 +56,12 @@ To run this application using Docker Compose, follow these steps:
    ```bash
    docker-compose up --build
    ```
+5. Start Frontend - cd to Web
+
+   ```bash
+   npm install
+   yarn start 
+   ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
